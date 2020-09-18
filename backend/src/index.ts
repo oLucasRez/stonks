@@ -5,4 +5,8 @@ app.use(express.json());
 
 app.get('/', (_, res) => res.send({ msg: 'Hello world' }));
 
-app.listen(3333);
+export function sum(x: number, y: number) {
+  return x + y;
+}
+
+app.listen(4000);
