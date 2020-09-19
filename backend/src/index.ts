@@ -1,12 +1,15 @@
-import express from 'express';
+import 'dotenv/config';
 
-const app = express();
-app.use(express.json());
+import App from './server';
+import IGDBApi from './services/igdb';
 
-app.get('/', (_, res) => res.send({ msg: 'Hello world' }));
+const server = App.getInstance();
+const IGDB = IGDBApi.getInstance();
 
-export function sum(x: number, y: number) {
-  return x + y;
-}
+server.get('/', async (_, response) => {
+  const { data } = await IGDB.post('/games', 'fields name; limit 10;');
 
-app.listen(4000);
+  return response.send(data);
+});
+
+server.listen(4000);
