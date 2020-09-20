@@ -18,6 +18,9 @@ const Main: React.FC<Props> = ({ toggleTheme }) => {
   return (
     <Container>
       <Logo className="logo" />
+      <div className="phrase-container">
+        <h1 className="phrase">im a geme dovoloper</h1>
+      </div>
       <Switch
         className="switch"
         onChange={toggleTheme}
