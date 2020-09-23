@@ -1,15 +1,19 @@
 import 'dotenv/config';
 
 import App from './server';
-import IGDBApi from './services/igdb';
 
-const server = App.getInstance();
-const IGDB = IGDBApi.getInstance();
+async function runServer() {
+  const server = await App.getInstance();
 
-server.get('/', async (_, response) => {
-  const { data } = await IGDB.post('/games', 'fields name; limit 10;');
+  const { IGDBApi } = App;
 
-  return response.send(data);
-});
+  server.get('/', async (_, response) => {
+    const { data } = await IGDBApi.post('/games', 'fields name; limit 10;');
 
-server.listen(4000);
+    return response.send(data);
+  });
+
+  server.listen(4000, () => console.log('[SERVER]: ON'));
+}
+
+runServer();

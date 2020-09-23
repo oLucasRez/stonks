@@ -1,28 +1,33 @@
 import express, { Express } from 'express';
+import { AxiosInstance } from 'axios';
 import cors from 'cors';
+
+import IGDBApi from './services/igdb';
 
 class App {
   public static server: Express;
+  public static IGDBApi: AxiosInstance;
 
   private constructor() {}
 
-  public static getInstance(): Express {
-    if (!App.server) {
-      App.createServerInstance();
+  public static async getInstance(): Promise<Express> {
+    if (!this.server) {
+      this.IGDBApi = await IGDBApi.getInstance();
+      this.createServerInstance();
     }
 
-    return App.server;
+    return this.server;
   }
 
   private static createServerInstance(): void {
-    App.server = express();
+    this.server = express();
 
-    App.configureServer();
+    this.configureServer();
   }
 
   private static configureServer(): void {
-    App.server.use(express.json());
-    App.server.use(cors());
+    this.server.use(express.json());
+    this.server.use(cors());
   }
 }
 
