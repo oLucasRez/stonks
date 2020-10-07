@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
 import App from './server';
+import { testPuppeteer } from './services/steam/scraping';
 
 async function runServer() {
   const server = await App.getInstance();
@@ -8,7 +9,7 @@ async function runServer() {
   const { IGDBApi } = App;
 
   server.get('/', async (_, response) => {
-    const { data } = await IGDBApi.post('/games', 'fields name; limit 10;');
+    const { data } = await IGDBApi.post('/games', 'fields *; limit 10;');
 
     return response.send(data);
   });
