@@ -6,3 +6,9 @@ test('SteamAPI.getInstance() must always return the same object', () => {
 
   expect(instance1).toBe(instance2);
 });
+
+test('SteamAPI.getGamePrice() must return a number', async () => {
+  const value = await SteamAPI.getGamePrice('218620');
+
+  expect(typeof value).toBe('number');
+});
