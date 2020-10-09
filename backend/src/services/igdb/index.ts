@@ -3,8 +3,6 @@ import axios, { AxiosInstance } from 'axios';
 class IGDBApi {
   private static instance: AxiosInstance;
 
-  private constructor() {}
-
   public static async getInstance(): Promise<AxiosInstance> {
     if (!this.instance) {
       this.createAxiosInstance();
