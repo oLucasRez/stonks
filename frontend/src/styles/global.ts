@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
   :root {
-    font-size: 67%;
+    font-size: 66.66%;
   }
 
   * {
@@ -20,13 +20,12 @@ export default createGlobalStyle`
     display: flex;
     justify-content: center;
 
-    font-size: 18px;
-    color: ${({ theme }) => theme.colors.foreground[2]};
-    background: ${({ theme }) => theme.colors.background[2]};
+    color: ${({ theme }) => theme.colors.foreground[0]};
+    background: ${({ theme }) => theme.colors.background[1]};
   }
 
   body, input, button, textarea {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-family: "Open Sans", sans-serif;
     font-weight: 600;
   }

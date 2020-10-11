@@ -1,7 +1,7 @@
 import styled from "styled-components";
-
+//---------------------------------------------------------------< utils >
 import getRandomInt from "../../utils/getRandomInt";
-
+//================================================================[ BODY ]
 export const Container = styled.div`
   width: 75vw;
   height: 100%;
@@ -11,7 +11,7 @@ export const Container = styled.div`
   grid-template-rows: 200px auto;
   grid-template-areas: "left-header middle-header middle-header switch" "form form result result";
 
-  background: ${({ theme }) => theme.colors.background[1]};
+  background: ${({ theme }) => theme.colors.background[0]};
 
   .logo {
     height: 60%;
@@ -23,17 +23,64 @@ export const Container = styled.div`
     fill: ${({ theme }) => theme.colors.foreground[0]};
   }
 
-  .phrase-container {
-    width: 40.2rem;
-    height: 75%;
+  .switch {
+    margin-right: 5rem;
 
-    grid-area: middle-header;
+    grid-area: switch;
     align-self: center;
-    justify-self: center;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: flex-end;
+    justify-self: right;
   }
+
+  @media (max-width: 1720px) {
+    .logo {
+      height: 7vw;
+    }
+  }
+
+  @media (max-width: 1080px) {
+    grid-template-rows: 10rem auto;
+
+    .logo {
+      height: 60%;
+      grid-area: left-header;
+      margin-left: 5rem;
+
+      align-self: center;
+      justify-self: left;
+    }
+
+    .switch {
+      margin-top: 5%;
+    }
+  }
+
+  @media (max-width: 720px) {
+    width: 100vw;
+  }
+
+  @media (max-width: 420px) {
+    .logo {
+      width: 50vw;
+      height: auto;
+      margin-left: 10vw;
+    }
+
+    .switch {
+      margin-right: 10vw;
+    }
+  }
+`;
+//------------------------------------------------------------------------
+export const PhraseContainer = styled.div`
+  width: 40.2rem;
+  height: 75%;
+
+  grid-area: middle-header;
+  align-self: center;
+  justify-self: center;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
 
   .phrase {
     text-align: center;
@@ -84,23 +131,9 @@ export const Container = styled.div`
     }
   }
 
-  .switch {
-    margin-right: 5rem;
-
-    grid-area: switch;
-    align-self: center;
-    justify-self: right;
-  }
-
   @media (max-width: 1720px) {
-    .logo {
-      height: 7vw;
-    }
-
-    .phrase-container {
-      width: 25.2vw;
-      height: 8.5vw;
-    }
+    width: 25.2vw;
+    height: 8.5vw;
 
     .phrase {
       font-size: 1.1vw;
@@ -108,27 +141,16 @@ export const Container = styled.div`
   }
 
   @media (max-width: 1080px) {
-    grid-template-rows: 10rem auto;
-
-    .logo {
-      height: 60%;
-      grid-area: left-header;
-      margin-left: 5rem;
-
-      align-self: center;
-      justify-self: left;
-    }
-
     .phrase {
       display: none;
     }
-
-    .switch {
-      margin-top: 5%;
-    }
   }
+`;
+//------------------------------------------------------------------------
+export const FormContainer = styled.div`
+  margin: 2rem 2rem 0 0;
 
-  @media (max-width: 720px) {
-    width: 100vw;
-  }
+  grid-area: form;
+  display: flex;
+  justify-content: flex-end;
 `;
