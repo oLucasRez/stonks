@@ -25,7 +25,7 @@ class IGDBApi {
       }
     );
 
-    const { access_token } = data;
+    const { access_token, expires_in } = data;
 
     const { headers } = this.instance.defaults;
 
@@ -34,9 +34,12 @@ class IGDBApi {
       Authorization: `Bearer ${access_token}`,
     };
 
-    console.log(`[SERVER]: Refreshed token: ${access_token}`);
+    var expiration_time = new Date(Date.now());
+    expiration_time.setSeconds(expiration_time.getSeconds() + expires_in);
 
-    setTimeout(this.updateBearerToken, 3600000);
+    console.log(`[SERVER]: Refreshed token: ${access_token} and expires at ${expiration_time}`);
+
+    setTimeout(this.updateBearerToken, expires_in);
   }
 
   private static createAxiosInstance(): void {

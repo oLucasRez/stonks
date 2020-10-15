@@ -5,9 +5,29 @@ import App from './server';
 import IGDBApi from './services/igdb';
 import { quickstart } from './services/nlp';
 import SteamApi from './services/steam';
+import MongoConnect from './services/mongo';
+import { GameModel } from './interfaces/igdb/Game.Example/game.model';
 
 async function runServer() {
   const server = await App.getInstance();
+  
+  // var mongoConnect : MongoConnect = new MongoConnect();
+  // MongoConnect.getInstance();
+
+  server.post('/igdb/game', async (_, response) => {
+    MongoConnect.connect();
+    const game = response.req?.body;
+
+    try {
+      await GameModel.create(game);
+      console.log(`Created game summary: ${game.summary} and stroyline ${game.storyline}`);
+      MongoConnect.disconnect();
+      return response.sendStatus(200);
+    } catch(err) {
+      console.log(err);
+      return response.sendStatus(400);
+    }
+  });
 
   server.get('/igdb', async (_, response) => {
     const IGDBInstance = await IGDBApi.getInstance();
