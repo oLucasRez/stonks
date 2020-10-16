@@ -1,0 +1,26 @@
+Title:
+    Misso Journey
+
+Modos:
+    single-player
+    co-operative
+
+Genero:
+    Fighting, Simulator, Adventure
+
+Game Engine:
+    Unity
+
+Release Date:
+    Oct 2021
+    Região America
+
+
+
+Summary
+    Vivencie uma aventura incrível ao redor do mundo cobrando de pessoas que estão lhe devendo milhões, lute contra carteis e organizações criminosas que não
+    querem lhe pagar o que foi acordado. Sobreviva mesmo na adversidade e seja sempre o brabo!
+
+Storyline:
+    Misso é um agiota que está cansado de todas as pessoas que estão devendo a ele. Então começa a viajar (pois no mundo todo devem a ele) e vive apenas com o 
+    dinheiro das pessoas que estão devendo a ele. As vezes será necessária um pouco mais de força bruta para conseguir o dinheiro...
