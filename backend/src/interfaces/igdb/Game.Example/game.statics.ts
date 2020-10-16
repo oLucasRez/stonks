@@ -1,4 +1,4 @@
-import { IGameDocument, IGameModel } from "./Game.types";
+import { IGameDocument, IGameModel } from "./game.types";
 
 export async function findOneOrCreate(
   this: IGameModel,

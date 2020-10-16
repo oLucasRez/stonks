@@ -6,6 +6,7 @@ import IGDBApi from './services/igdb';
 import SteamApi from './services/steam';
 import MongoConnect from './services/mongo';
 import { GameModel } from './interfaces/igdb/Game.Example/game.model';
+import { IGameDocument } from './interfaces/igdb/Game.Example/game.types';
 
 async function runServer() {
   const server = await App.getInstance();
@@ -19,13 +20,25 @@ async function runServer() {
 
     try {
       await GameModel.create(game);
-      console.log(`Created game summary: ${game.summary} and stroyline ${game.storyline}`);
+      console.log(`[SERVER]: Created game summary: ${game.summary} and storyline ${game.storyline}`);
       MongoConnect.disconnect();
       return response.sendStatus(200);
     } catch(err) {
       console.log(err);
       return response.sendStatus(400);
     }
+  });
+
+  server.post('/igdb/minegame', async (_, response) => {
+    MongoConnect.connect();
+    const IGDBInstance = await IGDBApi.getInstance();
+    const {data} = await IGDBInstance.post('/games', 'fields name, summary, storyline; where storyline != null; limit 500;');
+
+    data.forEach(async (gameData: IGameDocument) => {
+      await GameModel.create(gameData);
+      console.log(`[SERVER]: created game data name = ${gameData.name}`);
+    });
+
   });
 
   server.get('/igdb', async (_, response) => {

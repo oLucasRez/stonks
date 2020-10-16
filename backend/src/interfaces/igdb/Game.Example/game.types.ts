@@ -2,6 +2,7 @@ import { Document, Model } from "mongoose";
 
 export interface IGame {
     gameId: Number,
+    name: String,
     summary: String,
     storyline: String
 }

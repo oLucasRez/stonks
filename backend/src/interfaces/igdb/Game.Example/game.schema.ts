@@ -4,6 +4,7 @@ import { getBySummary } from "./game.methods";
 
 const GameSchema = new Schema({
     gameId: Number,
+    name: String,
     summary: String,
     storyline: String
 });
