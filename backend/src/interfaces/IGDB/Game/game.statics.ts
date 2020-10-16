@@ -1,4 +1,4 @@
-import { IGameDocument, IGameModel } from "./game.types";
+import { IGameDocument, IGameModel } from './game.types';
 
 export async function findOneOrCreate(
   this: IGameModel,
@@ -10,6 +10,6 @@ export async function findOneOrCreate(
   if (record) {
     return record;
   } else {
-    return this.create({ gameId, summary, storyline });
+    return this.create({ gameId, name, summary, storyline });
   }
 }

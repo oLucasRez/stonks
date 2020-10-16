@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import App from '../src/server';
+import App from '../server';
 
 test('App.getInstance() must always return the same object', async () => {
   const instance1 = await App.getInstance();

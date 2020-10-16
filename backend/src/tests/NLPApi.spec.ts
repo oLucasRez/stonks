@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import NLPApi from '../src/services/NLPApi';
+import NLPApi from '../services/NLPApi';
 
 test('NLPApi.getInstance() must always return the same object', () => {
   const instance1 = NLPApi.getInstance();
