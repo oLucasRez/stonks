@@ -2,15 +2,17 @@ import 'dotenv/config';
 
 import App from './server';
 
-import IGDBApi from './services/igdb';
-import SteamApi from './services/steam';
-import MongoConnect from './services/mongo';
+import IGDBApi from './services/IGDB';
+import SteamApi from './services/SteamApi';
+import MongoConnect from './services/MongoDB';
 import { GameModel } from './interfaces/igdb/Game.Example/game.model';
 import { IGameDocument } from './interfaces/igdb/Game.Example/game.types';
+import NLPApi from './services/NLPApi';
+import { IDocument } from './interfaces/GCP/Language';
 
 async function runServer() {
   const server = await App.getInstance();
-  
+
   // var mongoConnect : MongoConnect = new MongoConnect();
   // MongoConnect.getInstance();
 
@@ -20,10 +22,12 @@ async function runServer() {
 
     try {
       await GameModel.create(game);
-      console.log(`[SERVER]: Created game summary: ${game.summary} and storyline ${game.storyline}`);
+      console.log(
+        `[SERVER]: Created game summary: ${game.summary} and storyline ${game.storyline}`
+      );
       MongoConnect.disconnect();
       return response.sendStatus(200);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       return response.sendStatus(400);
     }
@@ -49,6 +53,26 @@ async function runServer() {
     return response.send(data);
   });
 
+  server.get('/nlp', async (_, response) => {
+    const NLPInstance = NLPApi.getInstance();
+
+    const text =
+      'Misso é um agiota que está cansado de todas as pessoas que estão devendo a ele.';
+
+    const document: IDocument = {
+      content: text,
+      type: 'PLAIN_TEXT',
+    };
+
+    const [result] = await NLPInstance.analyzeSentiment({ document: document });
+    const sentiment = result.documentSentiment;
+
+    response.send({
+      text: document.content,
+      sentiment,
+    });
+  });
+
   server.get('/steam', async (_, response) => {
     const value = await SteamApi.getGamePrice('218620');
 
@@ -57,31 +81,5 @@ async function runServer() {
 
   server.listen(4000, () => console.log('[SERVER]: ON'));
 }
-
-async function quickstart() {
-  // Imports the Google Cloud client library
-  const language = require('@google-cloud/language');
-
-  // Instantiates a client
-  const client = new language.LanguageServiceClient();
-
-  // The text to analyze
-  const text = 'Hello, world!';
-
-  const document = {
-    content: text,
-    type: 'PLAIN_TEXT',
-  };
-
-  // Detects the sentiment of the text
-  const [result] = await client.analyzeSentiment({ document: document });
-  const sentiment = result.documentSentiment;
-
-  console.log(`Text: ${text}`);
-  console.log(`Sentiment score: ${sentiment.score}`);
-  console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
-}
-
-quickstart();
 
 runServer();

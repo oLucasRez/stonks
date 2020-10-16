@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import IAppDetails from '../../interfaces/steam/IAppDetails';
+import IAppDetails from '../interfaces/Steam/IAppDetails';
 
 class SteamAPI {
   private static instance: AxiosInstance;
