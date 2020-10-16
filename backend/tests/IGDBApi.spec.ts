@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import IGDBApi from '../services/igdb';
+import IGDBApi from '../src/services/IGDB';
 
 test('IGDBApi.getInstance() must always return the same object', async () => {
   const instance1 = await IGDBApi.getInstance();

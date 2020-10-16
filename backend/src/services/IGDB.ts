@@ -37,7 +37,7 @@ class IGDBApi {
     var expiration_time = new Date(Date.now());
     expiration_time.setSeconds(expiration_time.getSeconds() + expires_in);
 
-    console.log(`[SERVER]: Refreshed token: ${access_token} and expires at ${expiration_time}`);
+    console.log(`[SERVER]: Refreshed token => expires at ${expiration_time}`);
 
     setTimeout(this.updateBearerToken, expires_in);
   }

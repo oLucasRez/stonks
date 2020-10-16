@@ -1,4 +1,4 @@
-import SteamAPI from '../services/steam';
+import SteamAPI from '../src/services/SteamApi';
 
 test('SteamAPI.getInstance() must always return the same object', () => {
   const instance1 = SteamAPI.getInstance();
