@@ -1,29 +1,20 @@
 import { LanguageServiceClient } from '@google-cloud/language';
+import { LanguageServiceClient as ILanguageServiceClient } from '@google-cloud/language/build/src/v1';
 
-import Service from '../classes/abstract/ABService';
+class NLPApi {
+  private static instance: ILanguageServiceClient;
 
-import { ILanguageServiceClient } from '../typescript/services/GCP/Language';
+  public static getInstance(): ILanguageServiceClient {
+    if (!this.instance) {
+      this.createClientInstance();
+    }
 
-class NLPApi extends Service<ILanguageServiceClient> {
-	private constructor() {
-		super();
+    return this.instance;
+  }
 
-		this.createClientInstance();
-	}
-
-	getAPI = (): ILanguageServiceClient => this.api;
-
-	public static getInstance(): NLPApi {
-		if (!NLPApi.instance) {
-			NLPApi.instance = new NLPApi();
-		}
-
-		return NLPApi.instance;
-	}
-
-	private createClientInstance(): void {
-		this.api = new LanguageServiceClient();
-	}
+  private static createClientInstance(): void {
+    this.instance = new LanguageServiceClient();
+  }
 }
 
 export default NLPApi;

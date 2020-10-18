@@ -2,26 +2,28 @@ import express, { Express } from 'express';
 import cors from 'cors';
 
 class App {
-	public static server: Express;
+  public static server: Express;
 
-	public static async getInstance(): Promise<Express> {
-		if (!this.server) {
-			this.createServerInstance();
-		}
+  private constructor() {}
 
-		return this.server;
-	}
+  public static async getInstance(): Promise<Express> {
+    if (!this.server) {
+      this.createServerInstance();
+    }
 
-	private static createServerInstance(): void {
-		this.server = express();
+    return this.server;
+  }
 
-		this.configureServer();
-	}
+  private static createServerInstance(): void {
+    this.server = express();
 
-	private static configureServer(): void {
-		this.server.use(express.json());
-		this.server.use(cors());
-	}
+    this.configureServer();
+  }
+
+  private static configureServer(): void {
+    this.server.use(express.json());
+    this.server.use(cors());
+  }
 }
 
 export default App;
