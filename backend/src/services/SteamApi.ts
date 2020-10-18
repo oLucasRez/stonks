@@ -1,34 +1,41 @@
 import axios, { AxiosInstance } from 'axios';
-import IAppDetails from '../interfaces/Steam/IAppDetails';
 
-class SteamAPI {
-  private static instance: AxiosInstance;
+import Service from '../classes/abstract/ABService';
 
-  public static getInstance(): AxiosInstance {
-    if (!this.instance) {
-      this.createAxiosInstance();
-    }
+import { IAppDetails } from '../typescript/services/Steam/IAppDetails';
 
-    return this.instance;
-  }
+class SteamAPI extends Service<AxiosInstance> {
+	private constructor() {
+		super();
 
-  public static async getGamePrice(gameId: string) {
-    const instance = this.getInstance();
+		this.createAxiosInstance();
+	}
 
-    const { data } = await instance.get('/appdetails', {
-      params: { appids: 218620 },
-    });
+	getAPI = (): AxiosInstance => this.api;
 
-    const { price_overview } = data[gameId].data as IAppDetails;
+	public static getInstance(): SteamAPI {
+		if (!SteamAPI.instance) {
+			SteamAPI.instance = new SteamAPI();
+		}
 
-    return price_overview.final / 100;
-  }
+		return SteamAPI.instance;
+	}
 
-  private static createAxiosInstance(): void {
-    this.instance = axios.create({
-      baseURL: 'https://store.steampowered.com/api/',
-    });
-  }
+	public async getGamePrice(gameId: string) {
+		const { data } = await this.api.get('/appdetails', {
+			params: { appids: 218620 },
+		});
+
+		const { price_overview } = data[gameId].data as IAppDetails;
+
+		return price_overview.final / 100;
+	}
+
+	private createAxiosInstance(): void {
+		this.api = axios.create({
+			baseURL: 'https://store.steampowered.com/api/',
+		});
+	}
 }
 
 export default SteamAPI;
