@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import Service from '../classes/abstract/ABService';
+import Service from '../classes/abstract/Service';
 
 import { IAppDetails } from '../typescript/services/Steam/IAppDetails';
 

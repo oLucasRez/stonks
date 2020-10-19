@@ -1,6 +1,6 @@
 import { LanguageServiceClient } from '@google-cloud/language';
 
-import Service from '../classes/abstract/ABService';
+import Service from '../classes/abstract/Service';
 
 import { ILanguageServiceClient } from '../typescript/services/GCP/Language';
 

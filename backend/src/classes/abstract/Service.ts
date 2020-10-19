@@ -1,4 +1,4 @@
-export default abstract class Service<T> {
+abstract class Service<T> {
 	protected instance: any;
 
 	protected api!: T;
@@ -9,3 +9,5 @@ export default abstract class Service<T> {
 
 	static getInstance(): any {}
 }
+
+export default Service;

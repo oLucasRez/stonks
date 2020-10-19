@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import ABService from '../classes/abstract/ABService';
+import ABService from '../classes/abstract/Service';
 
 class IGDBApi extends ABService<AxiosInstance> {
 	private expirationTime!: Date;
@@ -52,6 +52,7 @@ class IGDBApi extends ABService<AxiosInstance> {
 		};
 
 		const expiration_time = new Date(Date.now());
+
 		expiration_time.setSeconds(
 			expiration_time.getSeconds() + expires_in
 		);
