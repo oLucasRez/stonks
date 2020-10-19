@@ -1,44 +1,24 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true,
-    jest: true,
+    es2021: true,
   },
-  extends: [
-    "react-app",
-    "airbnb",
-    "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-  ],
-  globals: {
-    Atomics: "readonly",
-    SharedArrayBuffer: "readonly",
-  },
+  extends: ['plugin:react/recommended', 'airbnb', 'prettier', 'prettier/react'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 2018,
-    sourceType: "module",
+    ecmaVersion: 12,
+    sourceType: 'module',
   },
-  plugins: ["react", "import", "jsx-a11y"],
+  plugins: ['react', '@typescript-eslint', 'prettier', 'prettier/react'],
   rules: {
-    "react/jsx-filename-extension": [
-      "error",
-      {
-        extensions: [".tsx"],
-      },
-    ],
-    "import/prefer-default-export": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-member-accessibility": "off",
+    'prettier/prettier': 'error',
+    'jsx-quotes': ['error', 'prefer-single'],
+    'import/prefer-default-export': 'off',
+    'import/extensions': ['error', 'ignorePackages', { ts: 'never' }],
+    'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
+    camelcase: ['off'],
   },
-  settings: {
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"],
-    },
-    "import/resolver": {
-      typescript: {},
-    },
-  },
-};
+}

@@ -1,15 +1,16 @@
-import React, { useContext } from "react";
-//----------------------------------------------------------< components >
-import { IconType } from "react-icons";
+import React, { useContext } from 'react';
+// ----------------------------------------------------------< components >
+import { IconType } from 'react-icons';
 
-import Data from "../../Data/Data";
-//--------------------------------------------------------------< styles >
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from 'styled-components';
+import Input from '../../Data/Input';
+// --------------------------------------------------------------< styles >
 
-import { Container } from "./styles";
-//================================================================[ BODY ]
+import { Container } from './styles';
+//= ===============================================================[ BODY ]
 abstract class TemplateForm {
   protected theme = useContext(ThemeContext);
+
   public icon = this.getIcon();
 
   public templateMethod(forms: TemplateForm[], setCurrentForm: Function) {
@@ -19,13 +20,13 @@ abstract class TemplateForm {
       const Icon = form.icon;
       header.push(
         <div
-          className={this.icon === Icon ? "main" : "side"}
+          className={this.icon === Icon ? 'main' : 'side'}
           key={i}
           onClick={() => setCurrentForm(i)}
         >
           <Icon className="icon" />
           <p className="title">{this.getName()}</p>
-        </div>
+        </div>,
       );
     });
 
@@ -35,7 +36,10 @@ abstract class TemplateForm {
         <form>
           <div className="inputs">
             {this.getInputs().map((input, index) => (
-              <div key={index}>{input.templateMethod()}</div>
+              <div key={index}>
+                {' '}
+                {input.templateMethod()}
+              </div>
             ))}
           </div>
           <footer />
@@ -46,9 +50,12 @@ abstract class TemplateForm {
   }
 
   protected abstract getIcon(): IconType;
+
   protected abstract getColor(): string;
+
   protected abstract getName(): string;
-  protected abstract getInputs(): Data[];
+
+  protected abstract getInputs(): Input[];
 }
 
 export default TemplateForm;
