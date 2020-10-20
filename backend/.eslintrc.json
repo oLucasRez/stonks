@@ -26,6 +26,7 @@
 			"ignorePackages",
 			{ "ts": "never" }
 		],
-		"camelcase": ["off"]
+		"camelcase": ["off"],
+		"class-methods-use-this": "off"
 	}
 }

@@ -18,7 +18,7 @@ class NLPApi extends Service<ILanguageServiceClient> {
 			NLPApi.instance = new NLPApi();
 		}
 
-		return NLPApi.instance;
+		return NLPApi.instance as NLPApi;
 	}
 
 	private createClientInstance(): void {

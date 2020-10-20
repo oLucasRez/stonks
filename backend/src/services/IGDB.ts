@@ -26,7 +26,7 @@ class IGDBApi extends ABService<AxiosInstance> {
 			IGDBApi.instance = new IGDBApi();
 		}
 
-		return IGDBApi.instance;
+		return IGDBApi.instance as IGDBApi;
 	}
 
 	private async updateBearerToken(): Promise<void> {
