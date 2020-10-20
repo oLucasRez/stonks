@@ -47,13 +47,8 @@ export const Tag = styled.div`
     background: none;
     border: none;
     outline: none;
-    /* 
-    :active {
-      width: auto;
-    } */
 
     :focus {
-      /* min-width: 13.6rem; */
       border-bottom: 1px solid yellow;
     }
 
@@ -61,22 +56,6 @@ export const Tag = styled.div`
       color: ${({ theme }) => theme.colors.foreground[2]};
     }
   }
-`;
-
-export const Tagging = styled.div`
-  width: fit-content;
-  height: 4.2rem;
-  padding: 0 1.6rem;
-
-  display: inline-flexbox;
-  align-items: center;
-  justify-content: center;
-
-  background: ${({ theme }) =>
-    theme.title === 'dark'
-      ? theme.colors.background[2]
-      : theme.colors.background[1]};
-  border-radius: 2.1rem;
 `;
 
 export const AddTag = styled.div`

@@ -1,13 +1,13 @@
-import React from "react";
+import React, { FC } from 'react';
 //-----------------------------------------------------------------< poo >
-import Input from "../index";
+import Input from '../index';
 //--------------------------------------------------------------< styles >
-import { Container } from "./styles";
+import { Container } from './styles';
 //================================================================[ BODY ]
 class TextInput extends Input {
-  getBody(): JSX.Element {
-    return <Container placeholder="Type something..."></Container>;
-  }
+  Body: FC = () => {
+    return <Container placeholder='Type something...'></Container>;
+  };
 }
 
 export default TextInput;

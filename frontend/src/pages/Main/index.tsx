@@ -1,19 +1,19 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext } from 'react';
 //-------------------------------------------------------------< classes >
-import TemplateForm from "../../components/Form/TemplateForm/index";
-import ProfileForm from "../../components/Form/ProfileForm";
-import SpecificationsForm from "../../components/Form/SpecificationsForm";
-import PublishForm from "../../components/Form/PublishForm";
+import TemplateForm from '../../components/Form/TemplateForm/index';
+import ProfileForm from '../../components/Form/ProfileForm';
+import SpecificationsForm from '../../components/Form/SpecificationsForm';
+import PublishForm from '../../components/Form/PublishForm';
 //----------------------------------------------------------< components >
-import Switch from "react-switch";
+import Switch from 'react-switch';
 //---------------------------------------------------------------< utils >
-import useStorageState from "../../utils/useStorageState";
+import useStorageState from '../../utils/useStorageState';
 //--------------------------------------------------------------< assets >
-import { ReactComponent as Logo } from "../../assets/logo_name.svg";
+import { ReactComponent as Logo } from '../../assets/logo_name.svg';
 //--------------------------------------------------------------< styles >
-import { ThemeContext } from "styled-components";
+import { ThemeContext } from 'styled-components';
 
-import { Container, PhraseContainer, FormContainer } from "./styles";
+import { Container, PhraseContainer, FormContainer } from './styles';
 //----------------------------------------------------------< interfaces >
 interface Props {
   toggleTheme(): void;
@@ -27,20 +27,20 @@ const Main: FC<Props> = ({ toggleTheme }) => {
     new PublishForm(),
   ];
   const [currentForm, setCurrentForm] = useStorageState<number>(
-    "current-form",
+    'current-form',
     0
   );
 
   return (
     <Container>
-      <Logo className="logo" />
+      <Logo className='logo' />
       <PhraseContainer>
-        <h1 className="phrase">im a geme dovoloper</h1>
+        <h1 className='phrase'>im a geme dovoloper</h1>
       </PhraseContainer>
       <Switch
-        className="switch"
+        className='switch'
         onChange={toggleTheme}
-        checked={title === "dark"}
+        checked={title === 'dark'}
         checkedIcon={false}
         uncheckedIcon={false}
         height={15}

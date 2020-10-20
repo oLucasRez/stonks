@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-// ----------------------------------------------------------< components >
+//----------------------------------------------------------< components >
 import { IconType } from 'react-icons';
 
 import { ThemeContext } from 'styled-components';
+import ColorContext from '../../../utils/ColorContext';
 import Input from '../../Data/Input';
-// --------------------------------------------------------------< styles >
+//--------------------------------------------------------------< styles >
 import { Container } from './styles';
-//= ===============================================================[ BODY ]
+//================================================================[ BODY ]
 abstract class TemplateForm {
   protected theme = useContext(ThemeContext);
 
@@ -30,18 +31,20 @@ abstract class TemplateForm {
     });
 
     return (
-      <Container color={this.getColor()}>
-        <header>{header.map((tab) => tab)}</header>
-        <form>
-          <div className='inputs'>
-            {this.getInputs().map((input, index) => (
-              <div key={index}> {input.templateMethod()}</div>
-            ))}
-          </div>
-          <footer />
-        </form>
-        <button>Go!</button>
-      </Container>
+      <ColorContext.Provider value={this.getColor()}>
+        <Container color={this.getColor()}>
+          <header>{header.map((tab) => tab)}</header>
+          <form>
+            <div className='inputs'>
+              {this.getInputs().map((input, index) => (
+                <div key={index}>{input.templateMethod()}</div>
+              ))}
+            </div>
+            <footer />
+          </form>
+          <button>Go!</button>
+        </Container>
+      </ColorContext.Provider>
     );
   }
 
