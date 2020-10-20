@@ -5,7 +5,6 @@ import { IconType } from 'react-icons';
 import { ThemeContext } from 'styled-components';
 import Input from '../../Data/Input';
 // --------------------------------------------------------------< styles >
-
 import { Container } from './styles';
 //= ===============================================================[ BODY ]
 abstract class TemplateForm {
@@ -24,9 +23,9 @@ abstract class TemplateForm {
           key={i}
           onClick={() => setCurrentForm(i)}
         >
-          <Icon className="icon" />
-          <p className="title">{this.getName()}</p>
-        </div>,
+          <Icon className='icon' />
+          <p className='title'>{this.getName()}</p>
+        </div>
       );
     });
 
@@ -34,12 +33,9 @@ abstract class TemplateForm {
       <Container color={this.getColor()}>
         <header>{header.map((tab) => tab)}</header>
         <form>
-          <div className="inputs">
+          <div className='inputs'>
             {this.getInputs().map((input, index) => (
-              <div key={index}>
-                {' '}
-                {input.templateMethod()}
-              </div>
+              <div key={index}> {input.templateMethod()}</div>
             ))}
           </div>
           <footer />
