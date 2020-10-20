@@ -14,7 +14,7 @@ class IGDBApi extends ABService<AxiosInstance> {
 	public async getAPI(): Promise<AxiosInstance> {
 		const currentExpiration = this.expirationTime?.getTime();
 
-		if (currentExpiration < Date.now()) {
+		if (currentExpiration < Date.now() || !currentExpiration) {
 			await this.updateBearerToken();
 		}
 

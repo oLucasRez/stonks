@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import IGDBCallTest from './classes/IGDBCallTest';
 
 import App from './server';
 
@@ -10,3 +11,14 @@ async function runServer() {
 }
 
 runServer();
+
+const IGDBCall = new IGDBCallTest('games');
+
+async function makeCall() {
+	while (true) {
+		// eslint-disable-next-line no-await-in-loop
+		await IGDBCall.call();
+	}
+}
+
+makeCall();
