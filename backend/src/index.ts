@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import IGDBCallTest from './classes/IGDBCallTest';
-import Connection from './services/DB/Connection';
 
 import App from './server';
+import ThemeModel from './typescript/DB/Models/ThemeModel';
 
 async function runServer() {
 	const server = await App.getInstance();
@@ -21,12 +21,14 @@ async function makeCall() {
 		await IGDBCall.call();
 	}
 }
-var DB: Connection = new Connection();
-DB.insert(
-	'game_mode',
-	'id,name,slug',
-	"id.nextval,'teste','teste'"
-);
-DB.showRows('game_mode');
-//DB.delete('game_mode', 'name=teste');
-//makeCall();
+
+// makeCall();
+
+const theme: ThemeModel = new ThemeModel({
+	name: 'Puzzle',
+	slug: 'puzzle',
+});
+
+const reslt = theme.save();
+
+console.log(reslt);
