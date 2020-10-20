@@ -1,64 +1,47 @@
+import { AxiosResponse } from 'axios';
 import { resolve } from 'path';
 
-import FileWatcher from '../IO/FileWatcher';
+import IGDB from '../../services/IGDB';
 
 abstract class IGDBCall {
-	private logWatcher: FileWatcher;
+	private identifier: string;
 
-	private fetchedIds!: string[];
+	constructor(identifier: string) {
+		this.identifier = identifier;
+	}
 
-	constructor() {
-		const resolvedPath = resolve(
-			__dirname,
-			'../../log/fetched_ids.log'
+	/**
+	 * The body of the request
+	 * @returns A string that representes the 'Basic Text' body of the request.
+	 */
+	protected abstract requestBody(): string;
+
+	/**
+	 * Handle the data incoming
+	 * @param response the AxiosResponse object
+	 * @returns The new saved id's of the correspondent IGDB Api endpoint.
+	 */
+	protected abstract handleResponse(
+		response: AxiosResponse
+	): string[];
+
+	public async call(): Promise<void> {
+		await this.request();
+	}
+
+	private async request(): Promise<void> {
+		const requestBody = this.requestBody();
+
+		const IGDBInstance = await IGDB.getInstance();
+
+		const IGDBApi = await IGDBInstance.getAPI();
+
+		const response = await IGDBApi.post(
+			`/${this.identifier}`,
+			requestBody
 		);
 
-		this.logWatcher = FileWatcher.getInstance(resolvedPath);
-	}
-
-	abstract requestPrototype(): string;
-
-	public call(): void {
-		this.fetchedIds = this.loadFetchedIds();
-
-		const newIds = this.request();
-
-		this.saveNewFetchedIds(newIds);
-	}
-
-	private loadFetchedIds(): string[] {
-		const { fileContent } = this.logWatcher;
-
-		const ids = fileContent.split('\r\n');
-
-		return ids;
-	}
-
-	private request(): string[] {
-		// Prepare request with id removal
-
-		// TODO
-
-		// eslint-disable-next-line no-unused-vars
-		const requestBody = this.requestPrototype();
-
-		throw new Error('Not Implemented');
-	}
-
-	private saveNewFetchedIds(newIds: string[]): void {
-		let ids = '';
-
-		for (let i = 0; i < newIds.length; i += 1) {
-			let currentId = newIds[i];
-
-			if (i !== newIds.length - 1) {
-				currentId = `${currentId}\r\n`;
-			}
-
-			ids = `${ids}\r\n`;
-		}
-
-		this.logWatcher.appendFile(ids);
+		this.handleResponse(response);
 	}
 }
 

@@ -7,6 +7,7 @@ abstract class Service<T> {
 
 	public abstract getAPI(): T | Promise<T>;
 
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	static getInstance(): any {}
 }
 
