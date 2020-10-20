@@ -19,7 +19,7 @@ GenreModel.init(
 		sequelize: database.connectionSequelize,
 		timestamps: false,
 		freezeTableName: true,
-		tableName: 'genre',
+		tableName: 'genres',
 	}
 );
 

@@ -16,7 +16,7 @@ GameThemeModel.init(
 		sequelize: database.connectionSequelize,
 		timestamps: false,
 		freezeTableName: true,
-		tableName: 'game_theme',
+		tableName: 'game_themes',
 	}
 );
 

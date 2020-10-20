@@ -16,7 +16,7 @@ GameEngineModel.init(
 		sequelize: database.connectionSequelize,
 		timestamps: false,
 		freezeTableName: true,
-		tableName: 'game_engine',
+		tableName: 'game_engines',
 	}
 );
 

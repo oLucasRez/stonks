@@ -1,9 +1,9 @@
 import sequelize from 'sequelize';
 import Sequelize, { Model } from 'sequelize';
 import database from '../../../services/DB/Connection';
-import { IGameMode } from '../Tables';
+import { IGame } from '../Tables';
 
-class GameModeModel extends Model implements IGameMode {
+class GameModel extends Model implements IGame {
 	public id!: number;
 	public id_game_engine!: number;
 	public age_rating!: number;
@@ -20,7 +20,7 @@ class GameModeModel extends Model implements IGameMode {
 	public release_date!: Date;
 }
 
-GameModeModel.init(
+GameModel.init(
 	{
 		age_rating: Sequelize.NUMBER,
 		time_to_beat: Sequelize.NUMBER,
@@ -39,8 +39,8 @@ GameModeModel.init(
 		sequelize: database.connectionSequelize,
 		timestamps: false,
 		freezeTableName: true,
-		tableName: 'gamemode',
+		tableName: 'game',
 	}
 );
 
-export default GameModeModel;
+export default GameModel;

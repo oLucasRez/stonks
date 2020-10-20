@@ -16,7 +16,7 @@ GameGenreModel.init(
 		sequelize: database.connectionSequelize,
 		timestamps: false,
 		freezeTableName: true,
-		tableName: 'game_genre',
+		tableName: 'game_genres',
 	}
 );
 

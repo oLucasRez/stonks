@@ -16,7 +16,7 @@ GameGameModeModel.init(
 		sequelize: database.connectionSequelize,
 		timestamps: false,
 		freezeTableName: true,
-		tableName: 'game_game_mode',
+		tableName: 'game_mode_game',
 	}
 );
 

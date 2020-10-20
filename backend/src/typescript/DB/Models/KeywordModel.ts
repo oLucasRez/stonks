@@ -16,7 +16,7 @@ KeywordModel.init(
 		sequelize: database.connectionSequelize,
 		timestamps: false,
 		freezeTableName: true,
-		tableName: 'keyword',
+		tableName: 'keywords',
 	}
 );
 

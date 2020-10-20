@@ -16,7 +16,7 @@ GameKeywordModel.init(
 		sequelize: database.connectionSequelize,
 		timestamps: false,
 		freezeTableName: true,
-		tableName: 'game_keywordM',
+		tableName: 'game_keywords',
 	}
 );
 

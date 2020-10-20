@@ -18,7 +18,7 @@ GamePlayerPerspectiveModel.init(
 		sequelize: database.connectionSequelize,
 		timestamps: false,
 		freezeTableName: true,
-		tableName: 'game_player_perspective',
+		tableName: 'game_player_perspectives',
 	}
 );
 
