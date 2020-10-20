@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import IGDBCallTest from './classes/IGDBCallTest';
+import Connection from './services/DB/Connection';
 
 import App from './server';
 
@@ -20,5 +21,12 @@ async function makeCall() {
 		await IGDBCall.call();
 	}
 }
-
-makeCall();
+var DB: Connection = new Connection();
+DB.insert(
+	'game_mode',
+	'id,name,slug',
+	"id.nextval,'teste','teste'"
+);
+DB.showRows('game_mode');
+//DB.delete('game_mode', 'name=teste');
+//makeCall();
