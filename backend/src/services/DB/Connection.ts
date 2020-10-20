@@ -1,17 +1,9 @@
-//(async () => {
-//    connect();
-//funções para usar....
-//  })();
+import { Client, QueryResult } from 'pg';
 
 class Connection {
-	private conn: any;
-	// public async insert(): Promise<void> {
-	// 	this.connect();
-	// 	await this.insert();
-	//   await this.showRows();
-	// }
+	private conn!: Client;
+
 	public connect(): void {
-		let { Client } = require('pg');
 		this.conn = new Client({
 			host: process.env.PG_HOST,
 			database: process.env.PG_DB,
@@ -21,31 +13,28 @@ class Connection {
 		});
 		this.conn.connect();
 	}
+
 	public async insert(
 		table: string,
 		params: string,
 		values: string
-	): Promise<void> {
+	): Promise<number> {
 		this.connect();
-		let { rows } = await this.conn.query(
+		const { rows } = await this.conn.query(
 			`insert into ${table} (${params}) values (${values}) returning *`
 		);
-		console.log(`Rows inserted: ${rows.length}`);
+		return rows.length;
 	}
-	async showRows(table: string) {
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	async showRows(table: string): Promise<QueryResult<any>> {
 		this.connect();
-		let { rows } = await this.conn.query(
-			`select * from ${table}`
-		);
-		for (const row of rows) {
-			console.log(row);
-		}
+		const data = await this.conn.query(`select * from ${table}`);
+		return data;
 	}
-	async delete(table: string, where: string) {
+
+	async delete(table: string, where: string): Promise<void> {
 		this.connect();
-		let { rows } = await this.conn.query(
-			`delete from ${table} where ${where}`
-		);
 	}
 }
 export default Connection;
