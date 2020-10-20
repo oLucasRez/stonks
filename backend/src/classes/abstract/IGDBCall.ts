@@ -99,10 +99,8 @@ abstract class IGDBCall {
 		const IGDBApi = await IGDBInstance.getAPI();
 
 		try {
-			// eslint-disable-next-line no-console
 			console.log(`[IGDB]: Request with body: ${body}`);
 
-			// eslint-disable-next-line no-console
 			console.log(`[IGDB]: Endpoint: ${this.identifier}`);
 
 			const response = await IGDBApi.post(

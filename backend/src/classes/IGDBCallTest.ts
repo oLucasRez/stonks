@@ -33,13 +33,11 @@ export default class IGDBCallTest extends IGDBCall {
 		const { data } = response;
 
 		const ids = data.map((game: any) => {
-			// eslint-disable-next-line no-console
 			console.log(`[IGDB]: Game Fetched: ${game.name}`);
 
 			return game.id;
 		});
 
-		// eslint-disable-next-line no-console
 		console.log('\n');
 
 		return ids;
@@ -51,7 +49,6 @@ export default class IGDBCallTest extends IGDBCall {
 		bodyString: string,
 		identifier: string
 	): void {
-		// eslint-disable-next-line no-console
 		console.log(
 			`[IGDB]: Error ocurred on request on endpoint "${identifier}" with body: ${bodyString}`
 		);
