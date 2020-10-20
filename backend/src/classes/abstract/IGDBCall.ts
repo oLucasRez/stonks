@@ -12,11 +12,11 @@ import {
 abstract class IGDBCall {
 	private identifier: string;
 
-	abstract idStep: number;
+	protected abstract idStep: number;
 
-	abstract idLowerLimit: number;
+	protected abstract idLowerLimit: number;
 
-	abstract idHigherLimit: number;
+	protected abstract idHigherLimit: number;
 
 	constructor(identifier: string) {
 		this.identifier = identifier;
@@ -98,11 +98,11 @@ abstract class IGDBCall {
 
 		const IGDBApi = await IGDBInstance.getAPI();
 
+		console.log(`[IGDB]: Request with body: ${body}`);
+
+		console.log(`[IGDB]: Endpoint: ${this.identifier}`);
+
 		try {
-			console.log(`[IGDB]: Request with body: ${body}`);
-
-			console.log(`[IGDB]: Endpoint: ${this.identifier}`);
-
 			const response = await IGDBApi.post(
 				`/${this.identifier}`,
 				body
