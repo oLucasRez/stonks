@@ -2,6 +2,7 @@ import 'dotenv/config';
 import IGDBCallTest from './classes/IGDBCallTest';
 
 import App from './server';
+import ThemeModel from './typescript/DB/Models/ThemeModel';
 
 async function runServer() {
 	const server = await App.getInstance();
@@ -20,4 +21,13 @@ async function makeCall() {
 	}
 }
 
-makeCall();
+// makeCall();
+
+const theme: ThemeModel = new ThemeModel({
+	name: 'Puzzle',
+	slug: 'puzzle',
+});
+
+const reslt = theme.save();
+
+console.log(reslt);
