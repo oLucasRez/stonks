@@ -18,10 +18,10 @@ class SteamAPI extends Service<AxiosInstance> {
 			SteamAPI.instance = new SteamAPI();
 		}
 
-		return SteamAPI.instance;
+		return SteamAPI.instance as SteamAPI;
 	}
 
-	public async getGamePrice(gameId: string) {
+	public async getGamePrice(gameId: string): Promise<number> {
 		const { data } = await this.api.get('/appdetails', {
 			params: { appids: 218620 },
 		});

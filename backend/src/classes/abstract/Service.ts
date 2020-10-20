@@ -1,14 +1,13 @@
 abstract class Service<T> {
-	protected instance: any;
-
 	protected api!: T;
 
-	protected static instance: any;
+	protected static instance: unknown;
 
 	public abstract getAPI(): T | Promise<T>;
 
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	static getInstance(): any {}
+	static getInstance(): unknown {
+		return undefined;
+	}
 }
 
 export default Service;
