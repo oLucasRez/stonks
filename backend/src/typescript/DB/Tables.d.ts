@@ -1,4 +1,4 @@
-export declare interface IGameMode {
+export declare interface IGame {
 	id: number;
 	id_game_engine: number;
 	age_rating: number;
@@ -33,6 +33,17 @@ export declare interface IPlayerPerspective {
 }
 
 export declare interface ITheme {
+	id: number;
+	name: string;
+	slug: string;
+}
+
+export declare interface IGameEngine {
+	id: number;
+	name: string;
+}
+
+export declare interface IGameMode {
 	id: number;
 	name: string;
 	slug: string;
