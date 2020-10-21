@@ -10,8 +10,6 @@ export declare interface IGame {
 	price: number;
 	name: string;
 	slug: string;
-	storyline: string;
-	summary: string;
 	release_date: Date;
 }
 
@@ -47,4 +45,14 @@ export declare interface IGameMode {
 	id: number;
 	name: string;
 	slug: string;
+}
+
+export declare interface ISummary {
+	id: number;
+	token: number;
+}
+
+export declare interface IStoryline {
+	id: number;
+	token: number;
 }

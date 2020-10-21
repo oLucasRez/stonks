@@ -1,8 +1,3 @@
-export declare interface IGameEngine {
-	id: number;
-	name: string;
-}
-
 export declare interface IGameGenre {
 	id: number;
 	id_genre: number;
@@ -13,12 +8,6 @@ export declare interface IGameKeyword {
 	id: number;
 	id_keyword: number;
 	id_game: number;
-}
-
-export declare interface IGameMode {
-	id: number;
-	name: string;
-	slug: string;
 }
 
 export declare interface IGameGameMode {
@@ -37,4 +26,18 @@ export declare interface IGameTheme {
 	id: number;
 	id_theme: number;
 	id_game: number;
+}
+
+export declare interface IGameSummary {
+	id: number;
+	id_game: number;
+	id_summary: number;
+	weight: number;
+}
+
+export declare interface IGameStoryline {
+	id: number;
+	id_game: number;
+	id_storyline: number;
+	weight: number;
 }
