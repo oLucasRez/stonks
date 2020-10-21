@@ -1,17 +1,15 @@
-export declare interface IGameMode {
+export declare interface IGame {
 	id: number;
 	id_game_engine: number;
 	age_rating: number;
-	time_to_beat: number;
+	time_to_beat?: number;
 	follows: number;
 	hype: number;
 	total_rating: number;
 	total_rating_count: number;
-	price: number;
+	price?: number;
 	name: string;
 	slug: string;
-	storyline: string;
-	summary: string;
 	release_date: Date;
 }
 
@@ -36,4 +34,25 @@ export declare interface ITheme {
 	id: number;
 	name: string;
 	slug: string;
+}
+
+export declare interface IGameEngine {
+	id: number;
+	name: string;
+}
+
+export declare interface IGameMode {
+	id: number;
+	name: string;
+	slug: string;
+}
+
+export declare interface ISummary {
+	id: number;
+	token: number;
+}
+
+export declare interface IStoryline {
+	id: number;
+	token: number;
 }
