@@ -15,8 +15,6 @@ class GameModel extends Model implements IGame {
 	public price!: number;
 	public name!: string;
 	public slug!: string;
-	public storyline!: string;
-	public summary!: string;
 	public release_date!: Date;
 }
 
@@ -31,8 +29,6 @@ GameModel.init(
 		price: Sequelize.NUMBER,
 		name: Sequelize.STRING,
 		slug: Sequelize.STRING,
-		storyline: Sequelize.STRING,
-		summary: Sequelize.STRING,
 		release_date: Sequelize.DATE,
 	},
 	{
