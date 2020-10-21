@@ -5,11 +5,11 @@ import { IIGDBRequestBody } from '../typescript/services/IGDB/RequestBody';
 import IGDBCall from './abstract/IGDBCall';
 
 export default class IGDBCallTest extends IGDBCall {
-	idLowerLimit: number;
+	protected idLowerLimit: number;
 
-	idHigherLimit: number;
+	protected idHigherLimit: number;
 
-	idStep: number;
+	protected idStep: number;
 
 	constructor(identifier: string) {
 		super(identifier);
