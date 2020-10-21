@@ -2,12 +2,12 @@ export declare interface IGame {
 	id: number;
 	id_game_engine: number;
 	age_rating: number;
-	time_to_beat: number;
+	time_to_beat?: number;
 	follows: number;
 	hype: number;
 	total_rating: number;
 	total_rating_count: number;
-	price: number;
+	price?: number;
 	name: string;
 	slug: string;
 	storyline: string;
