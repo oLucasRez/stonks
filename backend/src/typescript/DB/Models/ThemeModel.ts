@@ -1,6 +1,8 @@
 import Sequelize, { Model } from 'sequelize';
 import database from '../../../services/DB/Connection';
 import { ITheme } from '../Tables';
+import GameModel from './GameModel';
+import GameThemeModel from './GameThemeModel';
 
 class ThemeModel extends Model implements ITheme {
 	public id!: number;
@@ -22,5 +24,8 @@ ThemeModel.init(
 		tableName: 'themes',
 	}
 );
-
+ThemeModel.belongsToMany(GameModel, {
+	through: GameThemeModel,
+	sourceKey: 'id_theme',
+});
 export default ThemeModel;

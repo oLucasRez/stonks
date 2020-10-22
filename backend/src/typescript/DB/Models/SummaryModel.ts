@@ -1,6 +1,8 @@
 import Sequelize, { Model } from 'sequelize';
 import database from '../../../services/DB/Connection';
 import { ISummary } from '../Tables';
+import GameModel from './GameModel';
+import GameSummaryModel from './GameSummaryModel';
 
 class SummaryModel extends Model implements ISummary {
 	public id!: number;
@@ -19,5 +21,8 @@ SummaryModel.init(
 		tableName: 'summarys',
 	}
 );
-
+SummaryModel.belongsToMany(GameModel, {
+	through: GameSummaryModel,
+	sourceKey: 'id_summary',
+});
 export default SummaryModel;

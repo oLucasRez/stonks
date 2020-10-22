@@ -1,6 +1,8 @@
 import Sequelize, { Model } from 'sequelize';
 import database from '../../../services/DB/Connection';
 import { IPlayerPerspective } from '../Tables';
+import GameModel from './GameModel';
+import GamePlayerPerspectiveModel from './GamePlayerPerspectiveModel';
 
 class PlayerPerspectiveModel
 	extends Model
@@ -24,5 +26,8 @@ PlayerPerspectiveModel.init(
 		tableName: 'player_perspectives',
 	}
 );
-
+PlayerPerspectiveModel.belongsToMany(GameModel, {
+	through: GamePlayerPerspectiveModel,
+	sourceKey: 'id_player_perspective',
+});
 export default PlayerPerspectiveModel;

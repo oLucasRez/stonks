@@ -1,6 +1,8 @@
 import Sequelize, { Model } from 'sequelize';
 import database from '../../../services/DB/Connection';
 import { IGenre } from '../Tables';
+import GameGenreModel from './GameGenreModel';
+import GameModel from './GameModel';
 
 class GenreModel extends Model implements IGenre {
 	public id!: number;
@@ -22,5 +24,8 @@ GenreModel.init(
 		tableName: 'genres',
 	}
 );
-
+GenreModel.belongsToMany(GameModel, {
+	through: GameGenreModel,
+	sourceKey: 'id_genre',
+});
 export default GenreModel;
