@@ -1,23 +1,33 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-import { IIGDBRequestBody } from '../typescript/services/IGDB/RequestBody';
+import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 
-import IGDBCall from './abstract/IGDBCall';
+import IGDBCall from '../abstract/IGDBCall';
 
-export default class IGDBCallTest extends IGDBCall {
+import { IGenre } from '../../typescript/DB/Tables';
+
+export default class IGDBGenres extends IGDBCall {
 	idLowerLimit: number;
 
 	idHigherLimit: number;
 
 	idStep: number;
 
-	constructor(identifier: string) {
-		super(identifier);
+	onlySteam: boolean;
+
+	identifier: string;
+
+	constructor() {
+		super();
+
+		this.identifier = 'genres';
 
 		this.idLowerLimit = 0;
-		this.idHigherLimit = 500;
+		this.idHigherLimit = 200;
 
-		this.idStep = this.idHigherLimit - this.idLowerLimit;
+		this.onlySteam = false;
+
+		this.idStep = this.idHigherLimit - this.idLowerLimit + 1;
 	}
 
 	protected requestBody(): IIGDBRequestBody {
@@ -28,17 +38,17 @@ export default class IGDBCallTest extends IGDBCall {
 	}
 
 	protected handleResponse(
-		response: AxiosResponse<any>
+		response: AxiosResponse<IGenre[]>
 	): string[] {
 		const { data } = response;
 
-		const ids = data.map((game: any) => {
-			console.log(`[IGDB]: Game Fetched: ${game.name}`);
-
-			return game.id;
+		const ids = data.map((genre: IGenre) => {
+			return genre.id.toString();
 		});
 
-		console.log('\n');
+		console.log(data[1]);
+
+		// TODO Add to database
 
 		return ids;
 	}

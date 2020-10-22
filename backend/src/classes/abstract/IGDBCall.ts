@@ -10,17 +10,15 @@ import {
 } from '../../typescript/services/IGDB/RequestBody';
 
 abstract class IGDBCall {
-	private identifier: string;
+	protected abstract identifier: string;
 
-	abstract idStep: number;
+	protected abstract idStep: number;
 
-	abstract idLowerLimit: number;
+	protected abstract idLowerLimit: number;
 
-	abstract idHigherLimit: number;
+	protected abstract idHigherLimit: number;
 
-	constructor(identifier: string) {
-		this.identifier = identifier;
-	}
+	protected abstract onlySteam: boolean;
 
 	/**
 	 * The body of the request
@@ -34,7 +32,7 @@ abstract class IGDBCall {
 	 * @returns The new saved id's of the correspondent IGDB Api endpoint.
 	 */
 	protected abstract handleResponse(
-		response: AxiosResponse
+		response: AxiosResponse<unknown>
 	): string[];
 
 	/**
@@ -83,12 +81,38 @@ abstract class IGDBCall {
 		return requestBody;
 	}
 
+	private insertOnlySteamGamesOnRequestBody(
+		requestBody: IIGDBRequestBody
+	): IIGDBRequestBody {
+		const newRequestBody = requestBody;
+
+		if (!newRequestBody.where) {
+			newRequestBody.where = { assertions: [] };
+		}
+
+		const lowerLimitAssertion: IIGDBAssertion = {
+			property: 'external_games.category',
+			boolOperator: '=',
+			value: `1`,
+		};
+
+		newRequestBody.where.assertions.push(lowerLimitAssertion);
+
+		return requestBody;
+	}
+
 	private async request(): Promise<void> {
 		const requestBody = this.requestBody();
 
-		const modifiedRequestBody = this.insertIdExclusionOnRequestBody(
+		let modifiedRequestBody = this.insertIdExclusionOnRequestBody(
 			requestBody
 		);
+
+		if (this.onlySteam) {
+			modifiedRequestBody = this.insertOnlySteamGamesOnRequestBody(
+				modifiedRequestBody
+			);
+		}
 
 		const body = IGDBRequestAdapter.adaptToRequestBodyString(
 			modifiedRequestBody
@@ -98,11 +122,11 @@ abstract class IGDBCall {
 
 		const IGDBApi = await IGDBInstance.getAPI();
 
+		console.log(`[IGDB]: Request with body: ${body}`);
+
+		console.log(`[IGDB]: Endpoint: ${this.identifier}`);
+
 		try {
-			console.log(`[IGDB]: Request with body: ${body}`);
-
-			console.log(`[IGDB]: Endpoint: ${this.identifier}`);
-
 			const response = await IGDBApi.post(
 				`/${this.identifier}`,
 				body
