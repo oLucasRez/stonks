@@ -1,4 +1,8 @@
-import Sequelize, { Model, Optional } from 'sequelize';
+import Sequelize, {
+	DataTypes,
+	Model,
+	Optional,
+} from 'sequelize';
 import { ITheme } from '../Tables';
 
 type ThemeCreationAttributes = Optional<ITheme, 'id'>;
@@ -13,7 +17,10 @@ class ThemeModel extends Model<ITheme, ThemeCreationAttributes> {
 	static initialize(database: Sequelize.Sequelize): void {
 		this.init(
 			{
-				id: Sequelize.NUMBER,
+				id: {
+					type: DataTypes.INTEGER,
+					primaryKey: true,
+				},
 				name: Sequelize.STRING,
 				slug: Sequelize.STRING,
 			},
@@ -22,14 +29,14 @@ class ThemeModel extends Model<ITheme, ThemeCreationAttributes> {
 				timestamps: false,
 				freezeTableName: true,
 				tableName: 'themes',
+				modelName: 'ThemeModel',
 			}
 		);
 	}
 
-	static associate(models: any): void {
-		this.belongsToMany(models.GameModel, {
-			through: models.GameThemeModel,
-			sourceKey: 'id_theme',
+	static associate(database: Sequelize.Sequelize): void {
+		this.belongsToMany(database.models.GameModel, {
+			through: database.models.GameThemeModel,
 		});
 	}
 }

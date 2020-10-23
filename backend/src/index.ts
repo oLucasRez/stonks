@@ -7,6 +7,8 @@ import IGDBKeyword from './classes/calls/IGDBKeyword';
 import IGDBGenres from './classes/calls/IGDBGenres';
 import IGDBPlayerPerspective from './classes/calls/IGDBPlayerPerspective';
 import IGDBGameMode from './classes/calls/IGDBGameMode';
+import IGDBGame from './classes/calls/IGDBGame';
+import DatabaseConfig from './typescript/DB/DatabaseConfig';
 
 async function runServer() {
 	const server = await App.getInstance();
@@ -22,6 +24,11 @@ const KeywordCall = new IGDBKeyword();
 const GenreCall = new IGDBGenres();
 const PlayerPerspectiveCall = new IGDBPlayerPerspective();
 const GameModeCall = new IGDBGameMode();
+const GameCall = new IGDBGame();
+
+const DatabaseConfiguration = new DatabaseConfig();
+
+DatabaseConfiguration.InitDatabase();
 
 async function makeCall() {
 	// eslint-disable-next-line no-await-in-loop
@@ -33,4 +40,10 @@ async function makeCall() {
 	await GameModeCall.call();
 }
 
-makeCall();
+async function addGame() {
+	await GameCall.call();
+}
+
+addGame();
+
+// makeCall();

@@ -1,31 +1,43 @@
-import Sequelize, { Model } from 'sequelize';
-import database from '../../../services/DB/Connection';
+import Sequelize, {
+	DataTypes,
+	Model,
+	Optional,
+} from 'sequelize';
 import { IGenre } from '../Tables';
-import GameGenreModel from './GameGenreModel';
-import GameModel from './GameModel';
 
-class GenreModel extends Model implements IGenre {
+type GenreCreationAttributes = Optional<IGenre, 'id'>;
+
+class GenreModel extends Model<IGenre, GenreCreationAttributes> {
 	public id!: number;
 
 	public name!: string;
 
 	public slug!: string;
+
+	static initialize(database: Sequelize.Sequelize): void {
+		this.init(
+			{
+				id: {
+					type: DataTypes.INTEGER,
+					primaryKey: true,
+				},
+				name: Sequelize.STRING,
+				slug: Sequelize.STRING,
+			},
+			{
+				sequelize: database,
+				timestamps: false,
+				freezeTableName: true,
+				tableName: 'genres',
+			}
+		);
+	}
+
+	static associate(database: Sequelize.Sequelize): void {
+		this.belongsToMany(database.models.GameModel, {
+			through: database.models.GameGenreModel,
+		});
+	}
 }
 
-GenreModel.init(
-	{
-		name: Sequelize.STRING,
-		slug: Sequelize.STRING,
-	},
-	{
-		sequelize: database.connectionSequelize,
-		timestamps: false,
-		freezeTableName: true,
-		tableName: 'genres',
-	}
-);
-GenreModel.belongsToMany(GameModel, {
-	through: GameGenreModel,
-	sourceKey: 'id_genre',
-});
 export default GenreModel;
