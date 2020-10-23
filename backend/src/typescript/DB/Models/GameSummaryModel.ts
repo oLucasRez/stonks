@@ -1,5 +1,8 @@
-import Sequelize, { Model, Optional } from 'sequelize';
-import database from '../../../services/DB/Connection';
+import Sequelize, {
+	DataTypes,
+	Model,
+	Optional,
+} from 'sequelize';
 import { IGameSummary } from '../AssociativeTables';
 
 type GameSummaryCreationAttributes = Optional<
@@ -22,7 +25,10 @@ class GameSummaryModel extends Model<
 	static initialize(database: Sequelize.Sequelize): void {
 		this.init(
 			{
-				id: Sequelize.NUMBER,
+				id: {
+					type: DataTypes.INTEGER,
+					primaryKey: true,
+				},
 				id_summary: Sequelize.NUMBER,
 				id_game: Sequelize.NUMBER,
 				weight: Sequelize.NUMBER,
@@ -32,15 +38,11 @@ class GameSummaryModel extends Model<
 				timestamps: false,
 				freezeTableName: true,
 				tableName: 'game_summarys',
+				modelName: 'GameSummaryModel',
 			}
 		);
 	}
 
-	// static associate(models: any): void {
-	// 	this.belongsToMany(models.GameModel, {
-	// 		through: models.GameGenreModel,
-	// 		sourceKey: 'id_genre',
-	// 	});
-	//}
+	static associate(database: Sequelize.Sequelize): void {}
 }
 export default GameSummaryModel;

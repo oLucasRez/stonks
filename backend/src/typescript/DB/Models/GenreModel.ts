@@ -1,5 +1,8 @@
-import sequelize from 'sequelize';
-import Sequelize, { Model, Optional } from 'sequelize';
+import Sequelize, {
+	DataTypes,
+	Model,
+	Optional,
+} from 'sequelize';
 import { IGenre } from '../Tables';
 
 type GenreCreationAttributes = Optional<IGenre, 'id'>;
@@ -14,7 +17,10 @@ class GenreModel extends Model<IGenre, GenreCreationAttributes> {
 	static initialize(database: Sequelize.Sequelize): void {
 		this.init(
 			{
-				id: Sequelize.NUMBER,
+				id: {
+					type: DataTypes.INTEGER,
+					primaryKey: true,
+				},
 				name: Sequelize.STRING,
 				slug: Sequelize.STRING,
 			},
@@ -27,10 +33,9 @@ class GenreModel extends Model<IGenre, GenreCreationAttributes> {
 		);
 	}
 
-	static associate(models: any): void {
-		this.belongsToMany(models.GameModel, {
-			through: models.GameGenreModel,
-			sourceKey: 'id_genre',
+	static associate(database: Sequelize.Sequelize): void {
+		this.belongsToMany(database.models.GameModel, {
+			through: database.models.GameGenreModel,
 		});
 	}
 }

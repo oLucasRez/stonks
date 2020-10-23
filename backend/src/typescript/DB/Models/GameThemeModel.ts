@@ -1,5 +1,8 @@
-import Sequelize, { Model, Optional } from 'sequelize';
-import database from '../../../services/DB/Connection';
+import Sequelize, {
+	DataTypes,
+	Model,
+	Optional,
+} from 'sequelize';
 import { IGameTheme } from '../AssociativeTables';
 
 type GameGenreCreationAttributes = Optional<IGameTheme, 'id'>;
@@ -17,7 +20,10 @@ class GameThemeModel extends Model<
 	static initialize(database: Sequelize.Sequelize): void {
 		this.init(
 			{
-				id: Sequelize.NUMBER,
+				id: {
+					type: DataTypes.INTEGER,
+					primaryKey: true,
+				},
 				id_theme: Sequelize.NUMBER,
 				id_game: Sequelize.NUMBER,
 			},
@@ -26,16 +32,12 @@ class GameThemeModel extends Model<
 				timestamps: false,
 				freezeTableName: true,
 				tableName: 'game_themes',
+				modelName: 'GameThemeModel',
 			}
 		);
 	}
 
-	// static associate(models: any): void {
-	// 	this.belongsToMany(models.GameModel, {
-	// 		through: models.GameGenreModel,
-	// 		sourceKey: 'id_genre',
-	// 	});
-	//}
+	static associate(database: Sequelize.Sequelize): void {}
 }
 
 export default GameThemeModel;

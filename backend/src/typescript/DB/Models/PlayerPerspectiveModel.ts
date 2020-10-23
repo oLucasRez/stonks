@@ -1,4 +1,4 @@
-import sequelize from 'sequelize';
+import sequelize, { DataTypes } from 'sequelize';
 import Sequelize, { Model, Optional } from 'sequelize';
 import { IPlayerPerspective } from '../Tables';
 
@@ -20,7 +20,10 @@ class PlayerPerspectiveModel extends Model<
 	static initialize(database: Sequelize.Sequelize): void {
 		this.init(
 			{
-				id: sequelize.NUMBER,
+				id: {
+					type: DataTypes.INTEGER,
+					primaryKey: true,
+				},
 				name: Sequelize.STRING,
 				slug: Sequelize.STRING,
 			},
@@ -29,14 +32,14 @@ class PlayerPerspectiveModel extends Model<
 				timestamps: false,
 				freezeTableName: true,
 				tableName: 'player_perspectives',
+				modelName: 'PlayerPerspectiveModel',
 			}
 		);
 	}
 
-	static associate(models: any): void {
-		this.belongsToMany(models.GameModel, {
-			through: models.GamePlayerPerspectiveModel,
-			sourceKey: 'id_player_perspective',
+	static associate(database: Sequelize.Sequelize): void {
+		this.belongsToMany(database.models.GameModel, {
+			through: database.models.GamePlayerPerspectiveModel,
 		});
 	}
 }

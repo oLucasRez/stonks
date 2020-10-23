@@ -1,9 +1,9 @@
-import sequelize from 'sequelize';
-import Sequelize, { Model, Optional } from 'sequelize';
-import database from '../../../services/DB/Connection';
+import Sequelize, {
+	DataTypes,
+	Model,
+	Optional,
+} from 'sequelize';
 import { IGameGameMode } from '../AssociativeTables';
-import GameModel from './GameModel';
-import GameModeModel from './GameModeModel';
 
 type GameGameModeCreationAttributes = Optional<
 	IGameGameMode,
@@ -23,7 +23,10 @@ class GameGameModeModel extends Model<
 	static initialize(database: Sequelize.Sequelize): void {
 		this.init(
 			{
-				id: Sequelize.NUMBER,
+				id: {
+					type: DataTypes.INTEGER,
+					primaryKey: true,
+				},
 				id_game_mode: Sequelize.NUMBER,
 				id_game: Sequelize.NUMBER,
 			},
@@ -32,16 +35,12 @@ class GameGameModeModel extends Model<
 				timestamps: false,
 				freezeTableName: true,
 				tableName: 'game_mode_game',
+				modelName: 'GameGameModeModel',
 			}
 		);
 	}
 
-	// static associate(models: any): void {
-	// 	this.belongsToMany(models.GameModel, {
-	// 		through: models.GameGameModeModel,
-	// 		sourceKey: 'id_game_mode',
-	// 	});
-	// }
+	static associate(database: Sequelize.Sequelize): void {}
 }
 
 export default GameGameModeModel;

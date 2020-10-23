@@ -1,4 +1,8 @@
-import Sequelize, { Model, Optional } from 'sequelize';
+import Sequelize, {
+	DataTypes,
+	Model,
+	Optional,
+} from 'sequelize';
 import { IKeyword } from '../Tables';
 
 type KeywordCreationAttributes = Optional<IKeyword, 'id'>;
@@ -14,7 +18,10 @@ class KeywordModel extends Model<
 	static initialize(database: Sequelize.Sequelize): void {
 		this.init(
 			{
-				id: Sequelize.NUMBER,
+				id: {
+					type: DataTypes.INTEGER,
+					primaryKey: true,
+				},
 				name: Sequelize.STRING,
 			},
 			{
@@ -22,14 +29,14 @@ class KeywordModel extends Model<
 				timestamps: false,
 				freezeTableName: true,
 				tableName: 'keywords',
+				modelName: 'KeywordModel',
 			}
 		);
 	}
 
-	static associate(models: any): void {
-		this.belongsToMany(models.GameModel, {
-			through: models.GameKeywordModel,
-			sourceKey: 'id_keyword',
+	static associate(database: Sequelize.Sequelize): void {
+		this.belongsToMany(database.models.GameModel, {
+			through: database.models.GameKeywordModel,
 		});
 	}
 }

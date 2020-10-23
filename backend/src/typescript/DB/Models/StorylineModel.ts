@@ -1,8 +1,9 @@
-import Sequelize, { Model, Optional } from 'sequelize';
-import database from '../../../services/DB/Connection';
+import Sequelize, {
+	DataTypes,
+	Model,
+	Optional,
+} from 'sequelize';
 import { IStoryline } from '../Tables';
-import GameModel from './GameModel';
-import GameStorylineModel from './GameStorylineModel';
 
 type storylineCreationAttributes = Optional<IStoryline, 'id'>;
 
@@ -17,7 +18,10 @@ class StorylineModel extends Model<
 	static initialize(database: Sequelize.Sequelize): void {
 		this.init(
 			{
-				id: Sequelize.NUMBER,
+				id: {
+					type: DataTypes.INTEGER,
+					primaryKey: true,
+				},
 				token: Sequelize.NUMBER,
 			},
 			{
@@ -25,14 +29,14 @@ class StorylineModel extends Model<
 				timestamps: false,
 				freezeTableName: true,
 				tableName: 'storylines',
+				modelName: 'StorylineModel',
 			}
 		);
 	}
 
-	static associate(models: any): void {
-		this.belongsToMany(models.GameModel, {
-			through: models.GameStorylineModel,
-			sourceKey: 'id_storyline',
+	static associate(database: Sequelize.Sequelize): void {
+		this.belongsToMany(database.models.GameModel, {
+			through: database.models.GameStorylineModel,
 		});
 	}
 }

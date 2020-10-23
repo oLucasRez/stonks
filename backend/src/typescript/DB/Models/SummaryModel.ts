@@ -1,4 +1,8 @@
-import Sequelize, { Model, Optional } from 'sequelize';
+import Sequelize, {
+	DataTypes,
+	Model,
+	Optional,
+} from 'sequelize';
 import { ISummary } from '../Tables';
 
 type SummaryCreationAttributes = Optional<ISummary, 'id'>;
@@ -14,7 +18,10 @@ class SummaryModel extends Model<
 	static initialize(database: Sequelize.Sequelize): void {
 		this.init(
 			{
-				id: Sequelize.NUMBER,
+				id: {
+					type: DataTypes.INTEGER,
+					primaryKey: true,
+				},
 				token: Sequelize.NUMBER,
 			},
 			{
@@ -22,14 +29,14 @@ class SummaryModel extends Model<
 				timestamps: false,
 				freezeTableName: true,
 				tableName: 'summarys',
+				modelName: 'SummaryModel',
 			}
 		);
 	}
 
-	static associate(models: any): void {
-		this.belongsToMany(models.GameModel, {
-			through: models.GameSummaryModel,
-			sourceKey: 'id_summary',
+	static associate(database: Sequelize.Sequelize): void {
+		this.belongsToMany(database.models.GameModel, {
+			through: database.models.GameSummaryModel,
 		});
 	}
 }
