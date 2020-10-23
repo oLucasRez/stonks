@@ -43,7 +43,10 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 				age_rating: Sequelize.NUMBER,
 				time_to_beat: Sequelize.NUMBER,
 				follows: Sequelize.NUMBER,
-				hype: Sequelize.NUMBER,
+				hype: {
+					type: DataTypes.NUMBER,
+					allowNull: true,
+				},
 				total_rating: Sequelize.NUMBER,
 				total_rating_count: Sequelize.NUMBER,
 				price: Sequelize.NUMBER,

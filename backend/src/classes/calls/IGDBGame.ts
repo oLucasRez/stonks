@@ -63,7 +63,7 @@ export default class IGDBGame extends IGDBCall {
 
 		// TODO get price from steam
 
-		// TODO get time_to_beat csv
+		// TODO get time_to_beat csv (only normal mode)
 
 		const ids = data.map((game: IGame) => {
 			return game.id.toString();
@@ -73,7 +73,21 @@ export default class IGDBGame extends IGDBCall {
 
 		const game: GameModel = new GameModel(data[1]);
 
+		game.id_game_engine = data[1].game_engines[0];
+
+		game.age_rating = data[1].age_ratings[0];
+
+		game.release_date = data[1].release_dates[0];
+
+		game.price = 3000;
+
+		game.time_to_beat = 3;
+
+		game.hype = 3;
+
 		console.log(game);
+
+		game.save();
 
 		return ids;
 	}

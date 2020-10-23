@@ -5,6 +5,7 @@ import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 import IGDBCall from '../abstract/IGDBCall';
 
 import { IGameEngine } from '../../typescript/DB/Tables';
+import GameEngineModel from '../../typescript/DB/Models/GameEngineModel';
 
 export default class IGDBGameEngine extends IGDBCall {
 	idLowerLimit: number;
@@ -42,13 +43,16 @@ export default class IGDBGameEngine extends IGDBCall {
 	): string[] {
 		const { data } = response;
 
-		const ids = data.map((genre: IGameEngine) => {
-			return genre.id.toString();
+		const ids = data.map((gameEngine: IGameEngine) => {
+			const game_engine: GameEngineModel = new GameEngineModel(
+				gameEngine
+			);
+
+			game_engine.save();
+			return gameEngine.id.toString();
 		});
 
-		console.log(data[1]);
-
-		// TODO Add to database
+		console.log(data[0]);
 
 		return ids;
 	}
@@ -62,5 +66,6 @@ export default class IGDBGameEngine extends IGDBCall {
 		console.log(
 			`[IGDB]: Error ocurred on request on endpoint "${identifier}" with body: ${bodyString}`
 		);
+		console.log(_error);
 	}
 }

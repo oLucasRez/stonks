@@ -41,6 +41,7 @@ async function makeCall() {
 }
 
 async function addGame() {
+	// await GameCall.call();
 	await GameCall.call();
 }
 

@@ -35,9 +35,9 @@ class GameEngineModel extends Model<
 	}
 
 	static associate(database: Sequelize.Sequelize): void {
-		this.belongsTo(database.models.GameModel, {
-			foreignKey: 'id_game_engine',
-		});
+		// this.belongsTo(database.models.GameModel, {
+		// 	foreignKey: 'id_game_engine',
+		// });
 	}
 }
 export default GameEngineModel;
