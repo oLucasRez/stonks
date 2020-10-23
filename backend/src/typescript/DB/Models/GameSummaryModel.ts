@@ -1,27 +1,46 @@
-import Sequelize, { Model } from 'sequelize';
+import Sequelize, { Model, Optional } from 'sequelize';
 import database from '../../../services/DB/Connection';
 import { IGameSummary } from '../AssociativeTables';
 
-class GameSummaryModel extends Model implements IGameSummary {
-	public id!: number;
+type GameSummaryCreationAttributes = Optional<
+	IGameSummary,
+	'id'
+>;
 
-	public id_game!: number;
+class GameSummaryModel extends Model<
+	IGameSummary,
+	GameSummaryCreationAttributes
+> {
+	public id!: number;
 
 	public id_summary!: number;
 
+	public id_game!: number;
+
 	public weight!: number;
-}
 
-GameSummaryModel.init(
-	{
-		weight: Sequelize.NUMBER,
-	},
-	{
-		sequelize: database.connectionSequelize,
-		timestamps: false,
-		freezeTableName: true,
-		tableName: 'game_summarys',
+	static initialize(database: Sequelize.Sequelize): void {
+		this.init(
+			{
+				id: Sequelize.NUMBER,
+				id_summary: Sequelize.NUMBER,
+				id_game: Sequelize.NUMBER,
+				weight: Sequelize.NUMBER,
+			},
+			{
+				sequelize: database,
+				timestamps: false,
+				freezeTableName: true,
+				tableName: 'game_summarys',
+			}
+		);
 	}
-);
 
+	// static associate(models: any): void {
+	// 	this.belongsToMany(models.GameModel, {
+	// 		through: models.GameGenreModel,
+	// 		sourceKey: 'id_genre',
+	// 	});
+	//}
+}
 export default GameSummaryModel;

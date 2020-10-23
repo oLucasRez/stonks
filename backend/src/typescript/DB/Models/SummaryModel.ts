@@ -1,7 +1,12 @@
-import Sequelize, { Model } from 'sequelize';
+import Sequelize, { Model, Optional } from 'sequelize';
 import { ISummary } from '../Tables';
 
-class SummaryModel extends Model implements ISummary {
+type SummaryCreationAttributes = Optional<ISummary, 'id'>;
+
+class SummaryModel extends Model<
+	ISummary,
+	SummaryCreationAttributes
+> {
 	public id!: number;
 
 	public token!: number;
@@ -10,8 +15,7 @@ class SummaryModel extends Model implements ISummary {
 		this.init(
 			{
 				id: Sequelize.NUMBER,
-				name: Sequelize.STRING,
-				slug: Sequelize.STRING,
+				token: Sequelize.NUMBER,
 			},
 			{
 				sequelize: database,
