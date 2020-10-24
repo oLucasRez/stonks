@@ -1,9 +1,13 @@
-import Sequelize, {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-function */
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { IGameGameMode } from '../AssociativeTables';
+
+import { IGameGameMode } from '../typescript/database/AssociativeTables';
 
 type GameGameModeCreationAttributes = Optional<
 	IGameGameMode,
@@ -20,15 +24,15 @@ class GameGameModeModel extends Model<
 
 	public id_game!: number;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				id_game_mode: Sequelize.NUMBER,
-				id_game: Sequelize.NUMBER,
+				id_game_mode: DataTypes.NUMBER,
+				id_game: DataTypes.NUMBER,
 			},
 			{
 				sequelize: database,
@@ -40,7 +44,7 @@ class GameGameModeModel extends Model<
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {}
+	static associate(database: Sequelize): void {}
 }
 
 export default GameGameModeModel;

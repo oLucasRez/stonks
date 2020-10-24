@@ -4,7 +4,7 @@ import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 
 import IGDBCall from '../abstract/IGDBCall';
 
-import { IGameMode } from '../../typescript/DB/Tables';
+import { IGameMode } from '../../typescript/database/Tables';
 
 export default class IGDBGameMode extends IGDBCall {
 	idLowerLimit: number;

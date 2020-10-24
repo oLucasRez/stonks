@@ -1,9 +1,11 @@
-import Sequelize, {
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { IKeyword } from '../Tables';
+
+import { IKeyword } from '../typescript/database/Tables';
 
 type KeywordCreationAttributes = Optional<IKeyword, 'id'>;
 
@@ -15,14 +17,14 @@ class KeywordModel extends Model<
 
 	public name!: string;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				name: Sequelize.STRING,
+				name: DataTypes.STRING,
 			},
 			{
 				sequelize: database,
@@ -34,7 +36,7 @@ class KeywordModel extends Model<
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {
+	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameKeywordModel,
 		});

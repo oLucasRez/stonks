@@ -4,7 +4,7 @@ import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 
 import IGDBCall from '../abstract/IGDBCall';
 
-import { IGenre } from '../../typescript/DB/Tables';
+import { IGenre } from '../../typescript/database/Tables';
 
 export default class IGDBGenres extends IGDBCall {
 	idLowerLimit: number;

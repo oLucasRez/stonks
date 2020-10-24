@@ -1,9 +1,11 @@
-import Sequelize, {
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { IGameEngine } from '../Tables';
+
+import { IGameEngine } from '../typescript/database/Tables';
 
 type GameEngineCreationAttributes = Optional<IGameEngine, 'id'>;
 
@@ -15,14 +17,14 @@ class GameEngineModel extends Model<
 
 	public name!: string;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				name: Sequelize.STRING,
+				name: DataTypes.STRING,
 			},
 			{
 				sequelize: database,
@@ -34,7 +36,7 @@ class GameEngineModel extends Model<
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {
+	static associate(database: Sequelize): void {
 		this.belongsTo(database.models.GameModel, {
 			foreignKey: 'id_game_engine',
 		});

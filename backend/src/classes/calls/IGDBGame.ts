@@ -4,8 +4,9 @@ import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 
 import IGDBCall from '../abstract/IGDBCall';
 
-import { IGame } from '../../typescript/DB/Tables';
-import GameModel from '../../typescript/DB/Models/GameModel';
+import GameModel from '../../models/GameModel';
+
+import { IGame } from '../../typescript/database/Tables';
 
 export default class IGDBGame extends IGDBCall {
 	idLowerLimit: number;
@@ -71,7 +72,7 @@ export default class IGDBGame extends IGDBCall {
 
 		console.log(data[1]);
 
-		const game: GameModel = new GameModel(data[1]);
+		const game = new GameModel(data[1]);
 
 		console.log(game);
 

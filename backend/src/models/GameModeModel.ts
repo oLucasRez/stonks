@@ -1,9 +1,11 @@
-import Sequelize, {
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { IGameMode } from '../Tables';
+
+import { IGameMode } from '../typescript/database/Tables';
 
 type GameModeCreationAttributes = Optional<IGameMode, 'id'>;
 
@@ -17,15 +19,15 @@ class GameModeModel extends Model<
 
 	public slug!: string;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				name: Sequelize.STRING,
-				slug: Sequelize.STRING,
+				name: DataTypes.STRING,
+				slug: DataTypes.STRING,
 			},
 			{
 				sequelize: database,
@@ -37,7 +39,7 @@ class GameModeModel extends Model<
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {
+	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameGameModeModel,
 		});

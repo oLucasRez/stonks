@@ -4,7 +4,7 @@ import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 
 import IGDBCall from '../abstract/IGDBCall';
 
-import { IKeyword } from '../../typescript/DB/Tables';
+import { IKeyword } from '../../typescript/database/Tables';
 
 export default class IGDBKeyword extends IGDBCall {
 	idLowerLimit: number;

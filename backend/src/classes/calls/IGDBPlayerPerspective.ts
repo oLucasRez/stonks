@@ -4,7 +4,7 @@ import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 
 import IGDBCall from '../abstract/IGDBCall';
 
-import { IPlayerPerspective } from '../../typescript/DB/Tables';
+import { IPlayerPerspective } from '../../typescript/database/Tables';
 
 export default class IGDBPlayerPerspective extends IGDBCall {
 	idLowerLimit: number;
