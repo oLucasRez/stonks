@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { lighten, shade } from 'polished';
+
 export const Container = styled.div`
   margin-right: -1.1rem;
 
@@ -7,26 +9,22 @@ export const Container = styled.div`
 
   div {
     margin: 1.1rem 1.1rem 0 0;
-
-    cursor: pointer;
-  }
-
-  svg {
-    width: 2.6rem;
-    height: 2.6rem;
   }
 `;
 
-export const Tag = styled.div`
+interface StyleProps {
+  colorPrimary: string;
+}
+
+export const Tag = styled.div<StyleProps>`
   width: fit-content;
   height: 4.2rem;
   padding: 0.8rem;
 
-  /* font-size: 16px; */
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  cursor: default;
 
   color: ${({ theme }) => theme.colors.foreground[1]};
   background: ${({ theme }) =>
@@ -35,8 +33,28 @@ export const Tag = styled.div`
       : theme.colors.background[1]};
   border-radius: 2.1rem;
 
+  :hover {
+    background: ${({ theme }) =>
+      theme.title === 'dark'
+        ? lighten(0.02, theme.colors.background[2])
+        : shade(0.04, theme.colors.background[1])};
+  }
+
   p {
     margin: 0 0.8rem;
+  }
+
+  svg {
+    width: 2.6rem;
+    height: 2.6rem;
+
+    cursor: pointer;
+
+    color: ${({ colorPrimary }) => colorPrimary};
+
+    :hover {
+      color: ${({ colorPrimary }) => lighten(0.2, colorPrimary)};
+    }
   }
 
   input {
@@ -49,7 +67,7 @@ export const Tag = styled.div`
     outline: none;
 
     :focus {
-      border-bottom: 1px solid yellow;
+      border-bottom: 1px solid ${({ colorPrimary }) => colorPrimary};
     }
 
     ::placeholder {
@@ -58,20 +76,63 @@ export const Tag = styled.div`
   }
 `;
 
-export const AddTag = styled.div`
+export const Search = styled.ul<StyleProps>`
+  width: fit-content;
+  height: auto;
+  max-width: 16.8rem;
+  margin-top: 0.4rem;
+  padding: 0.8rem 0.4rem 0.8rem 1.2rem;
+
+  list-style-type: none;
+
+  border-radius: 1rem;
+  background: ${({ theme }) =>
+    theme.title === 'dark'
+      ? theme.colors.background[2]
+      : theme.colors.background[1]};
+  float: inline-end;
+
+  li {
+    margin-right: 0.8rem;
+
+    display: inline-block;
+    cursor: default;
+
+    font-size: 1.4rem;
+
+    :hover {
+      color: ${({ colorPrimary }) => colorPrimary};
+      text-decoration: underline;
+    }
+  }
+`;
+
+export const AddTag = styled.div<StyleProps>`
   width: 4.2rem;
   height: 4.2rem;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  svg {
-    width: 2.6rem;
-    height: 2.6rem;
-  }
+  cursor: pointer;
 
   color: ${({ theme }) => theme.colors.foreground[1]};
   background: none;
   border-radius: 50%;
+
+  :hover {
+    svg {
+    }
+  }
+
+  svg {
+    width: 2.6rem;
+    height: 2.6rem;
+
+    color: ${({ colorPrimary }) => colorPrimary};
+
+    :hover {
+      color: ${({ colorPrimary }) => lighten(0.2, colorPrimary)};
+    }
+  }
 `;

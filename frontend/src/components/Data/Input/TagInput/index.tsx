@@ -1,37 +1,84 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 //-----------------------------------------------------------------< poo >
 import Input from '../index';
-//--------------------------------------------------------------< styles >
-import { Container, Tag, AddTag } from './styles';
-
-import { FaPlus, FaPoop as Pog, FaTimesCircle } from 'react-icons/fa';
+//---------------------------------------------------------------< utils >
 import ColorContext from '../../../../utils/ColorContext';
+import removeElement from '../../../../utils/removeElement';
+//--------------------------------------------------------------< styles >
+import { FaPlus, FaPoop as Pog, FaTimesCircle } from 'react-icons/fa';
+
+import { Container, Tag, Search, AddTag } from './styles';
 //================================================================[ BODY ]
 class TagInput extends Input {
   Body: FC = () => {
     const color = useContext(ColorContext);
+    const [taggingOnFocus, setTaggingOnFocus] = useState(false);
+    const [searchOnFocus, setSearchOnFocus] = useState(false);
+
+    const [myTags, setMyTags] = useState<string[]>([]);
+    const [search, setSearch] = useState<string>('');
+    const [allTags, setAllTags] = useState<string[]>([]);
+
+    useEffect(() => {
+      setAllTags(['RPG', 'Shooter', 'Platform']);
+    }, []);
+
+    const searchOptions = () =>
+      search === ''
+        ? []
+        : allTags.filter(
+            (tag) =>
+              tag.toUpperCase().includes(search.toUpperCase()) &&
+              !myTags.includes(tag)
+          );
 
     return (
       <Container>
-        <Tag>
-          <FaTimesCircle color={color} />
-          <p>RPG</p>
-        </Tag>
-        <Tag>
-          <FaTimesCircle color={color} />
-          <p>Shooter</p>
-        </Tag>
-        <Tag>
-          <FaTimesCircle color={color} />
-          <p>Platform</p>
-        </Tag>
-        <Tag>
-          <Pog visibility='hidden' />
-          <input placeholder='Type something...' />
-        </Tag>
-        <AddTag>
-          <FaPlus color={color} />
-        </AddTag>
+        {myTags.map((tag) => (
+          <Tag key={tag} colorPrimary={color}>
+            <FaTimesCircle
+              onClick={() => setMyTags(removeElement<string>(myTags, tag))}
+            />
+            <p>{tag}</p>
+          </Tag>
+        ))}
+        {taggingOnFocus || (searchOnFocus && search) ? (
+          <>
+            <Tag colorPrimary={color} onBlur={() => setTaggingOnFocus(false)}>
+              <Pog visibility='hidden' />
+              <input
+                placeholder='Type something...'
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </Tag>
+            {searchOptions().length ? (
+              <Search colorPrimary={color}>
+                {searchOptions().map((tag) => (
+                  <li
+                    key={tag}
+                    onClick={() => {
+                      setMyTags([...myTags, tag]);
+                      setSearch('');
+                      setSearchOnFocus(false);
+                    }}
+                  >
+                    {tag}
+                  </li>
+                ))}
+              </Search>
+            ) : null}
+          </>
+        ) : (
+          <AddTag
+            colorPrimary={color}
+            onClick={() => {
+              setTaggingOnFocus(true);
+              setSearchOnFocus(true);
+            }}
+          >
+            <FaPlus />
+          </AddTag>
+        )}
       </Container>
     );
   };
