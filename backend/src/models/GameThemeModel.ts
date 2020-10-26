@@ -1,9 +1,13 @@
-import Sequelize, {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-function */
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { IGameTheme } from '../AssociativeTables';
+
+import { IGameTheme } from '../typescript/database/AssociativeTables';
 
 type GameGenreCreationAttributes = Optional<IGameTheme, 'id'>;
 
@@ -17,15 +21,15 @@ class GameThemeModel extends Model<
 
 	public id_game!: number;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				id_theme: Sequelize.NUMBER,
-				id_game: Sequelize.NUMBER,
+				id_theme: DataTypes.NUMBER,
+				id_game: DataTypes.NUMBER,
 			},
 			{
 				sequelize: database,
@@ -37,7 +41,7 @@ class GameThemeModel extends Model<
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {}
+	static associate(database: Sequelize): void {}
 }
 
 export default GameThemeModel;

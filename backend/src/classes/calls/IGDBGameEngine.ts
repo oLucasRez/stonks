@@ -4,10 +4,11 @@ import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 
 import IGDBCall from '../abstract/IGDBCall';
 
-import { IGameEngine } from '../../typescript/DB/Tables';
-import GameEngineModel from '../../typescript/DB/Models/GameEngineModel';
+import { IGameEngine } from '../../typescript/database/Tables';
 
-export default class IGDBGameEngine extends IGDBCall {
+export default class IGDBGameEngine extends IGDBCall<
+	IGameEngine[]
+> {
 	idLowerLimit: number;
 
 	idHigherLimit: number;
@@ -38,23 +39,12 @@ export default class IGDBGameEngine extends IGDBCall {
 		};
 	}
 
-	protected handleResponse(
+	protected async handleResponse(
 		response: AxiosResponse<IGameEngine[]>
-	): string[] {
+	): Promise<IGameEngine[]> {
 		const { data } = response;
 
-		const ids = data.map((gameEngine: IGameEngine) => {
-			const game_engine: GameEngineModel = new GameEngineModel(
-				gameEngine
-			);
-
-			game_engine.save();
-			return gameEngine.id.toString();
-		});
-
-		console.log(data[0]);
-
-		return ids;
+		return data;
 	}
 
 	protected handleRequestException(

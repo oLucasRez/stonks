@@ -1,9 +1,13 @@
-import Sequelize, {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-function */
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { IGameKeyword } from '../AssociativeTables';
+
+import { IGameKeyword } from '../typescript/database/AssociativeTables';
 
 type GameKeywordCreationAttributes = Optional<
 	IGameKeyword,
@@ -20,15 +24,15 @@ class GameKeywordModel extends Model<
 
 	public id_game!: number;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				id_keyword: Sequelize.NUMBER,
-				id_game: Sequelize.NUMBER,
+				id_keyword: DataTypes.NUMBER,
+				id_game: DataTypes.NUMBER,
 			},
 			{
 				sequelize: database,
@@ -40,6 +44,6 @@ class GameKeywordModel extends Model<
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {}
+	static associate(database: Sequelize): void {}
 }
 export default GameKeywordModel;

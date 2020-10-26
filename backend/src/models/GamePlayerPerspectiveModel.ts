@@ -1,9 +1,13 @@
-import Sequelize, {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-function */
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { IGamePlayerPerspective } from '../AssociativeTables';
+
+import { IGamePlayerPerspective } from '../typescript/database/AssociativeTables';
 
 type GamePlayerPerspectiveCreationAttributes = Optional<
 	IGamePlayerPerspective,
@@ -20,15 +24,15 @@ class GamePlayerPerspectiveModel extends Model<
 
 	public id_game!: number;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				id_player_perspective: Sequelize.NUMBER,
-				id_game: Sequelize.NUMBER,
+				id_player_perspective: DataTypes.NUMBER,
+				id_game: DataTypes.NUMBER,
 			},
 			{
 				sequelize: database,
@@ -40,6 +44,6 @@ class GamePlayerPerspectiveModel extends Model<
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {}
+	static associate(database: Sequelize): void {}
 }
 export default GamePlayerPerspectiveModel;

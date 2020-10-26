@@ -1,9 +1,11 @@
-import Sequelize, {
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { ITheme } from '../Tables';
+
+import { ITheme } from '../typescript/database/Tables';
 
 type ThemeCreationAttributes = Optional<ITheme, 'id'>;
 
@@ -14,15 +16,15 @@ class ThemeModel extends Model<ITheme, ThemeCreationAttributes> {
 
 	public slug!: string;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				name: Sequelize.STRING,
-				slug: Sequelize.STRING,
+				name: DataTypes.STRING,
+				slug: DataTypes.STRING,
 			},
 			{
 				sequelize: database,
@@ -34,7 +36,7 @@ class ThemeModel extends Model<ITheme, ThemeCreationAttributes> {
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {
+	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameThemeModel,
 		});

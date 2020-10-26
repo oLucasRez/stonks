@@ -1,9 +1,11 @@
-import Sequelize, {
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { IGame } from '../Tables';
+
+import { IGame } from '../typescript/database/Tables';
 
 type GameCreationAttributes = Optional<IGame, 'id'>;
 
@@ -32,27 +34,27 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 
 	public release_date!: Date;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				id_game_engine: Sequelize.NUMBER,
-				age_rating: Sequelize.NUMBER,
-				time_to_beat: Sequelize.NUMBER,
-				follows: Sequelize.NUMBER,
+				id_game_engine: DataTypes.NUMBER,
+				age_rating: DataTypes.NUMBER,
+				time_to_beat: DataTypes.NUMBER,
+				follows: DataTypes.NUMBER,
 				hype: {
 					type: DataTypes.NUMBER,
 					allowNull: true,
 				},
-				total_rating: Sequelize.NUMBER,
-				total_rating_count: Sequelize.NUMBER,
-				price: Sequelize.NUMBER,
-				name: Sequelize.STRING,
-				slug: Sequelize.STRING,
-				release_date: Sequelize.DATE,
+				total_rating: DataTypes.NUMBER,
+				total_rating_count: DataTypes.NUMBER,
+				price: DataTypes.NUMBER,
+				name: DataTypes.STRING,
+				slug: DataTypes.STRING,
+				release_date: DataTypes.DATE,
 			},
 			{
 				sequelize: database,
@@ -64,7 +66,7 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {
+	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.SummaryModel, {
 			through: database.models.GameSummaryModel,
 		});

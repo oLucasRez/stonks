@@ -4,9 +4,9 @@ import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 
 import IGDBCall from '../abstract/IGDBCall';
 
-import { ITheme } from '../../typescript/DB/Tables';
+import { ITheme } from '../../typescript/database/Tables';
 
-export default class IGDBTheme extends IGDBCall {
+export default class IGDBTheme extends IGDBCall<ITheme[]> {
 	idLowerLimit: number;
 
 	idHigherLimit: number;
@@ -37,20 +37,12 @@ export default class IGDBTheme extends IGDBCall {
 		};
 	}
 
-	protected handleResponse(
+	protected async handleResponse(
 		response: AxiosResponse<ITheme[]>
-	): string[] {
+	): Promise<ITheme[]> {
 		const { data } = response;
 
-		const ids = data.map((theme: ITheme) => {
-			return theme.id.toString();
-		});
-
-		console.log(data[1]);
-
-		// TODO Add to database
-
-		return ids;
+		return data;
 	}
 
 	protected handleRequestException(

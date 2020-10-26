@@ -1,6 +1,6 @@
-require('dotenv/config');
+import { Options } from 'sequelize';
 
-module.exports = {
+const databaseProperties: Options = {
 	dialect: 'postgres',
 	host: process.env.PG_HOST,
 	database: process.env.PG_DB,
@@ -11,3 +11,5 @@ module.exports = {
 		timestamps: true,
 	},
 };
+
+export default databaseProperties;

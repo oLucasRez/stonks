@@ -1,9 +1,11 @@
-import Sequelize, {
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { ISummary } from '../Tables';
+
+import { ISummary } from '../typescript/database/Tables';
 
 type SummaryCreationAttributes = Optional<ISummary, 'id'>;
 
@@ -15,14 +17,14 @@ class SummaryModel extends Model<
 
 	public token!: number;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				token: Sequelize.NUMBER,
+				token: DataTypes.NUMBER,
 			},
 			{
 				sequelize: database,
@@ -34,7 +36,7 @@ class SummaryModel extends Model<
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {
+	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameSummaryModel,
 		});

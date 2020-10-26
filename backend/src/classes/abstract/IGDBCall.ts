@@ -9,7 +9,7 @@ import {
 	IIGDBRequestBody,
 } from '../../typescript/services/IGDB/RequestBody';
 
-abstract class IGDBCall {
+abstract class IGDBCall<T> {
 	protected abstract identifier: string;
 
 	protected abstract idStep: number;
@@ -31,9 +31,9 @@ abstract class IGDBCall {
 	 * @param response the AxiosResponse object
 	 * @returns The new saved id's of the correspondent IGDB Api endpoint.
 	 */
-	protected abstract handleResponse(
-		response: AxiosResponse<unknown>
-	): string[];
+	protected abstract async handleResponse(
+		response: AxiosResponse<T>
+	): Promise<T>;
 
 	/**
 	 * Handle any exception that may occur on the request
@@ -49,8 +49,8 @@ abstract class IGDBCall {
 		identifier: string
 	): void;
 
-	public async call(): Promise<void> {
-		await this.request();
+	public async call(): Promise<T | undefined> {
+		return this.request();
 	}
 
 	private insertIdExclusionOnRequestBody(
@@ -101,7 +101,7 @@ abstract class IGDBCall {
 		return requestBody;
 	}
 
-	private async request(): Promise<void> {
+	private async request() {
 		const requestBody = this.requestBody();
 
 		let modifiedRequestBody = this.insertIdExclusionOnRequestBody(
@@ -132,10 +132,12 @@ abstract class IGDBCall {
 				body
 			);
 
-			this.handleResponse(response);
+			const result = await this.handleResponse(response);
 
 			this.idLowerLimit += this.idStep;
 			this.idHigherLimit += this.idStep;
+
+			return result;
 		} catch (error) {
 			this.handleRequestException(
 				error,
@@ -143,6 +145,8 @@ abstract class IGDBCall {
 				body,
 				this.identifier
 			);
+
+			return undefined;
 		}
 	}
 }

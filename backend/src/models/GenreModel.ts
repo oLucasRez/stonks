@@ -1,9 +1,11 @@
-import Sequelize, {
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { IGenre } from '../Tables';
+
+import { IGenre } from '../typescript/database/Tables';
 
 type GenreCreationAttributes = Optional<IGenre, 'id'>;
 
@@ -14,15 +16,15 @@ class GenreModel extends Model<IGenre, GenreCreationAttributes> {
 
 	public slug!: string;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				name: Sequelize.STRING,
-				slug: Sequelize.STRING,
+				name: DataTypes.STRING,
+				slug: DataTypes.STRING,
 			},
 			{
 				sequelize: database,
@@ -33,7 +35,7 @@ class GenreModel extends Model<IGenre, GenreCreationAttributes> {
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {
+	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameGenreModel,
 		});

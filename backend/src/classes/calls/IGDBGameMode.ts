@@ -4,9 +4,9 @@ import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 
 import IGDBCall from '../abstract/IGDBCall';
 
-import { IGameMode } from '../../typescript/DB/Tables';
+import { IGameMode } from '../../typescript/database/Tables';
 
-export default class IGDBGameMode extends IGDBCall {
+export default class IGDBGameMode extends IGDBCall<IGameMode[]> {
 	idLowerLimit: number;
 
 	idHigherLimit: number;
@@ -37,20 +37,12 @@ export default class IGDBGameMode extends IGDBCall {
 		};
 	}
 
-	protected handleResponse(
+	protected async handleResponse(
 		response: AxiosResponse<IGameMode[]>
-	): string[] {
+	): Promise<IGameMode[]> {
 		const { data } = response;
 
-		const ids = data.map((genre: IGameMode) => {
-			return genre.id.toString();
-		});
-
-		console.log(data[1]);
-
-		// TODO Add to database
-
-		return ids;
+		return data;
 	}
 
 	protected handleRequestException(

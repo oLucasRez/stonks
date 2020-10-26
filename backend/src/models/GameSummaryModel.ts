@@ -1,9 +1,13 @@
-import Sequelize, {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-empty-function */
+import {
+	Sequelize,
 	DataTypes,
 	Model,
 	Optional,
 } from 'sequelize';
-import { IGameSummary } from '../AssociativeTables';
+
+import { IGameSummary } from '../typescript/database/AssociativeTables';
 
 type GameSummaryCreationAttributes = Optional<
 	IGameSummary,
@@ -22,16 +26,16 @@ class GameSummaryModel extends Model<
 
 	public weight!: number;
 
-	static initialize(database: Sequelize.Sequelize): void {
+	static initialize(database: Sequelize): void {
 		this.init(
 			{
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
 				},
-				id_summary: Sequelize.NUMBER,
-				id_game: Sequelize.NUMBER,
-				weight: Sequelize.NUMBER,
+				id_summary: DataTypes.NUMBER,
+				id_game: DataTypes.NUMBER,
+				weight: DataTypes.NUMBER,
 			},
 			{
 				sequelize: database,
@@ -43,6 +47,6 @@ class GameSummaryModel extends Model<
 		);
 	}
 
-	static associate(database: Sequelize.Sequelize): void {}
+	static associate(database: Sequelize): void {}
 }
 export default GameSummaryModel;
