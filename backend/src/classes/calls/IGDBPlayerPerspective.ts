@@ -6,7 +6,9 @@ import IGDBCall from '../abstract/IGDBCall';
 
 import { IPlayerPerspective } from '../../typescript/database/Tables';
 
-export default class IGDBPlayerPerspective extends IGDBCall {
+export default class IGDBPlayerPerspective extends IGDBCall<
+	IPlayerPerspective[]
+> {
 	idLowerLimit: number;
 
 	idHigherLimit: number;
@@ -37,22 +39,12 @@ export default class IGDBPlayerPerspective extends IGDBCall {
 		};
 	}
 
-	protected handleResponse(
+	protected async handleResponse(
 		response: AxiosResponse<IPlayerPerspective[]>
-	): string[] {
+	): Promise<IPlayerPerspective[]> {
 		const { data } = response;
 
-		const ids = data.map(
-			(playerPerspective: IPlayerPerspective) => {
-				return playerPerspective.id.toString();
-			}
-		);
-
-		console.log(data[1]);
-
-		// TODO Add to database
-
-		return ids;
+		return data;
 	}
 
 	protected handleRequestException(

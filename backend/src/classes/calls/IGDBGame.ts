@@ -1,14 +1,14 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
-
 import IGDBCall from '../abstract/IGDBCall';
 
-import GameModel from '../../models/GameModel';
+import CSVReader from '../../services/CSVReader';
 
+import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
+import { ITimeToBeat } from '../../typescript/services/CSVReader/ITimeToBeat';
 import { IGame } from '../../typescript/database/Tables';
 
-export default class IGDBGame extends IGDBCall {
+export default class IGDBGame extends IGDBCall<IGame[]> {
 	idLowerLimit: number;
 
 	idHigherLimit: number;
@@ -18,6 +18,8 @@ export default class IGDBGame extends IGDBCall {
 	onlySteam: boolean;
 
 	identifier: string;
+
+	time_to_beat!: Map<string, string>;
 
 	constructor() {
 		super();
@@ -30,6 +32,44 @@ export default class IGDBGame extends IGDBCall {
 		this.onlySteam = true;
 
 		this.idStep = this.idHigherLimit - this.idLowerLimit + 1;
+	}
+
+	private async createTimeToBeatMap(): Promise<void> {
+		if (!this.time_to_beat) {
+			this.time_to_beat = new Map<string, string>();
+		}
+
+		const result = await CSVReader.readCSV<ITimeToBeat>(
+			'time_to_beats'
+		);
+
+		result.map(({ id_game, time_to_beat }) =>
+			this.time_to_beat.set(id_game.toString(), time_to_beat)
+		);
+	}
+
+	private async fillTimeToBeats(
+		data: IGame[]
+	): Promise<IGame[]> {
+		const newData = data;
+
+		if (!this.time_to_beat) {
+			await this.createTimeToBeatMap();
+		}
+
+		for (let i = 0; i < newData.length; i += 1) {
+			const game_id = newData[i].id.toString();
+
+			if (this.time_to_beat.has(game_id)) {
+				const time_to_beat = this.time_to_beat.get(
+					game_id
+				) as string;
+
+				newData[i].time_to_beat = parseInt(time_to_beat, 10);
+			}
+		}
+
+		return newData;
 	}
 
 	protected requestBody(): IIGDBRequestBody {
@@ -57,26 +97,16 @@ export default class IGDBGame extends IGDBCall {
 		};
 	}
 
-	protected handleResponse(
+	protected async handleResponse(
 		response: AxiosResponse<IGame[]>
-	): string[] {
+	): Promise<IGame[]> {
 		const { data } = response;
 
-		// TODO get price from steam
+		// TODO add prices from SteamAPI
 
-		// TODO get time_to_beat csv
+		const finalData = await this.fillTimeToBeats(data);
 
-		const ids = data.map((game: IGame) => {
-			return game.id.toString();
-		});
-
-		console.log(data[1]);
-
-		const game = new GameModel(data[1]);
-
-		console.log(game);
-
-		return ids;
+		return finalData;
 	}
 
 	protected handleRequestException(

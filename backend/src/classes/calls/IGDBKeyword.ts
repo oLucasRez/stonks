@@ -6,7 +6,7 @@ import IGDBCall from '../abstract/IGDBCall';
 
 import { IKeyword } from '../../typescript/database/Tables';
 
-export default class IGDBKeyword extends IGDBCall {
+export default class IGDBKeyword extends IGDBCall<IKeyword[]> {
 	idLowerLimit: number;
 
 	idHigherLimit: number;
@@ -37,20 +37,12 @@ export default class IGDBKeyword extends IGDBCall {
 		};
 	}
 
-	protected handleResponse(
+	protected async handleResponse(
 		response: AxiosResponse<IKeyword[]>
-	): string[] {
+	): Promise<IKeyword[]> {
 		const { data } = response;
 
-		const ids = data.map((keyword: IKeyword) => {
-			return keyword.id.toString();
-		});
-
-		console.log(data[1]);
-
-		// TODO Add to database
-
-		return ids;
+		return data;
 	}
 
 	protected handleRequestException(

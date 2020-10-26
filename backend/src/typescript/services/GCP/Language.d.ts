@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import { google } from '@google-cloud/language/build/protos/protos';
 import { LanguageServiceClient } from '@google-cloud/language/build/src/v1';
 

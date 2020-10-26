@@ -6,7 +6,9 @@ import IGDBCall from '../abstract/IGDBCall';
 
 import { IGameEngine } from '../../typescript/database/Tables';
 
-export default class IGDBGameEngine extends IGDBCall {
+export default class IGDBGameEngine extends IGDBCall<
+	IGameEngine[]
+> {
 	idLowerLimit: number;
 
 	idHigherLimit: number;
@@ -37,20 +39,12 @@ export default class IGDBGameEngine extends IGDBCall {
 		};
 	}
 
-	protected handleResponse(
+	protected async handleResponse(
 		response: AxiosResponse<IGameEngine[]>
-	): string[] {
+	): Promise<IGameEngine[]> {
 		const { data } = response;
 
-		const ids = data.map((genre: IGameEngine) => {
-			return genre.id.toString();
-		});
-
-		console.log(data[1]);
-
-		// TODO Add to database
-
-		return ids;
+		return data;
 	}
 
 	protected handleRequestException(
