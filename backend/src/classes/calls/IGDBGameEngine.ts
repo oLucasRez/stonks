@@ -56,5 +56,6 @@ export default class IGDBGameEngine extends IGDBCall<
 		console.log(
 			`[IGDB]: Error ocurred on request on endpoint "${identifier}" with body: ${bodyString}`
 		);
+		console.log(_error);
 	}
 }

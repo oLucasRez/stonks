@@ -45,7 +45,10 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 				age_rating: DataTypes.NUMBER,
 				time_to_beat: DataTypes.NUMBER,
 				follows: DataTypes.NUMBER,
-				hype: DataTypes.NUMBER,
+				hype: {
+					type: DataTypes.NUMBER,
+					allowNull: true,
+				},
 				total_rating: DataTypes.NUMBER,
 				total_rating_count: DataTypes.NUMBER,
 				price: DataTypes.NUMBER,
