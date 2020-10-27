@@ -3,23 +3,28 @@ import { AxiosError, AxiosResponse } from 'axios';
 import IGDBCall from '../abstract/IGDBCall';
 
 import CSVReader from '../../services/CSVReader';
+import SteamAPI from '../../services/SteamApi';
 
+import { IGame } from '../../typescript/database/Tables';
 import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 import { ITimeToBeat } from '../../typescript/services/CSVReader/ITimeToBeat';
-import { IGame } from '../../typescript/database/Tables';
+import {
+	IExternalGames,
+	IGameRaw,
+} from '../../typescript/services/IGDB/IGameRaw';
 
 export default class IGDBGame extends IGDBCall<IGame[]> {
-	idLowerLimit: number;
+	protected idLowerLimit: number;
 
-	idHigherLimit: number;
+	protected idHigherLimit: number;
 
-	idStep: number;
+	protected idStep: number;
 
-	onlySteam: boolean;
+	protected onlySteam: boolean;
 
-	identifier: string;
+	protected identifier: string;
 
-	time_to_beat!: Map<string, string>;
+	private time_to_beat!: Map<string, string>;
 
 	constructor() {
 		super();
@@ -72,6 +77,56 @@ export default class IGDBGame extends IGDBCall<IGame[]> {
 		return newData;
 	}
 
+	private getExternalGameSteamUid(
+		external_games: IExternalGames[]
+	): string {
+		const { uid } = external_games.filter(
+			(external_game) => external_game.category === 1
+		)[0];
+
+		return uid;
+	}
+
+	private async fillGamePrice(
+		game: IGameRaw,
+		steamAPI: SteamAPI
+	): Promise<IGame> {
+		let uid = '';
+
+		if (game.external_games) {
+			uid = this.getExternalGameSteamUid(game.external_games);
+		}
+
+		let finalGame = game;
+
+		delete finalGame.external_games;
+
+		finalGame = finalGame as IGame;
+
+		if (uid) {
+			const price = await steamAPI.getGamePrice(uid);
+
+			finalGame.price = price;
+		}
+
+		return finalGame;
+	}
+
+	private async fillGamePrices(
+		data: IGameRaw[]
+	): Promise<IGame[]> {
+		const steamAPIInstance = SteamAPI.getInstance();
+
+		const promises = data.map(
+			async (game): Promise<IGame> =>
+				this.fillGamePrice(game, steamAPIInstance)
+		);
+
+		const toWaitPromises = Promise.all(promises);
+
+		return toWaitPromises;
+	}
+
 	protected requestBody(): IIGDBRequestBody {
 		return {
 			fields: [
@@ -91,7 +146,9 @@ export default class IGDBGame extends IGDBCall<IGame[]> {
 				'genres',
 				'themes',
 				'hypes',
-				'release_dates',
+				'first_release_date',
+				'external_games.category',
+				'external_games.uid',
 			],
 			limit: 500,
 		};
@@ -102,8 +159,11 @@ export default class IGDBGame extends IGDBCall<IGame[]> {
 	): Promise<IGame[]> {
 		const { data } = response;
 
-		// TODO add prices from SteamAPI
+		// const rawData = data as IGameRaw[];
 
+		// const pricedData = await this.fillGamePrices(rawData);
+
+		// should send pricedData to fillTimeBeats
 		const finalData = await this.fillTimeToBeats(data);
 
 		return finalData;

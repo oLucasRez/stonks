@@ -10,7 +10,7 @@ export declare interface IGame {
 	price?: number;
 	name: string;
 	slug: string;
-	release_date: Date;
+	first_release_date: Date;
 }
 
 export declare interface IGenre {

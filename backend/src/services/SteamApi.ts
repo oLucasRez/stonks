@@ -22,8 +22,10 @@ class SteamAPI extends Service<AxiosInstance> {
 	}
 
 	public async getGamePrice(gameId: string): Promise<number> {
+		const gameIdNumber = Number.parseInt(gameId, 10);
+
 		const { data } = await this.api.get('/appdetails', {
-			params: { appids: 218620 },
+			params: { appids: gameIdNumber },
 		});
 
 		const { price_overview } = data[gameId].data as IAppDetails;

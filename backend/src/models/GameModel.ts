@@ -32,7 +32,7 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 
 	public slug!: string;
 
-	public release_date!: Date;
+	public first_release_date!: Date;
 
 	static initialize(database: Sequelize): void {
 		this.init(
@@ -54,7 +54,7 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 				price: DataTypes.NUMBER,
 				name: DataTypes.STRING,
 				slug: DataTypes.STRING,
-				release_date: DataTypes.DATE,
+				first_release_date: DataTypes.DATE,
 			},
 			{
 				sequelize: database,

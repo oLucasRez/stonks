@@ -9,15 +9,15 @@ import { IGameEngine } from '../../typescript/database/Tables';
 export default class IGDBGameEngine extends IGDBCall<
 	IGameEngine[]
 > {
-	idLowerLimit: number;
+	protected idLowerLimit: number;
 
-	idHigherLimit: number;
+	protected idHigherLimit: number;
 
-	idStep: number;
+	protected idStep: number;
 
-	onlySteam: boolean;
+	protected onlySteam: boolean;
 
-	identifier: string;
+	protected identifier: string;
 
 	constructor() {
 		super();
