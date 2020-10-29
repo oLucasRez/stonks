@@ -24,11 +24,22 @@ class SteamAPI extends Service<AxiosInstance> {
 	public async getGamePrice(gameId: string): Promise<number> {
 		const gameIdNumber = Number.parseInt(gameId, 10);
 
-		const { data } = await this.api.get('/appdetails', {
+		const { data, status } = await this.api.get('/appdetails', {
 			params: { appids: gameIdNumber },
 		});
 
+		console.log(status);
+
+		if (status !== 200 || !data[gameId].success) {
+			console.log(
+				'Ihhh deu ruim, hein? A steam te bloqueou ai, esperando 4 segundos'
+			);
+			return -1;
+		}
+
 		const { price_overview } = data[gameId].data as IAppDetails;
+
+		console.log(`Found: ${price_overview.final}`);
 
 		return price_overview.final / 100;
 	}
