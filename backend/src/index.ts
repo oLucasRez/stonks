@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import GameAdapter from './classes/adapters/classes/GameAdapter';
 import IGDBGame from './classes/calls/IGDBGame';
 
 import App from './server';
@@ -18,4 +19,10 @@ runServer();
 
 const gameCall: IGDBGame = new IGDBGame();
 
-gameCall.call();
+gameCall.call().then((result) => {
+	const adapter = new GameAdapter();
+
+	if (result) {
+		adapter.process(result);
+	}
+});

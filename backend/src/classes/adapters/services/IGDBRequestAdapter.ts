@@ -1,7 +1,7 @@
 import {
 	IIGDBWhereClause,
 	IIGDBRequestBody,
-} from '../../typescript/services/IGDB/RequestBody';
+} from '../../../typescript/services/IGDB/RequestBody';
 
 class IGDBRequestAdapter {
 	private static IsIIGDBWhereClause(

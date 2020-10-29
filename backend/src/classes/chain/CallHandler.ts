@@ -1,17 +1,17 @@
-import CallDelay from './CallDelay';
+import { IOperationDelay } from '../../typescript/helpers/ICallDelay';
 
-class CallHandler<T> {
-	private calls: CallDelay<T>[] = new Array(0);
+class AsyncOperationHandler<T> {
+	private calls: IOperationDelay<T>[] = [];
 
 	private currentTimer!: ReturnType<typeof setTimeout>;
 
 	private cleared = true;
 
-	public onFinish!: (handler: CallHandler<T>) => void;
+	public onFinish!: (handler: AsyncOperationHandler<T>) => void;
 
-	public objs: T[] = new Array(0);
+	public objs: T[] = [];
 
-	public addCall(callDelay: CallDelay<T>): void {
+	public addCall(callDelay: IOperationDelay<T>): void {
 		this.calls.push(callDelay);
 	}
 
@@ -20,16 +20,22 @@ class CallHandler<T> {
 
 		const nextHandler = this.calls.shift();
 
+		console.log(
+			`Handling async process: remaining: ${this.calls.length}`
+		);
+
 		if (!nextHandler) {
 			this.clear();
+
 			return;
 		}
 
 		this.cleared = false;
-		this.currentTimer = setTimeout(async () => {
-			await nextHandler?.call();
 
-			this.objs.push(nextHandler.obj);
+		this.currentTimer = setTimeout(async () => {
+			await nextHandler?.operation();
+
+			this.objs.push(nextHandler.objectResult);
 
 			clearTimeout(this.currentTimer);
 			this.cleared = true;
@@ -51,4 +57,4 @@ class CallHandler<T> {
 	}
 }
 
-export default CallHandler;
+export default AsyncOperationHandler;

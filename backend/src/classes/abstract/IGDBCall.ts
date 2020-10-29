@@ -2,7 +2,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 import IGDB from '../../services/IGDB';
 
-import IGDBRequestAdapter from '../adapters/IGDBRequestAdapter';
+import IGDBRequestAdapter from '../adapters/services/IGDBRequestAdapter';
 
 import {
 	IIGDBAssertion,

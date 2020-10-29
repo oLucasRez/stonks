@@ -1,14 +1,15 @@
+import { IOperationDelay } from '../../typescript/helpers/ICallDelay';
+
 import SteamAPI from '../../services/SteamApi';
 import { IGame } from '../../typescript/database/Tables';
 import { IGameRaw } from '../../typescript/services/IGDB/IGameRaw';
-import CallDelay from './CallDelay';
 
-class SteamPriceDelay implements CallDelay<IGame> {
-	call: () => void;
+class SteamPriceDelay implements IOperationDelay<IGame> {
+	operation: () => Promise<void>;
 
 	delay: number;
 
-	obj!: IGame;
+	objectResult!: IGame;
 
 	constructor(
 		steamCall: (
@@ -18,9 +19,10 @@ class SteamPriceDelay implements CallDelay<IGame> {
 		game: IGameRaw,
 		steamAPI: SteamAPI
 	) {
-		this.delay = 1200;
-		this.call = async () => {
-			this.obj = await steamCall(game, steamAPI);
+		this.delay = 666;
+
+		this.operation = async () => {
+			this.objectResult = await steamCall(game, steamAPI);
 		};
 	}
 }

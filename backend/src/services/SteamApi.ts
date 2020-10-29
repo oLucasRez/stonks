@@ -28,18 +28,18 @@ class SteamAPI extends Service<AxiosInstance> {
 			params: { appids: gameIdNumber },
 		});
 
-		console.log();
+		// console.log();
 
-		console.log(status);
+		// console.log(status);
 
 		if (status !== 200 || !data[gameId].success) {
-			console.log(
-				'Ihhh deu ruim, hein? A steam te bloqueou ai, esperando 4 segundos'
-			);
+			// console.log(
+			// 	'Ihhh deu ruim, hein? A steam te bloqueou ai, esperando 4 segundos'
+			// );
 			return -1;
 		}
 
-		console.log(gameId);
+		// console.log(gameId);
 
 		const {
 			price_overview,
@@ -48,10 +48,10 @@ class SteamAPI extends Service<AxiosInstance> {
 			package_groups,
 		} = data[gameId].data as IAppDetails;
 
-		console.log(`Name: ${name}`);
+		// console.log(`Name: ${name}`);
 
 		if (is_free) {
-			console.log('free game');
+			// console.log('free game');
 			return 0;
 		}
 
@@ -60,11 +60,11 @@ class SteamAPI extends Service<AxiosInstance> {
 			const minPrice = package_groups[0].subs.filter(
 				(x) => x.price_in_cents_with_discount
 			)[0].price_in_cents_with_discount;
-			console.log(`Packet R$ ${minPrice / 100}`);
+			// console.log(`Packet R$ ${minPrice / 100}`);
 			return minPrice / 100;
 		}
 
-		console.log(`price ${price_overview.final / 100}`);
+		// console.log(`price ${price_overview.final / 100}`);
 		return price_overview.final / 100;
 	}
 
