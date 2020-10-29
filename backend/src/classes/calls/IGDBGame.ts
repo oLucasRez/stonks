@@ -34,7 +34,7 @@ export default class IGDBGame extends IGDBCall<IGame[]> {
 		this.identifier = 'games';
 
 		this.idLowerLimit = 0;
-		this.idHigherLimit = 10;
+		this.idHigherLimit = 499;
 
 		this.onlySteam = true;
 
@@ -115,8 +115,10 @@ export default class IGDBGame extends IGDBCall<IGame[]> {
 	private onGameFetched(callhandler: CallHandler<IGame>): void {
 		console.log('all game prices fetched, listing prices');
 		callhandler.objs.map((game) => {
-			return console.log(game);
+			return console.log(`${game.name}: R$ ${game.price}`);
 		});
+
+		// TODO faz algo com esses objetos.
 	}
 
 	private async fillGamePrices(data: IGameRaw[]): Promise<void> {

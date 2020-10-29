@@ -26,8 +26,8 @@ class CallHandler<T> {
 		}
 
 		this.cleared = false;
-		this.currentTimer = setTimeout(() => {
-			nextHandler?.call();
+		this.currentTimer = setTimeout(async () => {
+			await nextHandler?.call();
 
 			this.objs.push(nextHandler.obj);
 
