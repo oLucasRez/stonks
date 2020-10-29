@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import IGDBGame from './classes/calls/IGDBGame';
 
 import App from './server';
 
@@ -14,3 +15,7 @@ async function runServer() {
 }
 
 runServer();
+
+const gameCall: IGDBGame = new IGDBGame();
+
+gameCall.call();

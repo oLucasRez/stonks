@@ -12,6 +12,8 @@ import {
 	IExternalGames,
 	IGameRaw,
 } from '../../typescript/services/IGDB/IGameRaw';
+import CallHandler from '../chain/CallHandler';
+import SteamPriceDelay from '../chain/SteamPriceDelay';
 
 export default class IGDBGame extends IGDBCall<IGame[]> {
 	protected idLowerLimit: number;
@@ -104,27 +106,52 @@ export default class IGDBGame extends IGDBCall<IGame[]> {
 		finalGame = finalGame as IGame;
 
 		if (uid) {
-			const price = await steamAPI.getGamePrice(uid);
-
-			finalGame.price = price;
+			finalGame.price = await steamAPI.getGamePrice(uid);
 		}
-
+		console.log(finalGame.price);
 		return finalGame;
 	}
 
-	private async fillGamePrices(
-		data: IGameRaw[]
-	): Promise<IGame[]> {
+	private onGameFetched(callhandler: CallHandler<IGame>): void {
+		console.log('all game prices fetched, listing prices');
+		callhandler.objs.map((game) => {
+			return console.log(`${game.name}: R$ ${game.price}`);
+		});
+
+		// TODO faz algo com esses objetos.
+	}
+
+	private async fillGamePrices(data: IGameRaw[]): Promise<void> {
+		/* IGame[] */
 		const steamAPIInstance = SteamAPI.getInstance();
 
-		const promises = data.map(
-			async (game): Promise<IGame> =>
-				this.fillGamePrice(game, steamAPIInstance)
-		);
+		const callHandler: CallHandler<IGame> = new CallHandler();
 
-		const toWaitPromises = Promise.all(promises);
+		callHandler.onFinish = (obj) => this.onGameFetched(obj);
 
-		return toWaitPromises;
+		data.map((game): void => {
+			return callHandler.addCall(
+				new SteamPriceDelay(
+					() => this.fillGamePrice(game, steamAPIInstance),
+					game,
+					steamAPIInstance
+				)
+			);
+		});
+
+		callHandler.nextCall();
+
+		// callHandler.start();
+
+		// while (callHandler.finished) {
+		// 	console.log('getting more calls');
+		// 	callHandler.nextCall();
+		// }
+
+		// callHandler.nextCall
+		// const toWaitPromises = Promise.all(promises);
+
+		// return toWaitPromises;S
 	}
 
 	protected requestBody(): IIGDBRequestBody {
@@ -159,14 +186,14 @@ export default class IGDBGame extends IGDBCall<IGame[]> {
 	): Promise<IGame[]> {
 		const { data } = response;
 
-		// const rawData = data as IGameRaw[];
+		const rawData = data as IGameRaw[];
 
-		// const pricedData = await this.fillGamePrices(rawData);
+		const pricedData = await this.fillGamePrices(rawData);
 
 		// should send pricedData to fillTimeBeats
-		const finalData = await this.fillTimeToBeats(data);
+		// const finalData = await this.fillTimeToBeats(data);
 
-		return finalData;
+		return pricedData;
 	}
 
 	protected handleRequestException(
