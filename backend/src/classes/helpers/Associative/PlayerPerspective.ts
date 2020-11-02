@@ -18,19 +18,19 @@ class PlayerPerspectiveHelper {
 		do {
 			data = await this.call.call();
 
-			data.forEach(async (gameEngine) => {
+			data.forEach(async (playerPerspective) => {
 				const alreadyExist = await PlayerPerspectiveModel.findByPk(
-					gameEngine.id
+					playerPerspective.id
 				);
 
 				if (!alreadyExist) {
-					await PlayerPerspectiveModel.create(gameEngine)
+					await PlayerPerspectiveModel.create(playerPerspective)
 						.then(() => {
-							console.log(`${gameEngine} added to database`);
+							console.log(`${playerPerspective} added to database`);
 						})
 						.catch((err) => {
 							console.log(
-								`Error on saving ${gameEngine} on database...`
+								`Error on saving ${playerPerspective} on database...`
 							);
 
 							console.log(err);

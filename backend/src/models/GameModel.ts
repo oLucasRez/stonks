@@ -67,7 +67,7 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 	}
 
 	static associate(database: Sequelize): void {
-		this.belongsToMany(database.models.SummaryModel, {
+		this.belongsToMany(database.models.TokenModel, {
 			through: database.models.GameSummaryModel,
 		});
 		this.belongsToMany(database.models.ThemeModel, {
@@ -82,7 +82,7 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 		this.belongsToMany(database.models.GenreModel, {
 			through: database.models.GameGenreModel,
 		});
-		this.belongsToMany(database.models.TokenModel, {
+		this.belongsToMany(database.models.KeywordModel, {
 			through: database.models.GameKeywordModel,
 		});
 		this.belongsToMany(database.models.GameModeModel, {

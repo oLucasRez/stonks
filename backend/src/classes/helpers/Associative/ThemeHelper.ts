@@ -18,19 +18,19 @@ class ThemeHelper {
 		do {
 			data = await this.call.call();
 
-			data.forEach(async (gameEngine) => {
+			data.forEach(async (theme) => {
 				const alreadyExist = await ThemeModel.findByPk(
-					gameEngine.id
+					theme.id
 				);
 
 				if (!alreadyExist) {
-					await ThemeModel.create(gameEngine)
+					await ThemeModel.create(theme)
 						.then(() => {
-							console.log(`${gameEngine} added to database`);
+							console.log(`${theme} added to database`);
 						})
 						.catch((err) => {
 							console.log(
-								`Error on saving ${gameEngine} on database...`
+								`Error on saving ${theme} on database...`
 							);
 
 							console.log(err);

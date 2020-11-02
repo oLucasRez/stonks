@@ -1,6 +1,5 @@
 import DatabaseConnection from './DatabaseConnection';
 
-import SummaryModel from '../../../models/SummaryModel';
 import ThemeModel from '../../../models/ThemeModel';
 import GameEngineModel from '../../../models/GameEngineModel';
 import GameGameModeModel from '../../../models/GameGameModeModel';
@@ -13,9 +12,9 @@ import GameThemeModel from '../../../models/GameThemeModel';
 import GenreModel from '../../../models/GenreModel';
 import KeywordModel from '../../../models/KeywordModel';
 import PlayerPerspectiveModel from '../../../models/PlayerPerspectiveModel';
-import StorylineModel from '../../../models/StorylineModel';
 import GameModel from '../../../models/GameModel';
 import GameKeywordModel from '../../../models/GameKeywordModel';
+import TokenModel from '../../../models/TokenModel';
 
 class DatabaseInitializer {
 	models = [
@@ -32,9 +31,8 @@ class DatabaseInitializer {
 		GenreModel,
 		KeywordModel,
 		PlayerPerspectiveModel,
-		StorylineModel,
 		ThemeModel,
-		SummaryModel,
+		TokenModel
 	];
 
 	public InitDatabase(): void {
