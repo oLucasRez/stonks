@@ -1,4 +1,5 @@
 import 'dotenv/config';
+
 import GenreModel from './models/GenreModel';
 import KeywordModel from './models/KeywordModel';
 import ThemeModel from './models/ThemeModel';
@@ -38,7 +39,7 @@ async function runServer() {
 
 		const keywords = await KeywordModel.findAll({
 			limit,
-			offset: (page - 1) * limit,
+			offset: page * limit,
 		});
 
 		return response.json(keywords);
