@@ -25,7 +25,7 @@ export default class IGDBGameEngine extends IGDBCall<
 		this.identifier = 'game_engines';
 
 		this.idLowerLimit = 0;
-		this.idHigherLimit = 200;
+		this.idHigherLimit = 500;
 
 		this.onlySteam = false;
 
