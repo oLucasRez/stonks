@@ -1,12 +1,16 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-export const Container = styled.div`
+interface StyleProps {
+  colorPrimary: string;
+}
+
+export const Container = styled.div<StyleProps>`
   width: 21.7em;
 
   display: grid;
   grid-template-rows: 3.3rem auto;
 
-  header {
+  label {
     margin-bottom: 1.1rem;
 
     /* display: grid;
@@ -14,7 +18,7 @@ export const Container = styled.div`
     align-content: flex-start; */
 
     color: ${({ theme }) => theme.colors.foreground[1]};
-    border-bottom: 1px solid ${({ theme }) => theme.colors.primary[0]};
+    border-bottom: 1px solid ${({ colorPrimary }) => colorPrimary};
 
     cursor: default;
 

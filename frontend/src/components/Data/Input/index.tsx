@@ -1,6 +1,12 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
+//---------------------------------------------------------------< utils >
+import ColorContext from '../../../utils/ColorContext';
 //--------------------------------------------------------------< styles >
 import { Container } from './styles';
+//---------------------------------------------------------------< types >
+export interface BodyProps {
+  name: string;
+}
 //================================================================[ BODY ]
 abstract class Input {
   public name: string;
@@ -11,20 +17,21 @@ abstract class Input {
     this.description = description;
   }
 
-  public templateMethod() {
+  public TemplateMethod: FC = () => {
     const { Body } = this;
+    const color = useContext(ColorContext);
 
     return (
-      <Container>
-        <header title={this.description}>{this.name}</header>
+      <Container colorPrimary={color}>
+        <label title={this.description}>{this.name}</label>
         <section>
-          <Body />
+          <Body name={this.name} />
         </section>
       </Container>
     );
-  }
+  };
 
-  protected abstract Body: FC;
+  protected abstract Body: FC<BodyProps>;
 }
 
 export default Input;

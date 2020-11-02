@@ -1,8 +1,9 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 //-----------------------------------------------------------------< poo >
-import Input from '../index';
+import Input, { BodyProps } from '../index';
 //---------------------------------------------------------------< utils >
 import ColorContext from '../../../../utils/ColorContext';
+import useStorageState from '../../../../utils/useStorageState';
 import removeElement from '../../../../utils/removeElement';
 //--------------------------------------------------------------< styles >
 import { FaPlus, FaPoop as Pog, FaTimesCircle } from 'react-icons/fa';
@@ -10,12 +11,12 @@ import { FaPlus, FaPoop as Pog, FaTimesCircle } from 'react-icons/fa';
 import { Container, Tag, Search, AddTag } from './styles';
 //================================================================[ BODY ]
 class TagInput extends Input {
-  Body: FC = () => {
+  Body: FC<BodyProps> = ({ name }) => {
     const color = useContext(ColorContext);
     const [taggingOnFocus, setTaggingOnFocus] = useState(false);
     const [searchOnFocus, setSearchOnFocus] = useState(false);
 
-    const [myTags, setMyTags] = useState<string[]>([]);
+    const [myTags, setMyTags] = useStorageState<string[]>(name + '-tags', []);
     const [search, setSearch] = useState<string>('');
     const [allTags, setAllTags] = useState<string[]>([]);
 

@@ -1,11 +1,10 @@
 // -------------------------------------------------------------< classes >
-import { FaFeatherAlt } from 'react-icons/fa';
 import TemplateForm from './TemplateForm';
 import Input from '../Data/Input';
-import TextInput from '../Data/Input/TextInput';
 import TagInput from '../Data/Input/TagInput';
-// import TextStrategy from '../Data/Input/TextInput';
+import TextInput from '../Data/Input/TextInput';
 // --------------------------------------------------------------< styles >
+import { FaFeatherAlt } from 'react-icons/fa';
 //= ===============================================================[ BODY ]
 class ProfileForm extends TemplateForm {
   protected getIcon() {

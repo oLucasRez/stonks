@@ -1,7 +1,10 @@
 import styled from 'styled-components';
-
-import { lighten, shade } from 'polished';
-
+import { lighten } from 'polished';
+//---------------------------------------------------------------< types >
+interface StyleProps {
+  colorPrimary: string;
+}
+//================================================================[ BODY ]
 export const Container = styled.div`
   margin-right: -1.1rem;
 
@@ -11,10 +14,6 @@ export const Container = styled.div`
     margin: 1.1rem 1.1rem 0 0;
   }
 `;
-
-interface StyleProps {
-  colorPrimary: string;
-}
 
 export const Tag = styled.div<StyleProps>`
   width: fit-content;
@@ -28,16 +27,18 @@ export const Tag = styled.div<StyleProps>`
 
   color: ${({ theme }) => theme.colors.foreground[1]};
   background: ${({ theme }) =>
+    theme.title === 'dark' ? theme.colors.background[2] : 'none'};
+  border: ${({ theme }) =>
     theme.title === 'dark'
-      ? theme.colors.background[2]
-      : theme.colors.background[1]};
+      ? 'none'
+      : '1px solid ' + theme.colors.background[1]};
   border-radius: 2.1rem;
 
   :hover {
     background: ${({ theme }) =>
       theme.title === 'dark'
         ? lighten(0.02, theme.colors.background[2])
-        : shade(0.04, theme.colors.background[1])};
+        : lighten(0.08, theme.colors.background[1])};
   }
 
   p {
@@ -80,16 +81,20 @@ export const Search = styled.ul<StyleProps>`
   width: fit-content;
   height: auto;
   max-width: 16.8rem;
+  max-height: 64rem;
   margin-top: 0.4rem;
   padding: 0.8rem 0.4rem 0.8rem 1.2rem;
 
   list-style-type: none;
+  position: absolute;
 
   border-radius: 1rem;
   background: ${({ theme }) =>
+    theme.title === 'dark' ? theme.colors.background[2] : 'none'};
+  border: ${({ theme }) =>
     theme.title === 'dark'
-      ? theme.colors.background[2]
-      : theme.colors.background[1]};
+      ? 'none'
+      : '1px solid ' + theme.colors.background[1]};
   float: inline-end;
 
   li {
@@ -119,11 +124,6 @@ export const AddTag = styled.div<StyleProps>`
   color: ${({ theme }) => theme.colors.foreground[1]};
   background: none;
   border-radius: 50%;
-
-  :hover {
-    svg {
-    }
-  }
 
   svg {
     width: 2.6rem;

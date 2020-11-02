@@ -14,7 +14,7 @@ import { ReactComponent as Logo } from '../../assets/logo_name.svg';
 import { ThemeContext } from 'styled-components';
 
 import { Container, PhraseContainer, FormContainer } from './styles';
-//----------------------------------------------------------< interfaces >
+//---------------------------------------------------------------< types >
 interface Props {
   toggleTheme(): void;
 }

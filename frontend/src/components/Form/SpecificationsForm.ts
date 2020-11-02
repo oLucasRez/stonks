@@ -1,11 +1,11 @@
 //-------------------------------------------------------------< classes >
-import TemplateForm from "./TemplateForm";
-import Input from "../Data/Input";
-import CheckStrategy from "../Data/TypeStrategy/CheckStrategy";
-import TimeStrategy from "../Data/TypeStrategy/TimeStrategy";
-import SelectStrategy from "../Data/TypeStrategy/SelectStrategy";
+import TemplateForm from './TemplateForm';
+import Input from '../Data/Input';
+// import CheckStrategy from "../Data/TypeStrategy/CheckStrategy";
+// import TimeStrategy from "../Data/TypeStrategy/TimeStrategy";
+// import SelectStrategy from "../Data/TypeStrategy/SelectStrategy";
 //--------------------------------------------------------------< styles >
-import { FaFileAlt } from "react-icons/fa";
+import { FaFileAlt } from 'react-icons/fa';
 
 //================================================================[ BODY ]
 class SpecificationsForm extends TemplateForm {
@@ -18,19 +18,13 @@ class SpecificationsForm extends TemplateForm {
   }
 
   protected getName() {
-    return "Specifications";
+    return 'Specifications';
   }
 
   protected getInputs(): Input[] {
     // const gameModes: Input = new Input(
     //   "Game Modes",
     //   "Is your game just single player? Or has multiplayer? Is battle royale?",
-    //   new InputStrategy(),
-    //   new CheckStrategy()
-    // );
-    // const multiplayerModes: Input = new Input(
-    //   "Multiplayer Modes",
-    //   "It seems your game have multiplayer... but, what he have in this multiplayer? Offline Co-op? Co-op Campaign?",
     //   new InputStrategy(),
     //   new CheckStrategy()
     // );
@@ -55,7 +49,6 @@ class SpecificationsForm extends TemplateForm {
 
     return [
       // gameModes,
-      // multiplayerModes,
       // playerPerspectives,
       // timeToBeat,
       // gameEngine,

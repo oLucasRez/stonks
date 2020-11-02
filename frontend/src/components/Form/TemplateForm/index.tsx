@@ -36,9 +36,14 @@ abstract class TemplateForm {
           <header>{header.map((tab) => tab)}</header>
           <form>
             <div className='inputs'>
-              {this.getInputs().map((input, index) => (
-                <div key={index}>{input.templateMethod()}</div>
-              ))}
+              {this.getInputs().map((input, index) => {
+                const { TemplateMethod } = input;
+                return (
+                  <div key={index}>
+                    <TemplateMethod />
+                  </div>
+                );
+              })}
             </div>
             <footer />
           </form>
