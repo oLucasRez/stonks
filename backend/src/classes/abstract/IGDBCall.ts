@@ -49,7 +49,7 @@ abstract class IGDBCall<T> {
 		identifier: string
 	): void;
 
-	public async call(): Promise<T | undefined> {
+	public async call(): Promise<T | never[]> {
 		return this.request();
 	}
 
@@ -146,7 +146,7 @@ abstract class IGDBCall<T> {
 				this.identifier
 			);
 
-			return undefined;
+			return [];
 		}
 	}
 }

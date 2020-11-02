@@ -19,7 +19,7 @@ class SteamPriceDelay implements IOperationDelay<IGame> {
 		game: IGameRaw,
 		steamAPI: SteamAPI
 	) {
-		this.delay = 666;
+		this.delay = 667;
 
 		this.operation = async () => {
 			this.objectResult = await steamCall(game, steamAPI);
