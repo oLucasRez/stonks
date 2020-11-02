@@ -22,7 +22,7 @@ class GameStorylineModel extends Model<
 
 	public id_storyline!: number;
 
-	public id_game!: number;
+	public id_token!: number;
 
 	public weight!: number;
 
