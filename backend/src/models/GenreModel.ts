@@ -31,7 +31,7 @@ class GenreModel extends Model<IGenre, GenreCreationAttributes> {
 				timestamps: false,
 				freezeTableName: true,
 				tableName: 'genres',
-				modelName: 'GenreModel'
+				modelName: 'GenreModel',
 			}
 		);
 	}
