@@ -7,7 +7,10 @@ import {
 
 import { IGameEngine } from '../typescript/database/Tables';
 
-export type GameEngineCreationAttributes = Optional<IGameEngine, 'id'>;
+export type GameEngineCreationAttributes = Optional<
+	IGameEngine,
+	'id'
+>;
 
 class GameEngineModel extends Model<
 	IGameEngine,

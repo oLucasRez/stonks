@@ -1,7 +1,7 @@
 import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
-import GameNLPHelper from '../../helpers/Game/GameNLPHelper';
-import GamePriceHelper from '../../helpers/Game/GamePriceHelper';
-import GameTimeToBeatHelper from '../../helpers/Game/GameTimeToBeatHelper';
+import GameNLPHelper from '../../helpers/game/GameNLPHelper';
+import GamePriceHelper from '../../helpers/game/GamePriceHelper';
+import GameTimeToBeatHelper from '../../helpers/game/GameTimeToBeatHelper';
 
 class GameAdapter {
 	private gameTimeToBeatHelper: GameTimeToBeatHelper;
