@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+.vscode
+yarn-error.log
+
+stonks-gcp-key.json
