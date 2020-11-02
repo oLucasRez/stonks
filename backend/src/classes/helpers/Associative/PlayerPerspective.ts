@@ -6,7 +6,7 @@ import PlayerPerspectiveModel from '../../../models/PlayerPerspectiveModel';
 import { IPlayerPerspective } from '../../../typescript/database/Tables';
 
 class PlayerPerspectiveHelper {
-	call!: IGDBPlayerPerspective;
+	private call!: IGDBPlayerPerspective;
 
 	constructor() {
 		this.call = new IGDBPlayerPerspective();
@@ -26,7 +26,9 @@ class PlayerPerspectiveHelper {
 				if (!alreadyExist) {
 					await PlayerPerspectiveModel.create(playerPerspective)
 						.then(() => {
-							console.log(`${playerPerspective} added to database`);
+							console.log(
+								`${playerPerspective} added to database`
+							);
 						})
 						.catch((err) => {
 							console.log(

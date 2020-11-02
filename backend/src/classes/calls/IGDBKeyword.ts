@@ -23,7 +23,7 @@ export default class IGDBKeyword extends IGDBCall<IKeyword[]> {
 		this.identifier = 'keywords';
 
 		this.idLowerLimit = 0;
-		this.idHigherLimit = 200;
+		this.idHigherLimit = 499;
 
 		this.onlySteam = false;
 

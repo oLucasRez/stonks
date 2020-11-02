@@ -6,7 +6,7 @@ import GameModeModel from '../../../models/GameModeModel';
 import { IGameMode } from '../../../typescript/database/Tables';
 
 class GameModeHelper {
-	call!: IGDBGameMode;
+	private call!: IGDBGameMode;
 
 	constructor() {
 		this.call = new IGDBGameMode();

@@ -6,9 +6,7 @@ import GameEngineModel from '../../../models/GameEngineModel';
 import { IGameEngine } from '../../../typescript/database/Tables';
 
 class GameEngineHelper {
-	gameEngineCall!: IGDBGameEngine;
-
-	currentTimer!: ReturnType<typeof setTimeout>;
+	private gameEngineCall!: IGDBGameEngine;
 
 	constructor() {
 		this.gameEngineCall = new IGDBGameEngine();

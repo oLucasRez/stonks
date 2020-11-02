@@ -6,7 +6,7 @@ import ThemeModel from '../../../models/ThemeModel';
 import { ITheme } from '../../../typescript/database/Tables';
 
 class ThemeHelper {
-	call!: IGDBTheme;
+	private call!: IGDBTheme;
 
 	constructor() {
 		this.call = new IGDBTheme();
@@ -19,9 +19,7 @@ class ThemeHelper {
 			data = await this.call.call();
 
 			data.forEach(async (theme) => {
-				const alreadyExist = await ThemeModel.findByPk(
-					theme.id
-				);
+				const alreadyExist = await ThemeModel.findByPk(theme.id);
 
 				if (!alreadyExist) {
 					await ThemeModel.create(theme)

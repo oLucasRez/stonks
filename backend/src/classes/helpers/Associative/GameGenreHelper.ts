@@ -6,7 +6,7 @@ import GenreModel from '../../../models/GenreModel';
 import { IGenre } from '../../../typescript/database/Tables';
 
 class GameGenreHelper {
-	genreCall!: IGDBGenres;
+	private genreCall!: IGDBGenres;
 
 	constructor() {
 		this.genreCall = new IGDBGenres();
