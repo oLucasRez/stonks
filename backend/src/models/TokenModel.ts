@@ -9,7 +9,7 @@ import { IToken } from '../typescript/database/Tables';
 
 type TokenCreationAttributes = Optional<IToken, 'id'>;
 
-class SummaryModel extends Model<
+class TokenModel extends Model<
 	IToken,
 	TokenCreationAttributes
 > {

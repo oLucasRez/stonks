@@ -18,15 +18,15 @@ class KeywordHelper {
 		do {
 			data = await this.call.call();
 
-			data.forEach(async (gameEngine) => {
+			data.forEach(async (keyword) => {
 				const alreadyExist = await KeywordModel.findByPk(
-					gameEngine.id
+					keyword.id
 				);
 
 				if (!alreadyExist) {
-					await KeywordModel.create(gameEngine)
+					await KeywordModel.create(keyword)
 						.then(() => {
-							console.log(`${gameEngine} added to database`);
+							console.log(`${keyword} added to database`);
 						})
 						.catch((err) => {
 							console.log(

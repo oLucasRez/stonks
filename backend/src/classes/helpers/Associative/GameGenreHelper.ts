@@ -18,19 +18,19 @@ class GameGenreHelper {
 		do {
 			data = await this.genreCall.call();
 
-			data.forEach(async (gameEngine) => {
+			data.forEach(async (gameGenre) => {
 				const alreadyExist = await GenreModel.findByPk(
-					gameEngine.id
+					gameGenre.id
 				);
 
 				if (!alreadyExist) {
-					await GenreModel.create(gameEngine)
+					await GenreModel.create(gameGenre)
 						.then(() => {
-							console.log(`${gameEngine} added to database`);
+							console.log(`${gameGenre} added to database`);
 						})
 						.catch((err) => {
 							console.log(
-								`Error on saving ${gameEngine} on database...`
+								`Error on saving ${gameGenre} on database...`
 							);
 
 							console.log(err);

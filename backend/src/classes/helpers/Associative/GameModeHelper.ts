@@ -18,19 +18,19 @@ class GameModeHelper {
 		do {
 			data = await this.call.call();
 
-			data.forEach(async (gameEngine) => {
+			data.forEach(async (gameMode) => {
 				const alreadyExist = await GameModeModel.findByPk(
-					gameEngine.id
+					gameMode.id
 				);
 
 				if (!alreadyExist) {
-					await GameModeModel.create(gameEngine)
+					await GameModeModel.create(gameMode)
 						.then(() => {
-							console.log(`${gameEngine} added to database`);
+							console.log(`${gameMode} added to database`);
 						})
 						.catch((err) => {
 							console.log(
-								`Error on saving ${gameEngine} on database...`
+								`Error on saving ${gameMode} on database...`
 							);
 
 							console.log(err);
