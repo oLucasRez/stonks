@@ -1,7 +1,10 @@
 import 'dotenv/config';
+import GameEngineModel from './models/GameEngineModel';
+import GameModeModel from './models/GameModeModel';
 
 import GenreModel from './models/GenreModel';
 import KeywordModel from './models/KeywordModel';
+import PlayerPerspectiveModel from './models/PlayerPerspectiveModel';
 import ThemeModel from './models/ThemeModel';
 
 import App from './server';
@@ -43,6 +46,24 @@ async function runServer() {
 		});
 
 		return response.json(keywords);
+	});
+
+	server.get('/game-engines', async (_, response) => {
+		const gameEngines = await GameEngineModel.findAll();
+
+		return response.json(gameEngines);
+	});
+
+	server.get('/player-perspectives', async (_, response) => {
+		const playerPerspectives = await PlayerPerspectiveModel.findAll();
+
+		return response.json(playerPerspectives);
+	});
+
+	server.get('/game-modes', async (_, response) => {
+		const gameModes = await GameModeModel.findAll();
+
+		return response.json(gameModes);
 	});
 
 	server.listen(4000, () => console.log('[SERVER]: ON'));
