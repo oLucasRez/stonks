@@ -20,7 +20,7 @@ class GameSummaryModel extends Model<
 > {
 	public id!: number;
 
-	public id_summary!: number;
+	public id_token!: number;
 
 	public id_game!: number;
 

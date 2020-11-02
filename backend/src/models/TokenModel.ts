@@ -5,13 +5,13 @@ import {
 	Optional,
 } from 'sequelize';
 
-import { IStoryline } from '../typescript/database/Tables';
+import { IToken } from '../typescript/database/Tables';
 
-type storylineCreationAttributes = Optional<IStoryline, 'id'>;
+type TokenCreationAttributes = Optional<IToken, 'id'>;
 
-class StorylineModel extends Model<
-	IStoryline,
-	storylineCreationAttributes
+class SummaryModel extends Model<
+	IToken,
+	TokenCreationAttributes
 > {
 	public id!: number;
 
@@ -30,17 +30,20 @@ class StorylineModel extends Model<
 				sequelize: database,
 				timestamps: false,
 				freezeTableName: true,
-				tableName: 'storylines',
-				modelName: 'StorylineModel',
+				tableName: 'token',
+				modelName: 'TokenModel',
 			}
 		);
 	}
 
 	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
+			through: database.models.GameSummaryModel,
+		});
+		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameStorylineModel,
 		});
 	}
 }
 
-export default StorylineModel;
+export default TokenModel;

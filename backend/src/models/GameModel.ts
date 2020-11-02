@@ -73,7 +73,7 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 		this.belongsToMany(database.models.ThemeModel, {
 			through: database.models.GameThemeModel,
 		});
-		this.belongsToMany(database.models.StorylineModel, {
+		this.belongsToMany(database.models.TokenModel, {
 			through: database.models.GameStorylineModel,
 		});
 		this.belongsToMany(database.models.PlayerPerspectiveModel, {
@@ -82,7 +82,7 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 		this.belongsToMany(database.models.GenreModel, {
 			through: database.models.GameGenreModel,
 		});
-		this.belongsToMany(database.models.KeywordModel, {
+		this.belongsToMany(database.models.TokenModel, {
 			through: database.models.GameKeywordModel,
 		});
 		this.belongsToMany(database.models.GameModeModel, {
