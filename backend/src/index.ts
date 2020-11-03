@@ -79,8 +79,8 @@ async function runServer() {
 		console.log('[SERVER]: HTTP ON');
 	});
 
-	const keyPath = resolve(__dirname, '..', 'key.pem');
-	const certPath = resolve(__dirname, '..', 'cert.pem');
+	const keyPath = resolve(__dirname, '..', 'keys', 'key.pem');
+	const certPath = resolve(__dirname, '..', 'keys', 'cert.pem');
 
 	const key = fs.readFileSync(keyPath);
 	const certificate = fs.readFileSync(certPath);
