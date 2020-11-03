@@ -32,7 +32,7 @@ class DatabaseInitializer {
 		KeywordModel,
 		PlayerPerspectiveModel,
 		ThemeModel,
-		TokenModel
+		TokenModel,
 	];
 
 	public InitDatabase(): void {

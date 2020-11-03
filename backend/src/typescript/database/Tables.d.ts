@@ -56,3 +56,8 @@ export declare interface IStoryline {
 	id: number;
 	token: number;
 }
+
+export declare interface IToken {
+	id: number;
+	token: number;
+}

@@ -1,4 +1,6 @@
 import 'dotenv/config';
+import http from 'http';
+
 import GameEngineModel from './models/GameEngineModel';
 import GameModeModel from './models/GameModeModel';
 
@@ -30,19 +32,21 @@ async function runServer() {
 	});
 
 	server.get('/keywords', async (request, response) => {
-		const { page } = request.body;
+		const { page } = request.query;
 
 		if (!page) {
-			return response
-				.status(400)
-				.json({ error: 'Expected property "page" on body' });
+			return response.status(400).json({
+				error: 'Expected property "page" on query params',
+			});
 		}
+
+		const pageNumber = Number.parseInt(page as string, 10);
 
 		const limit = 500;
 
 		const keywords = await KeywordModel.findAll({
 			limit,
-			offset: page * limit,
+			offset: pageNumber * limit,
 		});
 
 		return response.json(keywords);
@@ -66,7 +70,11 @@ async function runServer() {
 		return response.json(gameModes);
 	});
 
-	server.listen(4000, () => console.log('[SERVER]: ON'));
+	const httpServer = http.createServer(server);
+
+	httpServer.listen(4000, () => {
+		console.log('[SERVER]: HTTP:4000 ON');
+	});
 }
 
 runServer();

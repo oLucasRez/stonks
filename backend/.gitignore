@@ -5,3 +5,7 @@ dist/
 yarn-error.log
 
 stonks-gcp-key.json
+
+cert.pem
+key.pem
+aws-key.ppk
