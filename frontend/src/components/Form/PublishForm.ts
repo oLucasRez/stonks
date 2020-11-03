@@ -1,7 +1,6 @@
 //-------------------------------------------------------------< classes >
 import TemplateForm from './TemplateForm';
 import Input from '../Data/Input';
-import TagInput from '../Data/Input/TagInput';
 import DateInput from '../Data/Input/DateInput';
 // import SelectStrategy from "../Data/TypeStrategy/SelectStrategy";
 //--------------------------------------------------------------< styles >
@@ -21,10 +20,6 @@ class PublishForm extends TemplateForm {
   }
 
   protected getInputs(): Input[] {
-    const platforms: Input = new TagInput(
-      'Platforms',
-      'Where can we play your game? On Xbox One? PlayStation 4? PC?'
-    );
     // const ageRating: Input = new Input(
     //   "Age Rating",
     //   "Is your game for all ages? Is it for adults only?",
@@ -41,8 +36,8 @@ class PublishForm extends TemplateForm {
     );
 
     return [
-      platforms,
       // ageRating,
+      // price,
       releaseDate,
     ];
   }

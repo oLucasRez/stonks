@@ -1,5 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 //-----------------------------------------------------------------< poo >
+import backend from '../../../../services/backend';
+//-----------------------------------------------------------------< poo >
 import Input, { BodyProps } from '../index';
 //---------------------------------------------------------------< utils >
 import ColorContext from '../../../../utils/ColorContext';
@@ -9,6 +11,7 @@ import removeElement from '../../../../utils/removeElement';
 import { FaPlus, FaPoop as Pog, FaTimesCircle } from 'react-icons/fa';
 
 import { Container, Tag, Search, AddTag } from './styles';
+import Axios from 'axios';
 //================================================================[ BODY ]
 class TagInput extends Input {
   Body: FC<BodyProps> = ({ name }) => {
@@ -21,6 +24,13 @@ class TagInput extends Input {
     const [allTags, setAllTags] = useState<string[]>([]);
 
     useEffect(() => {
+      Axios.get('http://50k.dev:4000/genres')
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch(() => {
+          console.log('erro');
+        });
       setAllTags(['RPG', 'Shooter', 'Platform']);
     }, []);
 

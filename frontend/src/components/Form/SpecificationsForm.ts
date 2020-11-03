@@ -1,12 +1,9 @@
 //-------------------------------------------------------------< classes >
 import TemplateForm from './TemplateForm';
 import Input from '../Data/Input';
-// import CheckStrategy from "../Data/TypeStrategy/CheckStrategy";
-// import TimeStrategy from "../Data/TypeStrategy/TimeStrategy";
-// import SelectStrategy from "../Data/TypeStrategy/SelectStrategy";
+import CheckInput from '../Data/Input/CheckInput';
 //--------------------------------------------------------------< styles >
 import { FaFileAlt } from 'react-icons/fa';
-
 //================================================================[ BODY ]
 class SpecificationsForm extends TemplateForm {
   protected getIcon() {
@@ -22,18 +19,14 @@ class SpecificationsForm extends TemplateForm {
   }
 
   protected getInputs(): Input[] {
-    // const gameModes: Input = new Input(
-    //   "Game Modes",
-    //   "Is your game just single player? Or has multiplayer? Is battle royale?",
-    //   new InputStrategy(),
-    //   new CheckStrategy()
-    // );
-    // const playerPerspectives: Input = new Input(
-    //   "Player Perspectives",
-    //   "Is the player's perspective first person? Third person? Bird view?",
-    //   new InputStrategy(),
-    //   new CheckStrategy()
-    // );
+    const gameModes: Input = new CheckInput(
+      'Game Modes',
+      'Is your game just single player? Or has multiplayer? Is battle royale?'
+    );
+    const playerPerspectives: Input = new CheckInput(
+      'Player Perspectives',
+      "Is the player's perspective first person? Third person? Bird view?"
+    );
     // const timeToBeat: Input = new Input(
     //   "Time to Beat",
     //   "How long does it take you to beat the game?",
@@ -48,8 +41,8 @@ class SpecificationsForm extends TemplateForm {
     // );
 
     return [
-      // gameModes,
-      // playerPerspectives,
+      gameModes,
+      playerPerspectives,
       // timeToBeat,
       // gameEngine,
     ];
