@@ -32,12 +32,13 @@ class DatabaseInitializer {
 		KeywordModel,
 		PlayerPerspectiveModel,
 		ThemeModel,
-		TokenModel
+		TokenModel,
 	];
 
 	public InitDatabase(): void {
 		this.models = this.models.map((model) => {
 			model.initialize(DatabaseConnection.connectionSequelize);
+			console.log(`Initialized model: ${model.name}`);
 			return model;
 		});
 
