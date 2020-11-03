@@ -1,4 +1,8 @@
 import 'dotenv/config';
+import http from 'http';
+import https from 'https';
+import fs from 'fs';
+import { resolve } from 'path';
 
 import GameEngineModel from './models/GameEngineModel';
 import GameModeModel from './models/GameModeModel';
@@ -69,7 +73,29 @@ async function runServer() {
 		return response.json(gameModes);
 	});
 
-	server.listen(4000, () => console.log('[SERVER]: ON'));
+	const httpServer = http.createServer(server);
+
+	httpServer.listen(4000, () => {
+		console.log('[SERVER]: HTTP ON');
+	});
+
+	const keyPath = resolve(__dirname, '..', 'key.pem');
+	const certPath = resolve(__dirname, '..', 'cert.pem');
+
+	const key = fs.readFileSync(keyPath);
+	const certificate = fs.readFileSync(certPath);
+
+	const httpsServer = https.createServer(
+		{
+			key,
+			cert: certificate,
+		},
+		server
+	);
+
+	httpsServer.listen(443, () => {
+		console.log('[SERVER]: HTTPS ON');
+	});
 }
 
 runServer();
