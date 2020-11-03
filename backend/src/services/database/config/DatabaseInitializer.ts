@@ -38,7 +38,6 @@ class DatabaseInitializer {
 	public InitDatabase(): void {
 		this.models = this.models.map((model) => {
 			model.initialize(DatabaseConnection.connectionSequelize);
-			console.log(`Initialized model: ${model.name}`);
 			return model;
 		});
 
