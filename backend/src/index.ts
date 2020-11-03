@@ -93,7 +93,7 @@ async function runServer() {
 		server
 	);
 
-	httpsServer.listen(443, () => {
+	httpsServer.listen(8443, () => {
 		console.log('[SERVER]: HTTPS ON');
 	});
 }
