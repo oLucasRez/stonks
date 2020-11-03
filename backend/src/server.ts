@@ -21,14 +21,6 @@ class App {
 	private static configureServer(): void {
 		this.server.use(express.json());
 		this.server.use(cors());
-		this.server.use((req, res, next) => {
-			res.header('Access-Control-Allow-Origin', '*');
-			res.header(
-				'Access-Control-Allow-Headers',
-				'Origin, X-Requested-With, Content-Type, Accept'
-			);
-			next();
-		});
 	}
 }
 
