@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 //-----------------------------------------------------------------< poo >
-import Input, { BodyProps } from '../index';
+import Input from '../index';
 //--------------------------------------------------------------< styles >
 import { Container } from './styles';
 //================================================================[ BODY ]
 class TextInput extends Input {
-  Body: FC<BodyProps> = () => {
+  Body: FC = () => {
     return <Container placeholder='Type something...'></Container>;
   };
 }

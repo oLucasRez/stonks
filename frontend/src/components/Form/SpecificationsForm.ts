@@ -2,6 +2,8 @@
 import TemplateForm from './TemplateForm';
 import Input from '../Data/Input';
 import CheckInput from '../Data/Input/CheckInput';
+import GameModeRequestStrategy from '../Data/Input/CheckInput/Strategy/GameModeRequestStrategy';
+import PlayerPerspectiveRequestStrategy from '../Data/Input/CheckInput/Strategy/PlayerPerspectiveRequestStrategy';
 //--------------------------------------------------------------< styles >
 import { FaFileAlt } from 'react-icons/fa';
 //================================================================[ BODY ]
@@ -21,11 +23,13 @@ class SpecificationsForm extends TemplateForm {
   protected getInputs(): Input[] {
     const gameModes: Input = new CheckInput(
       'Game Modes',
-      'Is your game just single player? Or has multiplayer? Is battle royale?'
+      'Is your game just single player? Or has multiplayer? Is battle royale?',
+      new GameModeRequestStrategy()
     );
     const playerPerspectives: Input = new CheckInput(
       'Player Perspectives',
-      "Is the player's perspective first person? Third person? Bird view?"
+      "Is the player's perspective first person? Third person? Bird view?",
+      new PlayerPerspectiveRequestStrategy()
     );
     // const timeToBeat: Input = new Input(
     //   "Time to Beat",

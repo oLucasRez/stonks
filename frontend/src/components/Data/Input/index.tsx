@@ -3,10 +3,6 @@ import React, { FC, useContext } from 'react';
 import ColorContext from '../../../utils/ColorContext';
 //--------------------------------------------------------------< styles >
 import { Container } from './styles';
-//---------------------------------------------------------------< types >
-export interface BodyProps {
-  name: string;
-}
 //================================================================[ BODY ]
 abstract class Input {
   public name: string;
@@ -25,13 +21,13 @@ abstract class Input {
       <Container colorPrimary={color}>
         <label title={this.description}>{this.name}</label>
         <section>
-          <Body name={this.name} />
+          <Body />
         </section>
       </Container>
     );
   };
 
-  protected abstract Body: FC<BodyProps>;
+  protected abstract Body: FC;
 }
 
 export default Input;

@@ -1,6 +1,6 @@
-import React, { Dispatch, FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 //-----------------------------------------------------------------< poo >
-import Input, { BodyProps } from '../index';
+import Input from '../index';
 //---------------------------------------------------------------< utils >
 import ColorContext from '../../../../utils/ColorContext';
 import useStorageState from '../../../../utils/useStorageState';
@@ -10,34 +10,37 @@ import { FaPlus, FaPoop as Pog, FaTimesCircle } from 'react-icons/fa';
 
 import { Container, Tag, Search, AddTag } from './styles';
 //---------------------------------------------------------------< types >
-interface TagReq {
-  id: number;
-  name: string;
-}
+import RequestStrategy from '../RequestStrategy';
+import TagResponse from './Strategy/TagResponse';
 //================================================================[ BODY ]
 class TagInput extends Input {
-  private reqStrategy: (setAllTags: Dispatch<TagReq[]>) => void;
+  private requestStrategy: RequestStrategy<TagResponse[]>;
 
   constructor(
     name: string,
     description: string,
-    reqStrategy: (setAllTags: Dispatch<TagReq[]>) => void
+    requestStrategy: RequestStrategy<TagResponse[]>
   ) {
     super(name, description);
-    this.description = description;
-    this.reqStrategy = reqStrategy;
+    this.requestStrategy = requestStrategy;
   }
-  Body: FC<BodyProps> = ({ name }) => {
+
+  Body: FC = () => {
     const color = useContext(ColorContext);
     const [taggingOnFocus, setTaggingOnFocus] = useState(false);
     const [searchOnFocus, setSearchOnFocus] = useState(false);
 
-    const [myTags, setMyTags] = useStorageState<TagReq[]>(name + '-tags', []);
+    const [myTags, setMyTags] = useStorageState<TagResponse[]>(
+      this.name + '-tags',
+      []
+    );
     const [search, setSearch] = useState<string>('');
-    const [allTags, setAllTags] = useState<TagReq[]>([]);
+    const [allTags, setAllTags] = useState<TagResponse[]>([]);
 
     useEffect(() => {
-      this.reqStrategy(setAllTags);
+      (async () => {
+        setAllTags(await this.requestStrategy.request());
+      })();
     }, []);
 
     const searchOptions = () =>
@@ -54,7 +57,7 @@ class TagInput extends Input {
         {myTags.map((tag) => (
           <Tag key={tag.id} colorPrimary={color}>
             <FaTimesCircle
-              onClick={() => setMyTags(removeElement<TagReq>(myTags, tag))}
+              onClick={() => setMyTags(removeElement<TagResponse>(myTags, tag))}
             />
             <p>{tag.name}</p>
           </Tag>

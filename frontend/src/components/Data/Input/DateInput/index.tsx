@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from 'react';
 //-----------------------------------------------------------------< poo >
-import Input, { BodyProps } from '../index';
+import Input from '../index';
 //---------------------------------------------------------------< utils >
 import ColorContext from '../../../../utils/ColorContext';
 import useStorageState from '../../../../utils/useStorageState';
@@ -10,11 +10,11 @@ import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 import { Container } from './styles';
 //================================================================[ BODY ]
 class DateInput extends Input {
-  Body: FC<BodyProps> = ({ name }) => {
+  Body: FC = () => {
     const color = useContext(ColorContext);
 
-    const [month, setMonth] = useStorageState<number>(name + '-month', 1);
-    const [day, setDay] = useStorageState<number>(name + '-day', 1);
+    const [month, setMonth] = useStorageState<number>(this.name + '-month', 1);
+    const [day, setDay] = useStorageState<number>(this.name + '-day', 1);
     const months = [
       'Jan',
       'Feb',
@@ -37,6 +37,12 @@ class DateInput extends Input {
     return (
       <Container colorPrimary={color}>
         <div className='month-select'>
+          {/* <input list='months' />
+          <datalist id='months'>
+            <option value='Jan' />
+            <option value='Feb' />
+            <option value='Mar' />
+          </datalist> */}
           {choosing.month ? (
             <ul>
               {months.map((month, index) => (
@@ -62,17 +68,19 @@ class DateInput extends Input {
           )}
         </div>
         <div className='day-select'>
-          <div>{day > maxMonthDay() ? maxMonthDay() : day}</div>
-          <FaCaretUp
-            className='up'
-            onClick={() =>
-              setDay(day + 1 > maxMonthDay() ? maxMonthDay() : day + 1)
-            }
-          />
-          <FaCaretDown
-            className='down'
-            onClick={() => setDay(day > 1 ? day - 1 : 1)}
-          />
+          <div className='day'>{day > maxMonthDay() ? maxMonthDay() : day}</div>
+          <div className='arrows'>
+            <FaCaretUp
+              className='up'
+              onClick={() =>
+                setDay(day + 1 > maxMonthDay() ? maxMonthDay() : day + 1)
+              }
+            />
+            <FaCaretDown
+              className='down'
+              onClick={() => setDay(day > 1 ? day - 1 : 1)}
+            />
+          </div>
         </div>
       </Container>
     );

@@ -2,9 +2,10 @@
 import TemplateForm from './TemplateForm';
 import Input from '../Data/Input';
 import TagInput from '../Data/Input/TagInput';
+import GenreRequestStrategy from '../Data/Input/TagInput/Strategy/GenreRequestStrategy';
+import ThemeRequestStrategy from '../Data/Input/TagInput/Strategy/ThemeRequestStrategy';
+import KeywordRequestStrategy from '../Data/Input/TagInput/Strategy/KeywordRequestStrategy';
 import TextInput from '../Data/Input/TextInput';
-//-------------------------------------------------------------< services >
-import backend from '../../services/backend';
 // --------------------------------------------------------------< styles >
 import { FaFeatherAlt } from 'react-icons/fa';
 //= ===============================================================[ BODY ]
@@ -25,29 +26,17 @@ class ProfileForm extends TemplateForm {
     const genres: Input = new TagInput(
       'Genre',
       'What are the genders of your game? RPG? Shooter? Platform?',
-      (setAllTags) => {
-        backend.get('genres').then((res) => {
-          setAllTags(res.data);
-        });
-      }
+      new GenreRequestStrategy()
     );
     const themes: Input = new TagInput(
       'Themes',
       'What are the themes of your game? Action? Comedy? Fantasy?',
-      (setAllTags) => {
-        backend.get('themes').then((res) => {
-          setAllTags(res.data);
-        });
-      }
+      new ThemeRequestStrategy()
     );
     const keywords: Input = new TagInput(
       'Keywords',
       'list some keywords regards to your game',
-      (setAllTags) => {
-        backend.get('keywords', { params: { page: 0 } }).then((res) => {
-          setAllTags(res.data);
-        });
-      }
+      new KeywordRequestStrategy()
     );
     const storyline: Input = new TextInput(
       'Storyline',

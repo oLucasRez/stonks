@@ -1,18 +1,22 @@
 import styled from 'styled-components';
-import { lighten } from 'polished';
+import { lighten, mix } from 'polished';
 //---------------------------------------------------------------< types >
 interface StyleProps {
   colorPrimary: string;
+  age: number;
 }
 //================================================================[ BODY ]
 export const Container = styled.section<StyleProps>`
   display: flex;
 
-  .month-select,
-  .day-select {
+  font-size: 2.2rem;
+  color: ${({ theme }) => theme.colors.foreground[1]};
+
+  .input {
     width: 7.8rem;
     height: 5.2rem;
     margin-right: 1.8rem;
+    padding-left: 1.2rem;
 
     cursor: default;
     display: flex;
@@ -25,54 +29,14 @@ export const Container = styled.section<StyleProps>`
       theme.title === 'dark'
         ? theme.colors.background[2]
         : theme.colors.background[1]};
-    border: none;
+    border: 2px solid
+      ${({ age }) =>
+        age < 10
+          ? mix((age - 3) / 7, '#3fd157', '#46b1db')
+          : mix((age - 10) / 8, '#f04d4d', '#3fd157')};
     border-radius: 5px;
-  }
 
-  .month-select {
-    .current {
-      width: 7.8rem;
-      height: 5.2rem;
-      padding-left: 1.6rem;
-
-      display: flex;
-      align-items: center;
-    }
-
-    ul {
-      width: 7.8rem;
-      height: auto;
-      padding: 1rem 1.6rem;
-
-      list-style-type: none;
-      position: absolute;
-
-      border-radius: 1rem;
-      background: ${({ theme }) =>
-        theme.title === 'dark'
-          ? theme.colors.background[2]
-          : theme.colors.background[0]};
-      border: ${({ theme }) =>
-        theme.title === 'dark'
-          ? 'none'
-          : '2px solid ' + theme.colors.background[1]};
-
-      li {
-        cursor: default;
-        font-size: 1.6rem;
-
-        :hover {
-          color: ${({ colorPrimary }) => colorPrimary};
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-
-  .day-select {
-    padding-left: 1.6rem;
-
-    .day {
+    .age {
       width: 1.2rem;
     }
 
@@ -101,10 +65,5 @@ export const Container = styled.section<StyleProps>`
         transform: translateY(-0.4rem);
       }
     }
-  }
-
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
   }
 `;

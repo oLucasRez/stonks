@@ -1,6 +1,8 @@
 //-------------------------------------------------------------< classes >
 import TemplateForm from './TemplateForm';
 import Input from '../Data/Input';
+import AgeInput from '../Data/Input/AgeInput';
+import PriceInput from '../Data/Input/PriceInput';
 import DateInput from '../Data/Input/DateInput';
 // import SelectStrategy from "../Data/TypeStrategy/SelectStrategy";
 //--------------------------------------------------------------< styles >
@@ -20,26 +22,17 @@ class PublishForm extends TemplateForm {
   }
 
   protected getInputs(): Input[] {
-    // const ageRating: Input = new Input(
-    //   "Age Rating",
-    //   "Is your game for all ages? Is it for adults only?",
-    //   new InputStrategy(),
-    //   new SelectStrategy()
-    // );
-    // const price: Input = new PriceInput(
-    //   "Price",
-    //   "todo..."
-    // );
+    const ageRating: Input = new AgeInput(
+      'Age Rating',
+      'Is your game for all ages? Is it for adults only?'
+    );
+    const price: Input = new PriceInput('Price', 'todo...');
     const releaseDate: Input = new DateInput(
       'Release Date',
       'When do you intend to launch your game?'
     );
 
-    return [
-      // ageRating,
-      // price,
-      releaseDate,
-    ];
+    return [ageRating, price, releaseDate];
   }
 }
 
