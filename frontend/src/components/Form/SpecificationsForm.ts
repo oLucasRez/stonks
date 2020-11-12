@@ -2,6 +2,7 @@
 import TemplateForm from './TemplateForm';
 import Input from '../Data/Input';
 import CheckInput from '../Data/Input/CheckInput';
+import SearchInput from '../Data/Input/SearchInput';
 import GameModeRequestStrategy from '../Data/Input/CheckInput/Strategy/GameModeRequestStrategy';
 import PlayerPerspectiveRequestStrategy from '../Data/Input/CheckInput/Strategy/PlayerPerspectiveRequestStrategy';
 //--------------------------------------------------------------< styles >
@@ -37,18 +38,16 @@ class SpecificationsForm extends TemplateForm {
     //   new InputStrategy(),
     //   new TimeStrategy()
     // );
-    // const gameEngine: Input = new Input(
-    //   "Game Engine",
-    //   "What game engine did you use to make your game?",
-    //   new InputStrategy(),
-    //   new SelectStrategy()
-    // );
+    const gameEngine: Input = new SearchInput(
+      'Game Engine',
+      'What game engine did you use to make your game?'
+    );
 
     return [
       gameModes,
       playerPerspectives,
       // timeToBeat,
-      // gameEngine,
+      gameEngine,
     ];
   }
 }
