@@ -26,14 +26,14 @@ export const Container = styled.section<StyleProps>`
     outline: none;
     color: ${({ theme }) => theme.colors.foreground[1]};
     background: ${({ theme }) =>
-      theme.title === 'dark'
-        ? theme.colors.background[2]
-        : theme.colors.background[1]};
+      theme.title === 'dark' ? theme.colors.background[2] : 'none'};
     border: 2px solid
       ${({ age }) =>
         age < 10
           ? mix((age - 3) / 7, '#3fd157', '#46b1db')
-          : mix((age - 10) / 8, '#f04d4d', '#3fd157')};
+          : age < 14
+          ? mix((age - 10) / 4, '#e0d841', '#3fd157')
+          : mix((age - 14) / 4, '#f04d4d', '#e0d841')};
     border-radius: 5px;
 
     .age {

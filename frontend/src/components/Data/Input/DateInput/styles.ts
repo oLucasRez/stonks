@@ -22,10 +22,11 @@ export const Container = styled.section<StyleProps>`
     outline: none;
     color: ${({ theme }) => theme.colors.foreground[1]};
     background: ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.background[2] : 'none'};
+    border: ${({ theme }) =>
       theme.title === 'dark'
-        ? theme.colors.background[2]
-        : theme.colors.background[1]};
-    border: none;
+        ? 'none'
+        : '2px solid ' + theme.colors.background[1]};
     border-radius: 5px;
   }
 
@@ -49,9 +50,7 @@ export const Container = styled.section<StyleProps>`
 
       border-radius: 1rem;
       background: ${({ theme }) =>
-        theme.title === 'dark'
-          ? theme.colors.background[2]
-          : theme.colors.background[0]};
+        theme.title === 'dark' ? theme.colors.background[2] : 'none'};
       border: ${({ theme }) =>
         theme.title === 'dark'
           ? 'none'

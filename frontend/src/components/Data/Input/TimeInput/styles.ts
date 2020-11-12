@@ -6,21 +6,23 @@ interface StyleProps {
 //================================================================[ BODY ]
 export const Container = styled.section<StyleProps>`
   display: flex;
+  align-items: center;
 
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   color: ${({ theme }) => theme.colors.foreground[1]};
 
   input {
-    width: 12.4rem;
+    width: 7.8rem;
     height: 5.2rem;
-    margin-left: 1.1rem;
-    padding: 1.1rem;
+    margin-right: 1.1rem;
+    padding-left: 1.2rem;
 
     cursor: default;
     display: flex;
     align-items: center;
+    outline: none;
 
-    font-size: 2.8rem;
+    font-size: 2.1rem;
     outline: none;
     color: ${({ theme }) => theme.colors.foreground[1]};
     background: ${({ theme }) =>
@@ -33,6 +35,11 @@ export const Container = styled.section<StyleProps>`
 
     :focus {
       border: 1px solid ${({ colorPrimary }) => colorPrimary};
+    }
+
+    ::-webkit-inner-spin-button,
+    ::-webkit-outer-spin-button {
+      -webkit-appearance: none;
     }
   }
 `;

@@ -1,13 +1,15 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 //-----------------------------------------------------------------< poo >
 import Input from '../index';
 //---------------------------------------------------------------< utils >
+import ColorContext from '../../../../utils/ColorContext';
 import useStorageState from '../../../../utils/useStorageState';
 //--------------------------------------------------------------< styles >
 import { Container } from './styles';
 //================================================================[ BODY ]
 class DateInput extends Input {
   Body: FC = () => {
+    const color = useContext(ColorContext);
     const [price, setPrice] = useStorageState<string>(
       this.name + '-price',
       '0.00'
@@ -30,7 +32,7 @@ class DateInput extends Input {
     };
 
     return (
-      <Container>
+      <Container colorPrimary={color}>
         U$
         <input onChange={(e) => handlePrice(e.target.value)} value={price} />
       </Container>

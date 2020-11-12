@@ -93,5 +93,7 @@ export const Chosen = styled.div<StyleProps>`
 
   p {
     margin: 0 0.8rem;
+
+    cursor: default;
   }
 `;
