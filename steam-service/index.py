@@ -1,15 +1,37 @@
+# Default Libraries
 import json
 import requests
 from time import sleep
+
+# PyPi packages
+from quart_cors import cors
 from quart import Quart, request, jsonify
 
 STEAM_API = 'https://store.steampowered.com/api/appdetails?appids='
-TIME_INTERVAL = 0.833
+TIME_INTERVAL = 0.69
 
 app = Quart(__name__) 
+app = cors(app, allow_origin='*')
 
-@app.route('/')
-async def getSteamInfo():
+neededFields = ['price_overview', 'is_free', 'package_groups']
+
+def sanitizeResponse(appid: str, gameInfo: dict) -> dict:
+    sanitizedResponse = {'appid': appid}
+        
+    if not gameInfo['success']:
+        sanitizedResponse['success'] = False
+        
+    else:
+        gameData = gameInfo['data']
+
+        for field in neededFields:
+            if field in gameData:
+                sanitizedResponse[field] = gameData[field]
+
+    return sanitizedResponse
+
+@app.route('/', methods=['GET']) 
+async def getSteamInfo() -> list:
     request_body = await request.get_data()
     
     parsedBody = json.loads(request_body)
@@ -23,12 +45,12 @@ async def getSteamInfo():
 
         gameInfo = steamResponse[str(appid)]
 
-        try:
-            responses.append(gameInfo['data'])
-        except:
-            print(f'Response for {appid} wasn\'t successful')
+        sanitizedResponse = sanitizeResponse(appid, gameInfo)
+        
+        responses.append(sanitizedResponse)
 
-        sleep(TIME_INTERVAL)
+        if(appid != appids[-1]):
+            sleep(TIME_INTERVAL)
 
     return jsonify(responses)
 
