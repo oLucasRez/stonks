@@ -54,4 +54,5 @@ async def getSteamInfo() -> list:
 
     return jsonify(responses)
 
-app.run()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
