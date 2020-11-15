@@ -1,24 +1,26 @@
+import GamePriceHelper from '../../helpers/Game/GamePriceHelper';
+import GameTimeToBeatHelper from '../../helpers/Game/GameTimeToBeatHelper';
+
 import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
-import GameNLPHelper from '../../helpers/game/GameNLPHelper';
-import GamePriceHelper from '../../helpers/game/GamePriceHelper';
-import GameTimeToBeatHelper from '../../helpers/game/GameTimeToBeatHelper';
+import { IGame } from '../../../typescript/database/Tables';
 
 class GameAdapter {
-	private gameTimeToBeatHelper: GameTimeToBeatHelper;
+	public static async process(
+		data: IGameRaw[]
+	): Promise<IGame[]> {
+		const promises = data.map(async (rawGame) => {
+			const pricedGame = await GamePriceHelper.FillGamePrice(
+				rawGame
+			);
 
-	private gamePriceHelper: GamePriceHelper;
+			const finalGame: IGame = await GameTimeToBeatHelper.getInstance().fillTimeToBeats(
+				pricedGame
+			);
 
-	private gameNLPHelper: GameNLPHelper;
+			return finalGame;
+		});
 
-	constructor() {
-		this.gameTimeToBeatHelper = new GameTimeToBeatHelper();
-		this.gamePriceHelper = new GamePriceHelper();
-		this.gameNLPHelper = GameNLPHelper;
-	}
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	public async process(data: IGameRaw[]): Promise<void> {
-		// TODO process
+		return Promise.all(promises);
 	}
 }
 

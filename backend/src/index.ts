@@ -11,6 +11,9 @@ import ThemeModel from './models/ThemeModel';
 
 import App from './server';
 
+import IGDBGameCall from './classes/calls/IGDBGame';
+import GameAdapter from './classes/adapters/classes/GameAdapter';
+
 import DatabaseInitializer from './services/database/config/DatabaseInitializer';
 
 async function runServer() {
@@ -77,4 +80,20 @@ async function runServer() {
 	});
 }
 
+async function makeCalls() {
+	const call = new IGDBGameCall();
+
+	for (let i = 0; i < 100; i += 1) {
+		// eslint-disable-next-line no-await-in-loop
+		const result = await call.call();
+
+		// eslint-disable-next-line no-await-in-loop
+		const game = await GameAdapter.process(result);
+
+		console.log(game);
+	}
+}
+
 runServer();
+
+makeCalls();

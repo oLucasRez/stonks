@@ -8,7 +8,7 @@ from quart_cors import cors
 from quart import Quart, request, jsonify
 
 STEAM_API = 'https://store.steampowered.com/api/appdetails?appids='
-TIME_INTERVAL = 0.69
+TIME_INTERVAL = 0.67
 
 app = Quart(__name__) 
 app = cors(app, allow_origin='*')
@@ -30,7 +30,7 @@ def sanitizeResponse(appid: str, gameInfo: dict) -> dict:
 
     return sanitizedResponse
 
-@app.route('/', methods=['GET']) 
+@app.route('/', methods=['POST']) 
 async def getSteamInfo() -> list:
     request_body = await request.get_data()
     
@@ -49,10 +49,12 @@ async def getSteamInfo() -> list:
         
         responses.append(sanitizedResponse)
 
-        if(appid != appids[-1]):
-            sleep(TIME_INTERVAL)
+        print(f'Making request for appid: {appid}')
+        print(sanitizedResponse)
+
+        sleep(TIME_INTERVAL)
 
     return jsonify(responses)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5000)
