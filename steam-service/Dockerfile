@@ -1,10 +1,8 @@
-FROM python
+FROM python:3.9-slim
 
-EXPOSE 5000
+COPY . /usr/src/app
 
-COPY . /app
-
-WORKDIR /app
+WORKDIR /usr/src/app
 
 RUN pip install -r requirements.txt
 

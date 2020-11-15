@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  steam:
+    build: ./steam-service
+    ports:
+      - 5000:5000
