@@ -11,9 +11,6 @@ import ThemeModel from './models/ThemeModel';
 
 import App from './server';
 
-import IGDBGameCall from './classes/calls/IGDBGame';
-import GameAdapter from './classes/adapters/classes/GameAdapter';
-
 import DatabaseInitializer from './services/database/config/DatabaseInitializer';
 import GameHelper from './classes/helpers/Game/GameHelper';
 
@@ -100,4 +97,6 @@ runServer();
 // makeCalls();
 const gameH: GameHelper = new GameHelper();
 
-gameH.insertGamesIntoDatabase();
+while (gameH.free && !gameH.finished) {
+	gameH.insertGamesIntoDatabase();
+}

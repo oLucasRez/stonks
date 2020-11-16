@@ -12,9 +12,14 @@ import {
 	IAgeRating,
 	IGame,
 } from '../../../typescript/database/Tables';
+import GameGenreModel from '../../../models/GameGenreModel';
 
 class GameHelper {
 	rating = [3, 7, 12, 16, 18];
+
+	free = true;
+
+	finished = false;
 
 	async insertGamesIntoDatabase(): Promise<void> {
 		/*
@@ -31,8 +36,13 @@ class GameHelper {
 
 		const game = await GameAdapter.process(result);
 
+		if (game.length === 0) {
+			this.finished = true;
+		}
+
 		for (let i = 0; i < game.length; i += 1) {
 			const gamePure: IGame = game[i];
+
 			if (game[i].game_engines !== undefined) {
 				const { game_engines } = game[i];
 				if (
@@ -67,10 +77,8 @@ class GameHelper {
 								body
 							);
 							if (response) {
-								const ageRating: IAgeRating = response.data;
-								if (ageRating.category === 1) {
-									idade = this.rating[ageRating.rating];
-								}
+								const ageRating: IAgeRating[] = (response.data as unknown) as IAgeRating[];
+								idade = this.rating[ageRating[0].rating - 1];
 							}
 						} catch (error) {
 							console.log(
@@ -83,50 +91,119 @@ class GameHelper {
 				}
 			}
 
+			if (game[i].hypes !== null && game[i].hypes !== undefined)
+				gamePure.hype = game[i].hypes;
+
 			if (idade !== 0) gamePure.age_rating = idade;
 
-			await GameModel.create(gamePure);
+			console.log(gamePure.age_rating);
+
+			try {
+				await GameModel.create(gamePure);
+			} catch (err) {
+				if (GameModel.findByPk(gamePure.id)) {
+					console.log(`id ${gamePure.id} already exist`);
+				} else {
+					console.log(
+						`Error on creating game, id: ${gamePure.id}`
+					);
+					console.log('Skiping this game');
+					// eslint-disable-next-line no-continue
+					continue;
+				}
+			}
 
 			// associate all game modes
-			for (let j = 0; j < game[i].game_modes.length; j += 1) {
-				await GameGameModeModel.create({
-					id_game: game[i].id,
-					id_game_mode: game[i].game_modes[j],
-				});
+			if (game[i].game_modes !== null) {
+				for (let j = 0; j < game[i].game_modes.length; j += 1) {
+					if (game[i].game_modes[j] !== null)
+						try {
+							await GameGameModeModel.create({
+								id_game: game[i].id,
+								id_game_mode: game[i].game_modes[j],
+							});
+						} catch (error) {
+							console.log(
+								`Error on creating game game mode ${game[i].id}`
+							);
+							console.log(error);
+						}
+				}
 			}
 			// associate all themes
-			for (let j = 0; j < game[i].themes.length; j += 1) {
-				await GameThemeModel.create({
-					id_game: game[i].id,
-					id_theme: game[i].themes[j],
-				});
+			if (game[i].themes !== null) {
+				for (let j = 0; j < game[i].themes.length; j += 1) {
+					if (game[i].themes[j] !== null)
+						try {
+							await GameThemeModel.create({
+								id_game: game[i].id,
+								id_theme: game[i].themes[j],
+							});
+						} catch (error) {
+							console.log(
+								`Error on creating game theme ${game[i].themes[j]}`
+							);
+							console.log(error);
+						}
+				}
 			}
 			// associate all keywords
-			for (let j = 0; j < game[i].keywords.length; j += 1) {
-				await GameKeywordModel.create({
-					id_game: game[i].id,
-					id_keyword: game[i].keywords[j],
-				});
+			if (game[i].keywords !== null) {
+				for (let j = 0; j < game[i].keywords.length; j += 1) {
+					if (game[i].keywords[j] !== null)
+						try {
+							await GameKeywordModel.create({
+								id_game: game[i].id,
+								id_keyword: game[i].keywords[j],
+							});
+						} catch (error) {
+							console.log(
+								`Error on creating game keyword ${game[i].keywords[j]}`
+							);
+							console.log(error);
+						}
+				}
 			}
 			// associate all player perspectives
-			for (
-				let j = 0;
-				j < game[i].player_perspectives.length;
-				j += 1
-			) {
-				await GamePlayerPerspectiveModel.create({
-					id_game: game[i].id,
-					id_player_perspective: game[i].player_perspectives[j],
-				});
-			}
+			if (game[i].player_perspectives !== null)
+				for (
+					let j = 0;
+					j < game[i].player_perspectives.length;
+					j += 1
+				) {
+					if (game[i].player_perspectives[j] !== null)
+						try {
+							await GamePlayerPerspectiveModel.create({
+								id_game: game[i].id,
+								id_player_perspective:
+									game[i].player_perspectives[j],
+							});
+						} catch (error) {
+							console.log(
+								`Error on creating game player perspective ${game[i].player_perspectives[j]}`
+							);
+							console.log(error);
+						}
+				}
 			// associate all genres
-			for (let j = 0; j < game[i].genres.length; j += 1) {
-				await GameThemeModel.create({
-					id_game: game[i].id,
-					id_theme: game[i].themes[j],
-				});
-			}
+			if (game[i].genres !== null)
+				for (let j = 0; j < game[i].genres.length; j += 1) {
+					if (game[i].genres[j] !== null)
+						try {
+							await GameGenreModel.create({
+								id_game: game[i].id,
+								id_genre: game[i].genres[j],
+							});
+						} catch (error) {
+							console.log(
+								`Error on creating game genre ${game[i].genres[j]}`
+							);
+							console.log(error);
+						}
+				}
 		}
+
+		this.free = true;
 	}
 }
 

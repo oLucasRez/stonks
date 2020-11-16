@@ -4,7 +4,7 @@ export declare interface IGame {
 	age_rating: number;
 	time_to_beat?: number;
 	follows: number;
-	hype: number;
+	hype?: number;
 	total_rating: number;
 	total_rating_count: number;
 	price?: number;
