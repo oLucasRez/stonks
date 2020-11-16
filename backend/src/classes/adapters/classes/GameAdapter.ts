@@ -2,18 +2,18 @@ import GamePriceHelper from '../../helpers/Game/GamePriceHelper';
 import GameTimeToBeatHelper from '../../helpers/Game/GameTimeToBeatHelper';
 
 import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
-import { IGame } from '../../../typescript/database/Tables';
+// import { IGame } from '../../../typescript/database/Tables';
 
 class GameAdapter {
 	public static async process(
 		data: IGameRaw[]
-	): Promise<IGame[]> {
+	): Promise<IGameRaw[]> {
 		const promises = data.map(async (rawGame) => {
 			const pricedGame = await GamePriceHelper.FillGamePrice(
 				rawGame
 			);
 
-			const finalGame: IGame = await GameTimeToBeatHelper.getInstance().fillTimeToBeats(
+			const finalGame: IGameRaw = await GameTimeToBeatHelper.getInstance().fillTimeToBeats(
 				pricedGame
 			);
 

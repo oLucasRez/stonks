@@ -39,6 +39,7 @@ class KeywordModel extends Model<
 	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameKeywordModel,
+			foreignKey: 'id_keyword',
 		});
 	}
 }

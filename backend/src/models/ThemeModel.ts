@@ -39,6 +39,7 @@ class ThemeModel extends Model<ITheme, ThemeCreationAttributes> {
 	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameThemeModel,
+			foreignKey: 'id_theme',
 		});
 	}
 }

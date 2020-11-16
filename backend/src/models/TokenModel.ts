@@ -36,9 +36,11 @@ class TokenModel extends Model<IToken, TokenCreationAttributes> {
 	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameSummaryModel,
+			foreignKey: 'id_token',
 		});
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameStorylineModel,
+			foreignKey: 'id_token',
 		});
 	}
 }

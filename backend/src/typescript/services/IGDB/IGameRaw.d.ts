@@ -10,4 +10,12 @@ export declare interface IGameRaw extends IGame {
 	external_games?: IExternalGames[];
 	summary?: string;
 	storyline?: string;
+	game_modes: number[];
+	genres: number[];
+	keywords: number[];
+	player_perspectives: number[];
+	themes: number[];
+	game_engines?: number[];
+	age_ratings?: number[];
+	hypes?: number;
 }

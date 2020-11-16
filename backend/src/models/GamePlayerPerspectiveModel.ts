@@ -30,6 +30,7 @@ class GamePlayerPerspectiveModel extends Model<
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
+					autoIncrement: true,
 				},
 				id_player_perspective: DataTypes.NUMBER,
 				id_game: DataTypes.NUMBER,
