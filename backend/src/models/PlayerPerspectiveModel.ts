@@ -45,6 +45,7 @@ class PlayerPerspectiveModel extends Model<
 	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GamePlayerPerspectiveModel,
+			foreignKey: 'id_player_perspective',
 		});
 	}
 }

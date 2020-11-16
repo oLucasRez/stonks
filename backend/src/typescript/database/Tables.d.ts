@@ -61,3 +61,8 @@ export declare interface IToken {
 	id: number;
 	token: number;
 }
+
+export declare interface IAgeRating {
+	category: number;
+	rating: number;
+}

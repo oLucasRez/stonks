@@ -15,4 +15,6 @@ export declare interface IGameRaw extends IGame {
 	keywords: number[];
 	player_perspectives: number[];
 	themes: number[];
+	game_engines?: number[];
+	age_ratings?: number[];
 }

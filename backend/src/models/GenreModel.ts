@@ -39,6 +39,7 @@ class GenreModel extends Model<IGenre, GenreCreationAttributes> {
 	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameGenreModel,
+			foreignKey: 'id_genre',
 		});
 	}
 }
