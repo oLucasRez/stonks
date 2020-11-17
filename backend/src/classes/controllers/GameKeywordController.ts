@@ -9,11 +9,14 @@ class GameKeywordController {
 		let saved = false;
 
 		try {
-			await GameKeywordModel.create(gameKeyword);
+			const dbRef = await GameKeywordModel.create(gameKeyword);
+			dbRef.save();
 
 			saved = true;
-		} catch {
+		} catch (err) {
 			saved = false;
+
+			console.log(`Error on saving: ${err}`);
 		}
 
 		return saved;

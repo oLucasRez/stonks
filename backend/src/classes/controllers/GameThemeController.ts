@@ -7,11 +7,15 @@ class GameThemeController {
 		let saved = false;
 
 		try {
-			await GameThemeModel.create(gameTheme);
+			const dbRef = await GameThemeModel.create(gameTheme);
+
+			dbRef.save();
 
 			saved = true;
-		} catch {
+		} catch (err) {
 			saved = false;
+
+			console.log(`Error on saving: ${err}`);
 		}
 
 		return saved;

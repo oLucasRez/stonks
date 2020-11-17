@@ -9,11 +9,15 @@ class GameSummaryController {
 		let saved = false;
 
 		try {
-			await GameSummaryModel.create(gameSummary);
+			const dbRef = await GameSummaryModel.create(gameSummary);
+
+			dbRef.save();
 
 			saved = true;
-		} catch {
+		} catch (err) {
 			saved = false;
+
+			console.log(`Error on saving: ${err}`);
 		}
 
 		return saved;

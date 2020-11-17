@@ -7,11 +7,14 @@ class GameController {
 		let saved = false;
 
 		try {
-			await GameModel.create(game);
+			const dbRef = await GameModel.create(game);
+			await dbRef.save();
 
 			saved = true;
-		} catch {
+		} catch (err) {
 			saved = false;
+
+			console.log(`Error on saving: ${err}`);
 		}
 
 		return saved;

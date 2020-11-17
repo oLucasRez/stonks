@@ -92,7 +92,7 @@ async function makeCalls() {
 	do {
 		// INSERT YOUR LIMIT HERE AND CHANGE ON /classes/calls/IGDBGameCall lower and high limits
 		// with 500 interval
-		if (call.idLowerLimit >= 41417) {
+		if (call.idLowerLimit >= 50000) {
 			console.log(`[STONKS]: Job done!`);
 
 			break;

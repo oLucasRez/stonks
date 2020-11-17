@@ -7,11 +7,14 @@ class GameGenreController {
 		let saved = false;
 
 		try {
-			await GameGenreModel.create(gameGenre);
+			const dbRef = await GameGenreModel.create(gameGenre);
+			await dbRef.save();
 
 			saved = true;
-		} catch {
+		} catch (err) {
 			saved = false;
+
+			console.log(`Error on saving: ${err}`);
 		}
 
 		return saved;

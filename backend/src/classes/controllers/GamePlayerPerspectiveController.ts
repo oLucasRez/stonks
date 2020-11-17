@@ -9,13 +9,17 @@ class GamePlayerPerspectiveController {
 		let saved = false;
 
 		try {
-			await GamePlayerPerspectiveModel.create(
+			const dbRef = await GamePlayerPerspectiveModel.create(
 				gamePlayerPerspective
 			);
 
+			dbRef.save();
+
 			saved = true;
-		} catch {
+		} catch (err) {
 			saved = false;
+
+			console.log(`Error on saving: ${err}`);
 		}
 
 		return saved;

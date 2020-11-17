@@ -9,11 +9,17 @@ class GameStorylineController {
 		let saved = false;
 
 		try {
-			await GameStorylineModel.create(gameStoryline);
+			const dbRef = await GameStorylineModel.create(
+				gameStoryline
+			);
+
+			dbRef.save();
 
 			saved = true;
-		} catch {
+		} catch (err) {
 			saved = false;
+
+			console.log(`Error on saving: ${err}`);
 		}
 
 		return saved;

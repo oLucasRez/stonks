@@ -9,11 +9,14 @@ class GameGameModeController {
 		let saved = false;
 
 		try {
-			await GameGameModeModel.create(gameGameMode);
+			const dbRef = await GameGameModeModel.create(gameGameMode);
+			await dbRef.save();
 
 			saved = true;
-		} catch {
+		} catch (err) {
 			saved = false;
+
+			console.log(`Error on saving: ${err}`);
 		}
 
 		return saved;
