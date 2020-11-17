@@ -6,9 +6,9 @@ import { IIGDBRequestBody } from '../../typescript/services/IGDB/RequestBody';
 import { IGameRaw } from '../../typescript/services/IGDB/IGameRaw';
 
 export default class IGDBGame extends IGDBCall<IGameRaw[]> {
-	protected idLowerLimit: number;
+	public idLowerLimit: number;
 
-	protected idHigherLimit: number;
+	public idHigherLimit: number;
 
 	protected idStep: number;
 
@@ -21,8 +21,8 @@ export default class IGDBGame extends IGDBCall<IGameRaw[]> {
 
 		this.identifier = 'games';
 
-		this.idLowerLimit = 4724;
-		this.idHigherLimit = 5.223;
+		this.idLowerLimit = 7624;
+		this.idHigherLimit = 8123;
 
 		this.onlySteam = true;
 

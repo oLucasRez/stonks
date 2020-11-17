@@ -14,9 +14,9 @@ abstract class IGDBCall<T> {
 
 	protected abstract idStep: number;
 
-	protected abstract idLowerLimit: number;
+	public abstract idLowerLimit: number;
 
-	protected abstract idHigherLimit: number;
+	public abstract idHigherLimit: number;
 
 	protected abstract onlySteam: boolean;
 

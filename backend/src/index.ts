@@ -90,6 +90,14 @@ async function makeCalls() {
 
 	console.log('[STORE]: Process started');
 	do {
+		// INSERT YOUR LIMIT HERE AND CHANGE ON /classes/calls/IGDBGameCall lower and high limits
+		// with 500 interval
+		if (call.idLowerLimit >= 41417) {
+			console.log(`[STONKS]: Job done!`);
+
+			break;
+		}
+
 		// eslint-disable-next-line no-await-in-loop
 		callResult = await call.call();
 
