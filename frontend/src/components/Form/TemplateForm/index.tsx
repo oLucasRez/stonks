@@ -39,7 +39,7 @@ abstract class TemplateForm {
               {this.getInputs().map((input, index) => {
                 const { TemplateMethod } = input;
                 return (
-                  <div key={index}>
+                  <div key={index} className='input-cell'>
                     <TemplateMethod />
                   </div>
                 );
@@ -47,7 +47,6 @@ abstract class TemplateForm {
             </div>
             <footer />
           </form>
-          <button>Go!</button>
         </Container>
       </ColorContext.Provider>
     );

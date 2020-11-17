@@ -1,15 +1,16 @@
-import styled from "styled-components";
+import { lighten, opacify, shade } from 'polished';
+import styled from 'styled-components';
 //---------------------------------------------------------------< utils >
-import getRandomInt from "../../utils/getRandomInt";
+import getRandomInt from '../../utils/getRandomInt';
 //================================================================[ BODY ]
 export const Container = styled.div`
   width: 75vw;
   height: 100%;
 
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 2fr;
+  grid-template-columns: 2fr 2fr 2fr;
   grid-template-rows: 200px auto;
-  grid-template-areas: "left-header middle-header middle-header switch" "form form result result";
+  grid-template-areas: 'left-header middle-header switch' 'body body body';
 
   background: ${({ theme }) => theme.colors.background[0]};
 
@@ -86,7 +87,7 @@ export const PhraseContainer = styled.div`
     text-align: center;
 
     font-size: 1.8rem;
-    font-family: "Comic Sans MS";
+    font-family: 'Comic Sans MS';
     color: ${({ theme }) => theme.colors.primary[getRandomInt(0, 3)]};
     -webkit-animation: phrase-animation 1.5s infinite;
     -moz-animation: phrase-animation 1.5s infinite;
@@ -148,9 +149,142 @@ export const PhraseContainer = styled.div`
 `;
 //------------------------------------------------------------------------
 export const FormContainer = styled.div`
-  margin: 2rem 2rem 0 0;
+  padding: 2rem 4rem;
 
-  grid-area: form;
-  display: flex;
-  justify-content: flex-end;
+  grid-area: body;
+  display: grid;
+  flex-direction: column;
+  justify-items: center;
+
+  .description {
+    align-self: flex-end;
+    text-align: center;
+    font-size: 1.2rem;
+    color: ${({ theme }) =>
+      theme.title === 'dark'
+        ? theme.colors.foreground[1]
+        : theme.colors.foreground[2]};
+
+    b {
+      font-size: 1.4rem;
+      color: ${({ theme }) =>
+        theme.title === 'dark'
+          ? theme.colors.foreground[0]
+          : theme.colors.foreground[1]};
+    }
+  }
+
+  .buttons {
+    width: 100%;
+    height: 7rem;
+    max-width: 42rem;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1rem;
+
+    button {
+      width: 100%;
+
+      display: grid;
+
+      font-size: 1.8rem;
+      font-weight: bold;
+      border: 0;
+      color: white;
+
+      p {
+        justify-self: center;
+        align-self: center;
+      }
+
+      :enabled {
+        opacity: 1;
+        cursor: pointer;
+      }
+
+      :focus {
+        outline: none;
+      }
+    }
+
+    .back-to-form {
+      grid-template-columns: 4rem auto;
+
+      border-radius: 3.5rem 1rem 1rem 3.5rem;
+      background: ${({ theme }) => theme.colors.foreground[2]};
+      opacity: 0.3;
+
+      svg {
+        justify-self: flex-end;
+        align-self: center;
+      }
+
+      @keyframes arrow-form {
+        0% {
+          transform: translateX(0rem);
+        }
+        100% {
+          transform: translateX(-0.3rem);
+        }
+      }
+
+      :enabled {
+        :hover {
+          transition: 0.1s;
+          background: ${({ theme }) =>
+            theme.title === 'dark'
+              ? shade(0.1, theme.colors.foreground[2])
+              : lighten(0.1, theme.colors.foreground[2])};
+
+          svg {
+            transition: 0.1s;
+            animation-name: arrow-form;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-duration: 0.4s;
+            animation-timing-function: ease;
+          }
+        }
+      }
+    }
+
+    .see-results {
+      grid-template-columns: auto 4rem;
+
+      border-radius: 1rem 3.5rem 3.5rem 1rem;
+      background: ${({ theme }) => theme.colors.green};
+      opacity: 0.3;
+
+      svg {
+        justify-self: flex-start;
+        align-self: center;
+      }
+
+      @keyframes arrow-results {
+        0% {
+          transform: translateX(0rem);
+        }
+        100% {
+          transform: translateX(0.3rem);
+        }
+      }
+
+      :enabled {
+        :hover {
+          transition: 0.1s;
+          background: ${({ theme }) => shade(0.1, theme.colors.green)};
+
+          svg {
+            transition: 0.1s;
+            animation-name: arrow-results;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-duration: 0.4s;
+            animation-timing-function: ease;
+          }
+        }
+      }
+    }
+  }
 `;

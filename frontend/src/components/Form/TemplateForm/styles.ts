@@ -1,10 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { shade, lighten } from "polished";
+import { shade, lighten } from 'polished';
 
 export const Container = styled.div`
-  width: 40rem;
-  height: 57rem;
+  width: 100%;
+  height: 46rem;
+  max-width: 42rem;
 
   display: grid;
 
@@ -22,6 +23,11 @@ export const Container = styled.div`
       cursor: pointer;
     }
 
+    .main + .side,
+    .side + .main {
+      margin-left: 0.8rem;
+    }
+
     .main {
       width: fit-content;
       z-index: 10;
@@ -34,7 +40,7 @@ export const Container = styled.div`
       border-bottom: 0;
       border-radius: 1rem 1rem 0 0;
       background: ${({ theme }) =>
-        theme.title === "dark"
+        theme.title === 'dark'
           ? theme.colors.background[1]
           : theme.colors.background[0]};
 
@@ -54,7 +60,7 @@ export const Container = styled.div`
         background: ${({ theme }) =>
           shade(
             0.02,
-            theme.title === "dark"
+            theme.title === 'dark'
               ? theme.colors.background[1]
               : theme.colors.background[0]
           )};
@@ -90,10 +96,8 @@ export const Container = styled.div`
   }
 
   form {
-    width: 100%;
-    height: 42rem;
+    height: 46vh;
     padding: 2.5rem;
-    padding-right: 0.7rem;
     margin-top: -1rem;
 
     display: grid;
@@ -101,19 +105,26 @@ export const Container = styled.div`
     border: 2px solid ${({ theme }) => theme.colors.background[1]};
     border-radius: 1rem;
     background: ${({ theme }) =>
-      theme.title === "dark"
+      theme.title === 'dark'
         ? theme.colors.background[1]
         : theme.colors.background[0]};
 
     .inputs {
-      overflow: auto;
+      overflow-x: hidden;
+      margin-right: -2.5rem;
+      padding-right: 2.5rem;
+      display: grid;
+
+      .input-cell {
+        margin-right: -1.6rem;
+      }
 
       ::-webkit-scrollbar {
-        width: 1.1rem;
+        width: 1.6rem;
       }
 
       ::-webkit-scrollbar-thumb {
-        border-radius: 0.55rem;
+        border-radius: 0.8rem;
         background: ${({ theme }) => theme.colors.background[2]};
 
         :hover {
@@ -123,40 +134,15 @@ export const Container = styled.div`
     }
 
     footer {
-      width: 21.7em;
+      width: 100%;
       height: 0.7rem;
       margin-bottom: -2.5rem;
 
       border-radius: 0.7rem 0.7rem 0 0;
-      justify-self: start;
+      justify-self: center;
       align-self: flex-end;
 
       background: ${({ color }) => color};
-    }
-  }
-
-  button {
-    width: 20rem;
-    height: 7rem;
-    margin-top: 2.2rem;
-
-    justify-self: flex-end;
-    cursor: pointer;
-
-    font-size: 3.2rem;
-    font-weight: bold;
-    border: 0;
-    border-radius: 1rem;
-    color: white;
-    background: ${({ theme }) => theme.colors.green};
-
-    :hover {
-      transition: 0.1s;
-      background: ${({ theme }) => shade(0.1, theme.colors.green)};
-    }
-
-    :focus {
-      outline: none;
     }
   }
 `;

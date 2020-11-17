@@ -5,7 +5,7 @@ interface StyleProps {
 }
 
 export const Container = styled.div<StyleProps>`
-  width: 21.7em;
+  width: 100%;
 
   display: grid;
   grid-template-rows: 3.3rem auto;
