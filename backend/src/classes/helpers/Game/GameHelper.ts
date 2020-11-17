@@ -21,6 +21,12 @@ class GameHelper {
 
 	finished = false;
 
+	call: IGDBGameCall;
+
+	constructor() {
+		this.call = new IGDBGameCall();
+	}
+
 	async insertGamesIntoDatabase(): Promise<void> {
 		/*
 			Game Mode
@@ -29,19 +35,25 @@ class GameHelper {
 			Game Player Perspective
 			Game Theme
 		*/
+		console.log('Starting database fill');
 
-		const call = new IGDBGameCall();
-
-		const result = await call.call();
-
+		const result = await this.call.call();
 		const game = await GameAdapter.process(result);
+		console.log(game.length);
+
+		const IGDBInstance = await IGDB.getInstance();
+
+		const IGDBApi = await IGDBInstance.getAPI();
 
 		if (game.length === 0) {
 			this.finished = true;
+			console.log('Finished');
 		}
 
 		for (let i = 0; i < game.length; i += 1) {
 			const gamePure: IGame = game[i];
+
+			console.log(`Adding ${gamePure.id}`);
 
 			if (game[i].game_engines !== undefined) {
 				const { game_engines } = game[i];
@@ -63,10 +75,6 @@ class GameHelper {
 					age_ratings.length > 0
 				) {
 					for (let j = 0; j < age_ratings.length; j += 1) {
-						const IGDBInstance = await IGDB.getInstance();
-
-						const IGDBApi = await IGDBInstance.getAPI();
-
 						const age_id = age_ratings[j];
 
 						const body = `fields category, rating; limit 500; where id = ${age_id};`;
@@ -114,7 +122,7 @@ class GameHelper {
 			}
 
 			// associate all game modes
-			if (game[i].game_modes !== null) {
+			if (game[i].game_modes) {
 				for (let j = 0; j < game[i].game_modes.length; j += 1) {
 					if (game[i].game_modes[j] !== null)
 						try {
@@ -131,7 +139,7 @@ class GameHelper {
 				}
 			}
 			// associate all themes
-			if (game[i].themes !== null) {
+			if (game[i].themes) {
 				for (let j = 0; j < game[i].themes.length; j += 1) {
 					if (game[i].themes[j] !== null)
 						try {
@@ -148,7 +156,7 @@ class GameHelper {
 				}
 			}
 			// associate all keywords
-			if (game[i].keywords !== null) {
+			if (game[i].keywords) {
 				for (let j = 0; j < game[i].keywords.length; j += 1) {
 					if (game[i].keywords[j] !== null)
 						try {
@@ -165,7 +173,7 @@ class GameHelper {
 				}
 			}
 			// associate all player perspectives
-			if (game[i].player_perspectives !== null)
+			if (game[i].player_perspectives)
 				for (
 					let j = 0;
 					j < game[i].player_perspectives.length;
@@ -186,7 +194,7 @@ class GameHelper {
 						}
 				}
 			// associate all genres
-			if (game[i].genres !== null)
+			if (game[i].genres)
 				for (let j = 0; j < game[i].genres.length; j += 1) {
 					if (game[i].genres[j] !== null)
 						try {
