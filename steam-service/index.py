@@ -41,16 +41,22 @@ async def getSteamInfo() -> list:
     responses = []
 
     for appid in appids:
-        steamResponse = requests.get(STEAM_API + str(appid)).json()
+        try:
+            steamResponse = requests.get(STEAM_API + str(appid)).json()
 
-        gameInfo = steamResponse[str(appid)]
+            if steamResponse == None:
+                continue
 
-        sanitizedResponse = sanitizeResponse(appid, gameInfo)
-        
-        responses.append(sanitizedResponse)
+            gameInfo = steamResponse[str(appid)]
 
-        print(f'Making request for appid: {appid}')
-        print(sanitizedResponse)
+            sanitizedResponse = sanitizeResponse(appid, gameInfo)
+            
+            responses.append(sanitizedResponse)
+
+            print(f'Making request for appid: {appid}')
+            print(sanitizedResponse)
+        except:
+            print('Error on request')
 
         sleep(TIME_INTERVAL)
 
