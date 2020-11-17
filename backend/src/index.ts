@@ -9,10 +9,12 @@ import KeywordModel from './models/KeywordModel';
 import PlayerPerspectiveModel from './models/PlayerPerspectiveModel';
 import ThemeModel from './models/ThemeModel';
 
+import IGDBGameCall from './classes/calls/IGDBGame';
+
 import App from './server';
 
 import DatabaseInitializer from './services/database/config/DatabaseInitializer';
-import GameHelper from './classes/helpers/Game/GameHelper';
+import StoreHelper from './classes/helpers/Store/StoreHelper';
 
 async function runServer() {
 	const server = await App.getInstance();
@@ -78,33 +80,33 @@ async function runServer() {
 	});
 }
 
-// async function makeCalls() {
-// 	const call = new IGDBGameCall();
-
-// 	for (let i = 0; i < 1; i += 1) {
-// 		// eslint-disable-next-line no-await-in-loop
-// 		const result = await call.call();
-
-// 		// eslint-disable-next-line no-await-in-loop
-// 		const game = await GameAdapter.process(result);
-
-// 		console.log(game);
-// 	}
-// }
-
-async function makeCallsForDB() {
-	const gameH: GameHelper = new GameHelper();
-
-	while (!gameH.finished) {
-		if (gameH.free) {
-			gameH.free = false;
-			// eslint-disable-next-line no-await-in-loop
-			await gameH.insertGamesIntoDatabase();
-			console.log('calling more data');
-		}
-	}
-}
-
 runServer();
 
-makeCallsForDB();
+async function makeCalls() {
+	const call = new IGDBGameCall();
+
+	let callResult;
+	let retries = 0;
+
+	console.log('[STORE]: Process started');
+	do {
+		// eslint-disable-next-line no-await-in-loop
+		callResult = await call.call();
+
+		if (callResult.length === 0) {
+			retries += 1;
+
+			// eslint-disable-next-line no-continue
+			continue;
+		}
+
+		console.log(`[STORE]: Got ${callResult.length} games`);
+
+		// eslint-disable-next-line no-await-in-loop
+		await StoreHelper.StoreProcess(callResult);
+	} while (callResult.length !== 0 && retries < 2);
+
+	console.log('[STORE]: Process ended!');
+}
+
+makeCalls();

@@ -1,7 +1,7 @@
 export declare interface IGame {
 	id: number;
-	id_game_engine: number;
-	age_rating: number;
+	id_game_engine?: number;
+	age_rating?: number;
 	time_to_beat?: number;
 	follows: number;
 	hype?: number;
@@ -60,9 +60,4 @@ export declare interface IStoryline {
 export declare interface IToken {
 	id: number;
 	token: number;
-}
-
-export declare interface IAgeRating {
-	category: number;
-	rating: number;
 }

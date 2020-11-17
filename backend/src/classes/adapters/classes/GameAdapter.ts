@@ -1,26 +1,40 @@
+/* eslint-disable no-await-in-loop */
 import GamePriceHelper from '../../helpers/Game/GamePriceHelper';
 import GameTimeToBeatHelper from '../../helpers/Game/GameTimeToBeatHelper';
+import GameAgeRatingHelper from '../../helpers/Game/GameAgeRatingHelper';
+import GameGameEngineHelper from '../../helpers/Game/GameGameEngineHelper';
 
 import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
-// import { IGame } from '../../../typescript/database/Tables';
 
 class GameAdapter {
 	public static async process(
 		data: IGameRaw[]
 	): Promise<IGameRaw[]> {
-		const promises = data.map(async (rawGame) => {
+		const processedGames: IGameRaw[] = [];
+
+		for (let i = 0; i < data.length; i += 1) {
 			const pricedGame = await GamePriceHelper.FillGamePrice(
-				rawGame
+				data[i]
 			);
 
 			const finalGame: IGameRaw = await GameTimeToBeatHelper.getInstance().fillTimeToBeats(
 				pricedGame
 			);
 
-			return finalGame;
-		});
+			finalGame.age_rating = await GameAgeRatingHelper.getPEGIAgeRating(
+				finalGame
+			);
 
-		return Promise.all(promises);
+			finalGame.id_game_engine = GameGameEngineHelper.selectGameEngine(
+				finalGame
+			);
+
+			finalGame.hype = finalGame.hypes;
+
+			processedGames.push(finalGame);
+		}
+
+		return processedGames;
 	}
 }
 
