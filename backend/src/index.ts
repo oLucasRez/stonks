@@ -92,11 +92,19 @@ async function runServer() {
 // 	}
 // }
 
+async function makeCallsForDB() {
+	const gameH: GameHelper = new GameHelper();
+
+	while (!gameH.finished) {
+		if (gameH.free) {
+			gameH.free = false;
+			// eslint-disable-next-line no-await-in-loop
+			await gameH.insertGamesIntoDatabase();
+			console.log('calling more data');
+		}
+	}
+}
+
 runServer();
 
-// makeCalls();
-const gameH: GameHelper = new GameHelper();
-
-while (gameH.free && !gameH.finished) {
-	gameH.insertGamesIntoDatabase();
-}
+makeCallsForDB();
