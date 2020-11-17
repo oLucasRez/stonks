@@ -14,6 +14,7 @@ import GameThemeController from '../../controllers/GameThemeController';
 import { IGame } from '../../../typescript/database/Tables';
 import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DatabaseSaveMethod = (item: any) => Promise<boolean>;
 
 class StoreHelper {
@@ -23,13 +24,21 @@ class StoreHelper {
 		storeMethod: DatabaseSaveMethod,
 		object_key: string
 	): Promise<void> {
-		for (let i = 0; i < table_ids.length; i += 1) {
-			const saveObject = {};
+		if (!table_ids) {
+			return;
+		}
 
-			saveObject['id_game'] = id;
+		for (let i = 0; i < table_ids.length; i += 1) {
+			const saveObject: Record<string, unknown> = {};
+
+			saveObject.id_game = id;
 			saveObject[object_key] = table_ids[i];
 
-			storeMethod(saveObject);
+			storeMethod(saveObject).then(() =>
+				console.log(
+					`[POSTGRESQL]: SAVED ['id_game', ${object_key}]`
+				)
+			);
 		}
 	}
 
@@ -37,6 +46,8 @@ class StoreHelper {
 		game: IGameRaw
 	) {
 		await GameController.store(game as IGame);
+
+		console.log(`[POSTGRESQL]: Game ${game.name} saved`);
 
 		const { id: id_game, game_modes } = game;
 

@@ -21,8 +21,8 @@ export default class IGDBGame extends IGDBCall<IGameRaw[]> {
 
 		this.identifier = 'games';
 
-		this.idLowerLimit = 1803;
-		this.idHigherLimit = 2302;
+		this.idLowerLimit = 4724;
+		this.idHigherLimit = 5.223;
 
 		this.onlySteam = true;
 

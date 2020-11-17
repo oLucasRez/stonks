@@ -10,6 +10,7 @@ const databaseProperties: Options = {
 	define: {
 		timestamps: true,
 	},
+	logging: false,
 };
 
 export default databaseProperties;

@@ -17,7 +17,7 @@ class GameAgeRatingHelper {
 
 		let selectedRating;
 
-		if (age_ratings === undefined || age_ratings.length === 0) {
+		if (!age_ratings || age_ratings?.length === 0) {
 			return undefined;
 		}
 

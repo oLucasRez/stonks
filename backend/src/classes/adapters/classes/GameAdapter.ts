@@ -13,6 +13,9 @@ class GameAdapter {
 		const processedGames: IGameRaw[] = [];
 
 		for (let i = 0; i < data.length; i += 1) {
+			console.log(
+				`Filling game price for game: ${data[i].name}`
+			);
 			const pricedGame = await GamePriceHelper.FillGamePrice(
 				data[i]
 			);

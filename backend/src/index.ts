@@ -98,6 +98,8 @@ async function makeCalls() {
 
 			// eslint-disable-next-line no-continue
 			continue;
+		} else {
+			retries = 0;
 		}
 
 		console.log(`[STORE]: Got ${callResult.length} games`);
