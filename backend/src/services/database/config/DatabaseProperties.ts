@@ -11,6 +11,10 @@ const databaseProperties: Options = {
 		timestamps: true,
 	},
 	logging: false,
+	pool: {
+		acquire: 1000000,
+		idle: 200000,
+	},
 };
 
 export default databaseProperties;
