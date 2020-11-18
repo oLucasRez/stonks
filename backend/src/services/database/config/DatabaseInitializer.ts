@@ -20,6 +20,11 @@ class DatabaseInitializer {
 	models = [
 		GameModel,
 		GameEngineModel,
+		GenreModel,
+		KeywordModel,
+		PlayerPerspectiveModel,
+		ThemeModel,
+		TokenModel,
 		GameGameModeModel,
 		GameGenreModel,
 		GameModeModel,
@@ -28,11 +33,6 @@ class DatabaseInitializer {
 		GameSummaryModel,
 		GameThemeModel,
 		GameKeywordModel,
-		GenreModel,
-		KeywordModel,
-		PlayerPerspectiveModel,
-		ThemeModel,
-		TokenModel,
 	];
 
 	public InitDatabase(): void {

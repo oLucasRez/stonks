@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import GameAdapter from '../../adapters/classes/GameAdapter';
 
 import GameController from '../../controllers/GameController';
@@ -13,6 +14,10 @@ import GameThemeController from '../../controllers/GameThemeController';
 
 import { IGame } from '../../../typescript/database/Tables';
 import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
+import { IGameStoryline } from '../../../typescript/database/AssociativeTables';
+import TokenModel from '../../../models/TokenModel';
+import GameSummaryController from '../../controllers/GameSummaryController';
+import GameStorylineController from '../../controllers/GameStorylineController';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DatabaseSaveMethod = (item: any) => Promise<boolean>;
@@ -44,61 +49,118 @@ class StoreHelper {
 		}
 	}
 
+	private static async storeNLPProducts(
+		id_game: number,
+		tokenAndWeights: Map<number, number>,
+		storeMethod: DatabaseSaveMethod
+	) {
+		// eslint-disable-next-line no-restricted-syntax
+		for (const [token, weight] of tokenAndWeights) {
+			const alreadyExist = await TokenModel.findOne({
+				where: {
+					token,
+				},
+			});
+
+			let tokenDbRef: TokenModel;
+
+			if (!alreadyExist) {
+				const dbRef = await TokenModel.create({
+					token,
+				});
+
+				await dbRef.save();
+
+				tokenDbRef = dbRef;
+
+				console.log(`[POSTGRESQL]: New token ${token} saved`);
+			} else {
+				tokenDbRef = alreadyExist;
+			}
+
+			storeMethod({
+				id_game,
+				id_token: tokenDbRef.id,
+				weight,
+			}).then((result) => {
+				if (result) {
+					console.log('[POSTGRES]: Token + Association saved!');
+				}
+			});
+		}
+	}
+
 	private static async initiateSubStoreProcesses(
 		game: IGameRaw
 	) {
-		const isGameSaved = await GameController.store(
-			game as IGame
-		);
+		// const isGameSaved = await GameController.store(
+		// 	game as IGame
+		// );
 
-		if (isGameSaved) {
-			console.log(`[POSTGRESQL]: Game ${game.name} saved`);
+		if (game.summaryMap) {
+			await this.storeNLPProducts(
+				game.id,
+				game.summaryMap,
+				GameSummaryController.store
+			);
 		}
 
-		const { id: id_game, game_modes } = game;
+		if (game.storylineMap) {
+			await this.storeNLPProducts(
+				game.id,
+				game.storylineMap,
+				GameStorylineController.store
+			);
+		}
 
-		this.storeNToNTable(
-			id_game,
-			game_modes,
-			GameGameModeController.store,
-			'id_game_mode'
-		);
+		// if (isGameSaved) {
+		// 	console.log(`[POSTGRESQL]: Game ${game.name} saved`);
+		// }
 
-		const { themes } = game;
+		// const { id: id_game, game_modes } = game;
 
-		this.storeNToNTable(
-			id_game,
-			themes,
-			GameThemeController.store,
-			'id_theme'
-		);
+		// this.storeNToNTable(
+		// 	id_game,
+		// 	game_modes,
+		// 	GameGameModeController.store,
+		// 	'id_game_mode'
+		// );
 
-		const { keywords } = game;
+		// const { themes } = game;
 
-		this.storeNToNTable(
-			id_game,
-			keywords,
-			GameKeywordController.store,
-			'id_keyword'
-		);
+		// this.storeNToNTable(
+		// 	id_game,
+		// 	themes,
+		// 	GameThemeController.store,
+		// 	'id_theme'
+		// );
 
-		const { player_perspectives } = game;
+		// const { keywords } = game;
 
-		this.storeNToNTable(
-			id_game,
-			player_perspectives,
-			GamePlayerPerspectiveController.store,
-			'id_player_perspective'
-		);
+		// this.storeNToNTable(
+		// 	id_game,
+		// 	keywords,
+		// 	GameKeywordController.store,
+		// 	'id_keyword'
+		// );
 
-		const { genres } = game;
+		// const { player_perspectives } = game;
 
-		this.storeNToNTable(
-			id_game,
-			genres,
-			GameGenreController.store,
-			'id_genre'
-		);
+		// this.storeNToNTable(
+		// 	id_game,
+		// 	player_perspectives,
+		// 	GamePlayerPerspectiveController.store,
+		// 	'id_player_perspective'
+		// );
+
+		// const { genres } = game;
+
+		// this.storeNToNTable(
+		// 	id_game,
+		// 	genres,
+		// 	GameGenreController.store,
+		// 	'id_genre'
+		// );
 	}
 
 	public static async StoreProcess(

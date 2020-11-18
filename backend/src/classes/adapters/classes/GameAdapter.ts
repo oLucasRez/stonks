@@ -5,6 +5,7 @@ import GameAgeRatingHelper from '../../helpers/Game/GameAgeRatingHelper';
 import GameGameEngineHelper from '../../helpers/Game/GameGameEngineHelper';
 
 import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
+import GameNLPHelper from '../../helpers/Game/GameNLPHelper';
 
 class GameAdapter {
 	public static async process(
@@ -27,6 +28,20 @@ class GameAdapter {
 			finalGame.age_rating = await GameAgeRatingHelper.getPEGIAgeRating(
 				finalGame
 			);
+
+			if (finalGame.follows || finalGame.hypes) {
+				if (finalGame.storyline) {
+					finalGame.storylineMap = await GameNLPHelper.getTokensAndWeight(
+						finalGame.storyline
+					);
+				}
+
+				if (finalGame.summary) {
+					finalGame.summaryMap = await GameNLPHelper.getTokensAndWeight(
+						finalGame.summary
+					);
+				}
+			}
 
 			finalGame.id_game_engine = GameGameEngineHelper.selectGameEngine(
 				finalGame

@@ -1,6 +1,7 @@
 import GameModel from '../../models/GameModel';
 
 import { IGame } from '../../typescript/database/Tables';
+import GameNLPHelper from '../helpers/Game/GameNLPHelper';
 
 class GameController {
 	static async store(game: IGame): Promise<boolean> {

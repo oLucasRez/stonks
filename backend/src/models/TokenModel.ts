@@ -20,6 +20,7 @@ class TokenModel extends Model<IToken, TokenCreationAttributes> {
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
+					autoIncrement: true,
 				},
 				token: DataTypes.NUMBER,
 			},

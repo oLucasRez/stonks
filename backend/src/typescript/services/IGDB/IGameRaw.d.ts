@@ -10,6 +10,8 @@ export declare interface IGameRaw extends IGame {
 	external_games?: IExternalGames[];
 	summary?: string;
 	storyline?: string;
+	summaryMap?: Map<number, number>;
+	storylineMap?: Map<number, number>;
 	game_modes: number[];
 	genres: number[];
 	keywords: number[];

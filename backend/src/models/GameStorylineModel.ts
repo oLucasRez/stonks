@@ -20,7 +20,7 @@ class GameStorylineModel extends Model<
 > {
 	public id!: number;
 
-	public id_storyline!: number;
+	public id_game!: number;
 
 	public id_token!: number;
 
@@ -32,8 +32,9 @@ class GameStorylineModel extends Model<
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
+					autoIncrement: true,
 				},
-				id_storyline: DataTypes.NUMBER,
+				id_token: DataTypes.NUMBER,
 				id_game: DataTypes.NUMBER,
 				weight: DataTypes.NUMBER,
 			},

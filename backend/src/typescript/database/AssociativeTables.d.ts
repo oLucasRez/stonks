@@ -31,13 +31,13 @@ export declare interface IGameTheme {
 export declare interface IGameSummary {
 	id?: number;
 	id_game: number;
-	id_summary: number;
+	id_token: number;
 	weight: number;
 }
 
 export declare interface IGameStoryline {
 	id?: number;
 	id_game: number;
-	id_storyline: number;
+	id_token: number;
 	weight: number;
 }
