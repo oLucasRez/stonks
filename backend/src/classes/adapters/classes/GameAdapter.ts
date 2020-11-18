@@ -31,13 +31,13 @@ class GameAdapter {
 
 			if (finalGame.follows || finalGame.hypes) {
 				if (finalGame.storyline) {
-					finalGame.storylineMap = await GameNLPHelper.getTokensAndWeight(
+					finalGame.storylineTokens = await GameNLPHelper.getTokensAndWeight(
 						finalGame.storyline
 					);
 				}
 
 				if (finalGame.summary) {
-					finalGame.summaryMap = await GameNLPHelper.getTokensAndWeight(
+					finalGame.summaryTokens = await GameNLPHelper.getTokensAndWeight(
 						finalGame.summary
 					);
 				}

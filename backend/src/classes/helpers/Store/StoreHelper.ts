@@ -14,6 +14,7 @@ import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
 import { IGameToken } from '../../../typescript/database/AssociativeTables';
 
 import TokenModel from '../../../models/TokenModel';
+import { ITokenRaw } from '../../../typescript/services/GCP/ITokenRaw';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DatabaseSaveMethod = (item: any) => Promise<boolean>;
@@ -47,12 +48,13 @@ class StoreHelper {
 
 	private static async storeNLPProducts(
 		id_game: number,
-		tokenAndWeights: Map<number, number>,
+		tokens: ITokenRaw[],
 		type: 'summary' | 'storyline',
 		storeMethod: DatabaseSaveMethod
 	) {
-		// eslint-disable-next-line no-restricted-syntax
-		for (const [token, weight] of tokenAndWeights) {
+		for (let i = 0; i < tokens.length; i += 1) {
+			const { token, weight } = tokens[i];
+
 			const alreadyExist = await TokenModel.findOne({
 				where: {
 					token,
@@ -95,19 +97,19 @@ class StoreHelper {
 		// 	game as IGame
 		// );
 
-		if (game.summaryMap) {
+		if (game.summaryTokens) {
 			await this.storeNLPProducts(
 				game.id,
-				game.summaryMap,
+				game.summaryTokens,
 				'summary',
 				GameTokenController.store
 			);
 		}
 
-		if (game.storylineMap) {
+		if (game.storylineTokens) {
 			await this.storeNLPProducts(
 				game.id,
-				game.storylineMap,
+				game.storylineTokens,
 				'storyline',
 				GameTokenController.store
 			);

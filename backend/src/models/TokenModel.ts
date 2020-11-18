@@ -22,7 +22,7 @@ class TokenModel extends Model<IToken, TokenCreationAttributes> {
 					primaryKey: true,
 					autoIncrement: true,
 				},
-				token: DataTypes.NUMBER,
+				token: DataTypes.STRING,
 			},
 			{
 				sequelize: database,
