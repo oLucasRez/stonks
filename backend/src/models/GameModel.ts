@@ -71,12 +71,12 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 			through: database.models.GameSummaryModel,
 			foreignKey: 'id_game',
 		});
-		this.belongsToMany(database.models.ThemeModel, {
-			through: database.models.GameThemeModel,
-			foreignKey: 'id_game',
-		});
 		this.belongsToMany(database.models.TokenModel, {
 			through: database.models.GameStorylineModel,
+			foreignKey: 'id_game',
+		});
+		this.belongsToMany(database.models.ThemeModel, {
+			through: database.models.GameThemeModel,
 			foreignKey: 'id_game',
 		});
 		this.belongsToMany(database.models.PlayerPerspectiveModel, {

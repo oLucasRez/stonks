@@ -42,7 +42,7 @@ class GameSummaryModel extends Model<
 				sequelize: database,
 				timestamps: false,
 				freezeTableName: true,
-				tableName: 'game_summarys',
+				tableName: 'game_summaries',
 				modelName: 'GameSummaryModel',
 			}
 		);
