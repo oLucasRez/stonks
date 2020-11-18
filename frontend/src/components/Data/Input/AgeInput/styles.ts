@@ -1,69 +1,43 @@
 import styled from 'styled-components';
-import { lighten, mix } from 'polished';
 //---------------------------------------------------------------< types >
 interface StyleProps {
   colorPrimary: string;
-  age: number;
+  selected: boolean;
 }
 //================================================================[ BODY ]
-export const Container = styled.section<StyleProps>`
+export const Container = styled.section`
   display: flex;
 
   font-size: 2.2rem;
   color: ${({ theme }) => theme.colors.foreground[1]};
 
-  .input {
-    width: 7.8rem;
-    height: 5.2rem;
-    margin-right: 1.8rem;
-    padding-left: 1.2rem;
+  .age-box + .age-box {
+    margin-left: 1.1rem;
+  }
+`;
 
-    cursor: default;
-    display: flex;
-    align-items: center;
+export const AgeBox = styled.div<StyleProps>`
+  width: 3.6rem;
+  height: 3.6rem;
+  margin: 0 0.2rem 0.2rem 0;
+  transform: translateX(0.1rem);
 
-    font-size: 2.1rem;
-    outline: none;
-    color: ${({ theme }) => theme.colors.foreground[1]};
-    background: ${({ theme }) =>
-      theme.title === 'dark' ? theme.colors.background[2] : 'none'};
-    border: 2px solid
-      ${({ age }) =>
-        age < 10
-          ? mix((age - 3) / 7, '#3fd157', '#46b1db')
-          : age < 14
-          ? mix((age - 10) / 4, '#e0d841', '#3fd157')
-          : mix((age - 14) / 4, '#f04d4d', '#e0d841')};
-    border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 
-    .age {
-      width: 1.2rem;
-    }
+  color: white;
+  border-radius: 0.4rem;
+  background: ${({ colorPrimary, selected }) =>
+    selected ? colorPrimary : 'null'};
+  border: 1px solid
+    ${({ colorPrimary, selected }) => (selected ? 'null' : colorPrimary)};
 
-    .arrows {
-      margin-left: 1.8rem;
-
-      display: flex;
-      flex-direction: column;
-
-      svg {
-        width: 2.8rem;
-        height: 2.8rem;
-
-        color: ${({ colorPrimary }) => colorPrimary};
-
-        :hover {
-          color: ${({ colorPrimary }) => lighten(0.2, colorPrimary)};
-        }
-      }
-
-      .up {
-        transform: translateY(0.4rem);
-      }
-
-      .down {
-        transform: translateY(-0.4rem);
-      }
-    }
+  :hover {
+    width: 3.8rem;
+    height: 3.8rem;
+    transform: translate(0, -0.1rem);
+    margin: 0;
   }
 `;

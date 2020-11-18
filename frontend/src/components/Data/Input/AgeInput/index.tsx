@@ -5,30 +5,48 @@ import Input from '../index';
 import ColorContext from '../../../../utils/ColorContext';
 import useStorageState from '../../../../utils/useStorageState';
 //--------------------------------------------------------------< styles >
-import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
-
-import { Container } from './styles';
+import { AgeBox, Container } from './styles';
 //================================================================[ BODY ]
 class AgeInput extends Input {
   Body: FC = () => {
     const color = useContext(ColorContext);
     const [age, setAge] = useStorageState<number>(this.name + '-age', 3);
+    const ageBoxes = [
+      {
+        number: 3,
+        color: '#A4C300',
+      },
+      {
+        number: 7,
+        color: '#A4C300',
+      },
+      {
+        number: 12,
+        color: '#F4A200',
+      },
+      {
+        number: 16,
+        color: '#F4A200',
+      },
+      {
+        number: 18,
+        color: '#E10119',
+      },
+    ];
 
     return (
-      <Container colorPrimary={color} age={age}>
-        <div className='input'>
-          <div className='age'>{age}</div>
-          <div className='arrows'>
-            <FaCaretUp
-              className='up'
-              onClick={() => setAge(age + 1 > 18 ? 18 : age + 1)}
-            />
-            <FaCaretDown
-              className='down'
-              onClick={() => setAge(age - 1 < 3 ? 3 : age - 1)}
-            />
-          </div>
-        </div>
+      <Container>
+        {ageBoxes.map((ageBox, index) => (
+          <AgeBox
+            onClick={() => setAge(age === ageBox.number ? -1 : ageBox.number)}
+            selected={age === ageBox.number}
+            colorPrimary={ageBox.color}
+            className='age-box'
+            key={index}
+          >
+            {ageBox.number}
+          </AgeBox>
+        ))}
       </Container>
     );
   };

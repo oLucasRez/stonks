@@ -24,7 +24,7 @@ class ProfileForm extends TemplateForm {
 
   protected getInputs(): Input[] {
     const genres: Input = new TagInput(
-      'Genre',
+      'Genres',
       'What are the genders of your game? RPG? Shooter? Platform?',
       new GenreRequestStrategy()
     );
