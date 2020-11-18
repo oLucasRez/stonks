@@ -12,7 +12,9 @@ type TokenCreationAttributes = Optional<IToken, 'id'>;
 class TokenModel extends Model<IToken, TokenCreationAttributes> {
 	public id!: number;
 
-	public token!: number;
+	public token!: string;
+
+	public type!: string;
 
 	static initialize(database: Sequelize): void {
 		this.init(
@@ -23,6 +25,7 @@ class TokenModel extends Model<IToken, TokenCreationAttributes> {
 					autoIncrement: true,
 				},
 				token: DataTypes.STRING,
+				type: DataTypes.STRING,
 			},
 			{
 				sequelize: database,

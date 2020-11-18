@@ -30,9 +30,11 @@ class GameNLPHelper {
 			const { name, type, salience } = entity;
 
 			if (name && salience) {
-				const tokenId = `${name}+${type}`;
-
-				rawTokens.push({ token: tokenId, weight: salience });
+				rawTokens.push({
+					token: name,
+					weight: salience,
+					type: type as string,
+				});
 			}
 		});
 

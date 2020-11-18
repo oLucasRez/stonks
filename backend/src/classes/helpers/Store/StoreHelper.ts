@@ -53,11 +53,12 @@ class StoreHelper {
 		storeMethod: DatabaseSaveMethod
 	) {
 		for (let i = 0; i < tokens.length; i += 1) {
-			const { token, weight } = tokens[i];
+			const { token, weight, type: tokenType } = tokens[i];
 
 			const alreadyExist = await TokenModel.findOne({
 				where: {
 					token,
+					type: tokenType,
 				},
 			});
 
@@ -66,6 +67,7 @@ class StoreHelper {
 			if (!alreadyExist) {
 				const dbRef = await TokenModel.create({
 					token,
+					type: tokenType,
 				});
 
 				await dbRef.save();
