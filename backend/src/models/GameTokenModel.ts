@@ -7,22 +7,19 @@ import {
 	Optional,
 } from 'sequelize';
 
-import { IGameSummary } from '../typescript/database/AssociativeTables';
+import { IGameToken } from '../typescript/database/AssociativeTables';
 
-type GameSummaryCreationAttributes = Optional<
-	IGameSummary,
-	'id'
->;
+type GameTokenCreationAttributes = Optional<IGameToken, 'id'>;
 
-class GameSummaryModel extends Model<
-	IGameSummary,
-	GameSummaryCreationAttributes
+class GameTokenModel extends Model<
+	IGameToken,
+	GameTokenCreationAttributes
 > {
 	public id!: number;
 
-	public id_token!: number;
-
 	public id_game!: number;
+
+	public id_token!: number;
 
 	public weight!: number;
 
@@ -36,18 +33,24 @@ class GameSummaryModel extends Model<
 				},
 				id_token: DataTypes.NUMBER,
 				id_game: DataTypes.NUMBER,
+				type: {
+					type: DataTypes.STRING,
+					validate: {
+						isIn: [['storyline', 'summary']],
+					},
+				},
 				weight: DataTypes.NUMBER,
 			},
 			{
 				sequelize: database,
 				timestamps: false,
 				freezeTableName: true,
-				tableName: 'game_summaries',
-				modelName: 'GameSummaryModel',
+				tableName: 'game_tokens',
+				modelName: 'GameTokenModel',
 			}
 		);
 	}
 
 	static associate(database: Sequelize): void {}
 }
-export default GameSummaryModel;
+export default GameTokenModel;

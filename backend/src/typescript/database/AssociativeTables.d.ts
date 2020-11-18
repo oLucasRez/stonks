@@ -28,16 +28,10 @@ export declare interface IGameTheme {
 	id_game: number;
 }
 
-export declare interface IGameSummary {
+export declare interface IGameToken {
 	id?: number;
 	id_game: number;
 	id_token: number;
 	weight: number;
-}
-
-export declare interface IGameStoryline {
-	id?: number;
-	id_game: number;
-	id_token: number;
-	weight: number;
+	type: string;
 }

@@ -10,7 +10,7 @@ const databaseProperties: Options = {
 	define: {
 		timestamps: true,
 	},
-	logging: true,
+	logging: false,
 	pool: {
 		acquire: 1000000,
 		idle: 200000,

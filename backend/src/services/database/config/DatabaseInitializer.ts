@@ -6,8 +6,7 @@ import GameGameModeModel from '../../../models/GameGameModeModel';
 import GameGenreModel from '../../../models/GameGenreModel';
 import GameModeModel from '../../../models/GameModeModel';
 import GamePlayerPerspectiveModel from '../../../models/GamePlayerPerspectiveModel';
-import GameStorylineModel from '../../../models/GameStorylineModel';
-import GameSummaryModel from '../../../models/GameSummaryModel';
+import GameTokenModel from '../../../models/GameTokenModel';
 import GameThemeModel from '../../../models/GameThemeModel';
 import GenreModel from '../../../models/GenreModel';
 import KeywordModel from '../../../models/KeywordModel';
@@ -29,8 +28,7 @@ class DatabaseInitializer {
 		GameGenreModel,
 		GameModeModel,
 		GamePlayerPerspectiveModel,
-		GameStorylineModel,
-		GameSummaryModel,
+		GameTokenModel,
 		GameThemeModel,
 		GameKeywordModel,
 	];

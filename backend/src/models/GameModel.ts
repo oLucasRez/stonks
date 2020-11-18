@@ -68,11 +68,7 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 
 	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.TokenModel, {
-			through: database.models.GameSummaryModel,
-			foreignKey: 'id_game',
-		});
-		this.belongsToMany(database.models.TokenModel, {
-			through: database.models.GameStorylineModel,
+			through: database.models.GameTokenModel,
 			foreignKey: 'id_game',
 		});
 		this.belongsToMany(database.models.ThemeModel, {

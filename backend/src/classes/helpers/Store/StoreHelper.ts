@@ -7,17 +7,13 @@ import GameGenreController from '../../controllers/GameGenreController';
 import GameKeywordController from '../../controllers/GameKeywordController';
 import GamePlayerPerspectiveController from '../../controllers/GamePlayerPerspectiveController';
 import GameThemeController from '../../controllers/GameThemeController';
-
-// TODO
-// import GameStoryLineController from '../../controllers/GameStorylineController';
-// import GameSummaryController from '../../controllers/GameSummaryController';
+import GameTokenController from '../../controllers/GameTokenController';
 
 import { IGame } from '../../../typescript/database/Tables';
 import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
-import { IGameStoryline } from '../../../typescript/database/AssociativeTables';
+import { IGameToken } from '../../../typescript/database/AssociativeTables';
+
 import TokenModel from '../../../models/TokenModel';
-import GameSummaryController from '../../controllers/GameSummaryController';
-import GameStorylineController from '../../controllers/GameStorylineController';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DatabaseSaveMethod = (item: any) => Promise<boolean>;
@@ -52,6 +48,7 @@ class StoreHelper {
 	private static async storeNLPProducts(
 		id_game: number,
 		tokenAndWeights: Map<number, number>,
+		type: 'summary' | 'storyline',
 		storeMethod: DatabaseSaveMethod
 	) {
 		// eslint-disable-next-line no-restricted-syntax
@@ -82,6 +79,7 @@ class StoreHelper {
 				id_game,
 				id_token: tokenDbRef.id,
 				weight,
+				type,
 			}).then((result) => {
 				if (result) {
 					console.log('[POSTGRES]: Token + Association saved!');
@@ -101,7 +99,8 @@ class StoreHelper {
 			await this.storeNLPProducts(
 				game.id,
 				game.summaryMap,
-				GameSummaryController.store
+				'summary',
+				GameTokenController.store
 			);
 		}
 
@@ -109,7 +108,8 @@ class StoreHelper {
 			await this.storeNLPProducts(
 				game.id,
 				game.storylineMap,
-				GameStorylineController.store
+				'storyline',
+				GameTokenController.store
 			);
 		}
 
