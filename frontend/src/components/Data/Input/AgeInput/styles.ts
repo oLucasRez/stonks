@@ -27,7 +27,8 @@ export const AgeBox = styled.div<StyleProps>`
   align-items: center;
   cursor: pointer;
 
-  color: white;
+  color: ${({ theme, selected }) =>
+    selected ? 'white' : theme.colors.foreground[0]};
   border-radius: 0.4rem;
   background: ${({ colorPrimary, selected }) =>
     selected ? colorPrimary : 'null'};

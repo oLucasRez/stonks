@@ -13,7 +13,12 @@ import { ReactComponent as Logo } from '../../assets/logo_name.svg';
 //--------------------------------------------------------------< styles >
 import { ThemeContext } from 'styled-components';
 
-import { Container, PhraseContainer, FormContainer } from './styles';
+import {
+  Container,
+  PhraseContainer,
+  FormContainer,
+  ButtonContainer,
+} from './styles';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 //---------------------------------------------------------------< types >
 interface Props {
@@ -31,7 +36,7 @@ const Main: FC<Props> = ({ toggleTheme }) => {
     'current-form',
     0
   );
-  const [page, setPage] = useState<string>('form');
+  const [showingForm, setShowingForm] = useState<boolean>(true);
 
   return (
     <Container>
@@ -55,24 +60,26 @@ const Main: FC<Props> = ({ toggleTheme }) => {
       />
       <FormContainer>
         {forms[currentForm].templateMethod(forms, setCurrentForm)}
-        <div className='buttons'>
+        <ButtonContainer>
           <button
-            className='back-to-form'
-            disabled={page === 'form'}
-            onClick={() => setPage('form')}
+            className={showingForm ? 'to-results' : 'to-form'}
+            onClick={() =>
+              showingForm ? setShowingForm(false) : setShowingForm(true)
+            }
           >
-            <FaArrowLeft />
-            <p>Back to form</p>
+            {showingForm ? (
+              <>
+                <p>See results</p>
+                <FaArrowRight />
+              </>
+            ) : (
+              <>
+                <FaArrowLeft />
+                <p>Back to form</p>
+              </>
+            )}
           </button>
-          <button
-            className='see-results'
-            disabled={page === 'results'}
-            onClick={() => setPage('results')}
-          >
-            <p>See results</p>
-            <FaArrowRight />
-          </button>
-        </div>
+        </ButtonContainer>
         <footer className='description'>
           Want to create a game, but don't know how to develop your idea? Want
           to publish it on <b>Steam</b>, but don't know if your game will be

@@ -173,117 +173,129 @@ export const FormContainer = styled.div`
           : theme.colors.foreground[1]};
     }
   }
+`;
 
-  .buttons {
+export const ButtonContainer = styled.div`
+  width: 100%;
+  height: 7rem;
+  max-width: 42rem;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1rem;
+  grid-template-areas: 'to-form to-results';
+
+  button {
     width: 100%;
-    height: 7rem;
-    max-width: 42rem;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 1rem;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    cursor: pointer;
 
-    button {
-      width: 100%;
+    font-size: 1.8rem;
+    font-weight: bold;
+    border: 0;
+    color: white;
 
-      display: grid;
-
-      font-size: 1.8rem;
-      font-weight: bold;
-      border: 0;
-      color: white;
-
-      p {
-        justify-self: center;
-        align-self: center;
-      }
-
-      :enabled {
-        opacity: 1;
-        cursor: pointer;
-      }
-
-      :focus {
-        outline: none;
-      }
+    p {
+      justify-self: center;
+      align-self: center;
     }
 
-    .back-to-form {
-      grid-template-columns: 4rem auto;
+    svg {
+      align-self: center;
+    }
 
-      border-radius: 3.5rem 1rem 1rem 3.5rem;
-      background: ${({ theme }) => theme.colors.foreground[2]};
-      opacity: 0.3;
+    :focus {
+      outline: none;
+    }
+
+    :hover {
+      transition: 0.1s;
 
       svg {
-        justify-self: flex-end;
-        align-self: center;
-      }
-
-      @keyframes arrow-form {
-        0% {
-          transform: translateX(0rem);
-        }
-        100% {
-          transform: translateX(-0.3rem);
-        }
-      }
-
-      :enabled {
-        :hover {
-          transition: 0.1s;
-          background: ${({ theme }) =>
-            theme.title === 'dark'
-              ? shade(0.1, theme.colors.foreground[2])
-              : lighten(0.1, theme.colors.foreground[2])};
-
-          svg {
-            transition: 0.1s;
-            animation-name: arrow-form;
-            animation-iteration-count: infinite;
-            animation-direction: alternate;
-            animation-duration: 0.4s;
-            animation-timing-function: ease;
-          }
-        }
+        transition: 0.1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-duration: 0.4s;
+        animation-timing-function: ease;
       }
     }
+  }
 
-    .see-results {
-      grid-template-columns: auto 4rem;
-
-      border-radius: 1rem 3.5rem 3.5rem 1rem;
+  @keyframes to-form-animation {
+    0% {
+      transform: translateX(100%);
       background: ${({ theme }) => theme.colors.green};
-      opacity: 0.3;
+      border-radius: 1rem 3.5rem 3.5rem 1rem;
+    }
+  }
+
+  .to-form {
+    grid-area: to-form;
+    grid-template-columns: 4rem auto;
+
+    animation-name: to-form-animation;
+    border-radius: 3.5rem 1rem 1rem 3.5rem;
+    background: ${({ theme }) => theme.colors.foreground[2]};
+
+    svg {
+      justify-self: flex-end;
+    }
+
+    @keyframes arrow-form {
+      100% {
+        transform: translateX(-0.3rem);
+      }
+    }
+
+    :hover {
+      background: ${({ theme }) =>
+        theme.title === 'dark'
+          ? shade(0.1, theme.colors.foreground[2])
+          : lighten(0.1, theme.colors.foreground[2])};
 
       svg {
-        justify-self: flex-start;
-        align-self: center;
+        animation-name: arrow-form;
       }
+    }
+  }
 
-      @keyframes arrow-results {
-        0% {
-          transform: translateX(0rem);
-        }
-        100% {
-          transform: translateX(0.3rem);
-        }
+  @keyframes to-results-animation {
+    0% {
+      transform: translateX(-100%);
+      background: ${({ theme }) =>
+        theme.title === 'dark'
+          ? shade(0.1, theme.colors.foreground[2])
+          : lighten(0.1, theme.colors.foreground[2])};
+      border-radius: 3.5rem 1rem 1rem 3.5rem;
+    }
+  }
+
+  .to-results {
+    grid-area: to-results;
+    grid-template-columns: auto 4rem;
+
+    animation-name: to-results-animation;
+    border-radius: 1rem 3.5rem 3.5rem 1rem;
+    background: ${({ theme }) => theme.colors.green};
+
+    svg {
+      justify-self: flex-start;
+    }
+
+    @keyframes arrow-results {
+      100% {
+        transform: translateX(0.3rem);
       }
+    }
 
-      :enabled {
-        :hover {
-          transition: 0.1s;
-          background: ${({ theme }) => shade(0.1, theme.colors.green)};
+    :hover {
+      background: ${({ theme }) => shade(0.1, theme.colors.green)};
 
-          svg {
-            transition: 0.1s;
-            animation-name: arrow-results;
-            animation-iteration-count: infinite;
-            animation-direction: alternate;
-            animation-duration: 0.4s;
-            animation-timing-function: ease;
-          }
-        }
+      svg {
+        animation-name: arrow-results;
       }
     }
   }
