@@ -36,6 +36,9 @@ async def getSteamInfo() -> list:
     
     parsedBody = json.loads(request_body)
 
+    if not 'appids' in parsedBody:
+        return jsonify([])
+
     appids = parsedBody['appids']
 
     responses = []
