@@ -9,10 +9,15 @@ class GameKeywordController {
 		let saved = false;
 
 		try {
-			const dbRef = await GameKeywordModel.create(gameKeyword);
-			dbRef.save();
-
-			saved = true;
+			if (
+				await GameKeywordModel.findByPk(gameKeyword.id_keyword)
+			) {
+				const dbRef = await GameKeywordModel.create(gameKeyword);
+				dbRef.save();
+				saved = true;
+			} else {
+				saved = false;
+			}
 		} catch (err) {
 			saved = false;
 
