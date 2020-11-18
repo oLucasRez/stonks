@@ -7,9 +7,9 @@ import IGDBCall from '../abstract/IGDBCall';
 import { IKeyword } from '../../typescript/database/Tables';
 
 export default class IGDBKeyword extends IGDBCall<IKeyword[]> {
-	protected idLowerLimit: number;
+	public idLowerLimit: number;
 
-	protected idHigherLimit: number;
+	public idHigherLimit: number;
 
 	protected idStep: number;
 

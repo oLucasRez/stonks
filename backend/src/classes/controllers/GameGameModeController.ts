@@ -16,7 +16,7 @@ class GameGameModeController {
 		} catch (err) {
 			saved = false;
 
-			console.log(`Error on saving: ${err}`);
+			console.log(`[POSTGRESQL]: Error on saving: ${err}`);
 		}
 
 		return saved;

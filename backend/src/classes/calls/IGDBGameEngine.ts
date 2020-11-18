@@ -9,9 +9,9 @@ import { IGameEngine } from '../../typescript/database/Tables';
 export default class IGDBGameEngine extends IGDBCall<
 	IGameEngine[]
 > {
-	protected idLowerLimit: number;
+	public idLowerLimit: number;
 
-	protected idHigherLimit: number;
+	public idHigherLimit: number;
 
 	protected idStep: number;
 

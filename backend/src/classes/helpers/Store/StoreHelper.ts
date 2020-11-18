@@ -34,20 +34,26 @@ class StoreHelper {
 			saveObject.id_game = id;
 			saveObject[object_key] = table_ids[i];
 
-			storeMethod(saveObject).then(() =>
-				console.log(
-					`[POSTGRESQL]: SAVED ['id_game', ${object_key}]`
-				)
-			);
+			storeMethod(saveObject).then((isSaved) => {
+				if (isSaved) {
+					console.log(
+						`[POSTGRESQL]: SAVED ['id_game', ${object_key}]`
+					);
+				}
+			});
 		}
 	}
 
 	private static async initiateSubStoreProcesses(
 		game: IGameRaw
 	) {
-		await GameController.store(game as IGame);
+		const isGameSaved = await GameController.store(
+			game as IGame
+		);
 
-		console.log(`[POSTGRESQL]: Game ${game.name} saved`);
+		if (isGameSaved) {
+			console.log(`[POSTGRESQL]: Game ${game.name} saved`);
+		}
 
 		const { id: id_game, game_modes } = game;
 

@@ -7,9 +7,9 @@ import IGDBCall from '../abstract/IGDBCall';
 import { IGameMode } from '../../typescript/database/Tables';
 
 export default class IGDBGameMode extends IGDBCall<IGameMode[]> {
-	protected idLowerLimit: number;
+	public idLowerLimit: number;
 
-	protected idHigherLimit: number;
+	public idHigherLimit: number;
 
 	protected idStep: number;
 

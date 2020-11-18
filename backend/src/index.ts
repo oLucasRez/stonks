@@ -85,7 +85,6 @@ runServer();
 async function makeCalls() {
 	const call = new IGDBGameCall();
 
-	let callResult;
 	let retries = 0;
 
 	console.log('[STORE]: Process started');
@@ -99,7 +98,7 @@ async function makeCalls() {
 		}
 
 		// eslint-disable-next-line no-await-in-loop
-		callResult = await call.call();
+		const callResult = await call.call();
 
 		if (callResult.length === 0) {
 			retries += 1;
@@ -114,7 +113,7 @@ async function makeCalls() {
 
 		// eslint-disable-next-line no-await-in-loop
 		await StoreHelper.StoreProcess(callResult);
-	} while (callResult.length !== 0 && retries < 2);
+	} while (retries < 2);
 
 	console.log('[STORE]: Process ended!');
 }
