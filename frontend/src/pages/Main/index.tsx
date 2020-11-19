@@ -6,6 +6,8 @@ import SpecificationsForm from '../../components/Form/SpecificationsForm';
 import PublishForm from '../../components/Form/PublishForm';
 //----------------------------------------------------------< components >
 import Switch from 'react-switch';
+
+import Results from '../../components/Results';
 //---------------------------------------------------------------< utils >
 import useStorageState from '../../utils/useStorageState';
 //--------------------------------------------------------------< assets >
@@ -36,7 +38,9 @@ const Main: FC<Props> = ({ toggleTheme }) => {
     'current-form',
     0
   );
-  const [showingForm, setShowingForm] = useState<boolean>(true);
+  const [showingForm, setShowingForm] = useState<boolean>(false);
+
+  const FormTemplateMethod = forms[currentForm].templateMethod;
 
   return (
     <Container>
@@ -59,7 +63,14 @@ const Main: FC<Props> = ({ toggleTheme }) => {
         offHandleColor={colors.foreground[0]}
       />
       <FormContainer>
-        {forms[currentForm].templateMethod(forms, setCurrentForm)}
+        <FormTemplateMethod
+          className={showingForm ? 'visible-form' : 'hidden-form'}
+          forms={forms}
+          setCurrentForm={setCurrentForm}
+        />
+        <Results
+          className={showingForm ? 'hidden-results' : 'visible-results'}
+        />
         <ButtonContainer>
           <button
             className={showingForm ? 'to-results' : 'to-form'}

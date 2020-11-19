@@ -153,8 +153,93 @@ export const FormContainer = styled.div`
 
   grid-area: body;
   display: grid;
+  grid-template-areas: 'center';
   flex-direction: column;
   justify-items: center;
+
+  .hidden-form {
+    @keyframes form-end {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(-50%) scaleX(0);
+      }
+    }
+
+    grid-area: center;
+    z-index: 10;
+
+    animation-name: form-end;
+    display: grid;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    opacity: 0;
+    position: static;
+  }
+
+  .visible-form {
+    @keyframes form-start {
+      0% {
+        transform: translateX(-50%) scaleX(0);
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    grid-area: center;
+    z-index: 20;
+
+    animation-name: form-start;
+    display: grid;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    position: static;
+  }
+
+  .hidden-results {
+    @keyframes results-end {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(50%) scaleX(0);
+      }
+    }
+
+    grid-area: center;
+    z-index: 10;
+
+    animation-name: results-end;
+    display: grid;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    opacity: 0;
+    position: static;
+  }
+
+  .visible-results {
+    @keyframes results-start {
+      0% {
+        transform: translateX(50%) scaleX(0);
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    grid-area: center;
+    z-index: 20;
+
+    animation-name: results-start;
+    display: grid;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    position: static;
+  }
 
   .description {
     align-self: flex-end;

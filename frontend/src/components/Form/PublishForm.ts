@@ -4,7 +4,6 @@ import Input from '../Data/Input';
 import AgeInput from '../Data/Input/AgeInput';
 import PriceInput from '../Data/Input/PriceInput';
 import DateInput from '../Data/Input/DateInput';
-// import SelectStrategy from "../Data/TypeStrategy/SelectStrategy";
 //--------------------------------------------------------------< styles >
 import { FaGlobeAmericas } from 'react-icons/fa';
 //================================================================[ BODY ]

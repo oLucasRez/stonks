@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { FC, HTMLProps, useContext } from 'react';
 //----------------------------------------------------------< components >
 import { IconType } from 'react-icons';
 
@@ -6,14 +6,23 @@ import { ThemeContext } from 'styled-components';
 import ColorContext from '../../../utils/ColorContext';
 import Input from '../../Data/Input';
 //--------------------------------------------------------------< styles >
-import { Container } from './styles';
+import { Container, Header, Form } from './styles';
+//---------------------------------------------------------------< types >
+interface TemplateMethodProps extends HTMLProps<HTMLDivElement> {
+  forms: TemplateForm[];
+  setCurrentForm: Function;
+}
 //================================================================[ BODY ]
 abstract class TemplateForm {
   protected theme = useContext(ThemeContext);
 
   public icon = this.getIcon();
 
-  public templateMethod(forms: TemplateForm[], setCurrentForm: Function) {
+  public templateMethod: FC<TemplateMethodProps> = ({
+    className,
+    forms,
+    setCurrentForm,
+  }) => {
     const header: JSX.Element[] = [];
 
     forms.forEach((form, i) => {
@@ -32,9 +41,9 @@ abstract class TemplateForm {
 
     return (
       <ColorContext.Provider value={this.getColor()}>
-        <Container color={this.getColor()}>
-          <header>{header.map((tab) => tab)}</header>
-          <form>
+        <Container className={className}>
+          <Header color={this.getColor()}>{header.map((tab) => tab)}</Header>
+          <Form color={this.getColor()}>
             <div className='inputs'>
               {this.getInputs().map((input, index) => {
                 const { TemplateMethod } = input;
@@ -46,11 +55,11 @@ abstract class TemplateForm {
               })}
             </div>
             <footer />
-          </form>
+          </Form>
         </Container>
       </ColorContext.Provider>
     );
-  }
+  };
 
   protected abstract getIcon(): IconType;
 
