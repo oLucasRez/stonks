@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import GameAdapter from '../../adapters/classes/GameAdapter';
 
-import GameController from '../../controllers/GameController';
+import GameController from '../../controllers/private/GameController';
 import GameGameModeController from '../../controllers/GameGameModeController';
 import GameGenreController from '../../controllers/GameGenreController';
 import GameKeywordController from '../../controllers/GameKeywordController';
@@ -86,7 +86,9 @@ class StoreHelper {
 				type,
 			}).then((result) => {
 				if (result) {
-					console.log('[POSTGRES]: Token + Association saved!');
+					console.log(
+						'[POSTGRESQL]: Token + Association saved!'
+					);
 				}
 			});
 		}
