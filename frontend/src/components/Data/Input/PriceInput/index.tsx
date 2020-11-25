@@ -28,11 +28,13 @@ class DateInput extends Input {
         '.' +
         newPrice.substring(newPrice.length - 2, newPrice.length);
 
+      if (newPrice.length > 7) newPrice = '9999.99';
+
       setPrice(newPrice);
     };
 
     return (
-      <Container colorPrimary={color}>
+      <Container colorPrimary={color} limitReached={price === '9999.99'}>
         U$
         <input onChange={(e) => handlePrice(e.target.value)} value={price} />
       </Container>

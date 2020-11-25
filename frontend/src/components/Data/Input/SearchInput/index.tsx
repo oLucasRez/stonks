@@ -1,11 +1,8 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 //-----------------------------------------------------------------< poo >
 import Input from '../index';
-//------------------------------------------------------------< services >
-import backend from '../../../../services/backend';
 //---------------------------------------------------------------< utils >
 import ColorContext from '../../../../utils/ColorContext';
-import useStorageState from '../../../../utils/useStorageState';
 //--------------------------------------------------------------< styles >
 import { ThemeContext } from 'styled-components';
 import { FaTimes } from 'react-icons/fa';

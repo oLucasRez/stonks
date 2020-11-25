@@ -1,4 +1,4 @@
-import { lighten, opacify, shade } from 'polished';
+import { lighten, shade } from 'polished';
 import styled from 'styled-components';
 //---------------------------------------------------------------< utils >
 import getRandomInt from '../../utils/getRandomInt';
@@ -56,18 +56,16 @@ export const Container = styled.div`
   }
 
   @media (max-width: 720px) {
-    width: 100vw;
+    width: 100%;
   }
 
-  @media (max-width: 420px) {
+  @media (max-width: 425px) {
     .logo {
-      width: 50vw;
-      height: auto;
-      margin-left: 10vw;
+      margin-left: 2rem;
     }
 
     .switch {
-      margin-right: 10vw;
+      margin-right: 2rem;
     }
   }
 `;
@@ -153,9 +151,14 @@ export const FormContainer = styled.div`
 
   grid-area: body;
   display: grid;
-  grid-template-areas: 'center';
+  grid-template-rows: 56vh 7rem auto;
+  grid-template-areas: 'form' 'button' 'footer';
   flex-direction: column;
   justify-items: center;
+
+  @media (max-width: 425px) {
+    padding: 2rem 1rem;
+  }
 
   .hidden-form {
     @keyframes form-end {
@@ -167,7 +170,7 @@ export const FormContainer = styled.div`
       }
     }
 
-    grid-area: center;
+    grid-area: form;
     z-index: 10;
 
     animation-name: form-end;
@@ -189,7 +192,7 @@ export const FormContainer = styled.div`
       }
     }
 
-    grid-area: center;
+    grid-area: form;
     z-index: 20;
 
     animation-name: form-start;
@@ -209,7 +212,7 @@ export const FormContainer = styled.div`
       }
     }
 
-    grid-area: center;
+    grid-area: form;
     z-index: 10;
 
     animation-name: results-end;
@@ -231,7 +234,7 @@ export const FormContainer = styled.div`
       }
     }
 
-    grid-area: center;
+    grid-area: form;
     z-index: 20;
 
     animation-name: results-start;
@@ -259,12 +262,21 @@ export const FormContainer = styled.div`
     }
   }
 `;
+//------------------------------------------------------------------------
+export const FormTemplateMethodContainer = styled.div`
+  width: 100%;
+  height: 46rem;
+  max-width: 42rem;
 
+  display: grid;
+`;
+//------------------------------------------------------------------------
 export const ButtonContainer = styled.div`
   width: 100%;
   height: 7rem;
   max-width: 42rem;
 
+  grid-area: button;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 1rem;

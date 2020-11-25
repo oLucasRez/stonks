@@ -1,15 +1,13 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
 //-----------------------------------------------------------------< poo >
 import Input from '../index';
 //---------------------------------------------------------------< utils >
-import ColorContext from '../../../../utils/ColorContext';
 import useStorageState from '../../../../utils/useStorageState';
 //--------------------------------------------------------------< styles >
 import { AgeBox, Container } from './styles';
 //================================================================[ BODY ]
 class AgeInput extends Input {
   Body: FC = () => {
-    const color = useContext(ColorContext);
     const [age, setAge] = useStorageState<number>(this.name + '-age', 3);
     const ageBoxes = [
       {

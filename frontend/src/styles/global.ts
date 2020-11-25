@@ -5,6 +5,13 @@ export default createGlobalStyle`
     font-size: 66.66%;
   }
 
+  @media(max-width: 425px) {
+
+  :root {
+    font-size: 50%;
+  }
+  }
+
   * {
     margin: 0;
     padding: 0;

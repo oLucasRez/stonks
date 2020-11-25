@@ -9,6 +9,7 @@ export default class GameModeRequestStrategy
   implements RequestStrategy<CheckResponse[]> {
   public async request() {
     const { data } = await backend.get<CheckResponse[]>('game-modes');
+
     return data;
   }
 }

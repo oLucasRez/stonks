@@ -19,6 +19,7 @@ import {
   Container,
   PhraseContainer,
   FormContainer,
+  FormTemplateMethodContainer,
   ButtonContainer,
 } from './styles';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
@@ -29,16 +30,19 @@ interface Props {
 //================================================================[ BODY ]
 const Main: FC<Props> = ({ toggleTheme }) => {
   const { title, colors } = useContext(ThemeContext);
-  const forms: TemplateForm[] = [
+  const [forms] = useState<TemplateForm[]>([
     new ProfileForm(),
     new SpecificationsForm(),
     new PublishForm(),
-  ];
+  ]);
   const [currentForm, setCurrentForm] = useStorageState<number>(
     'current-form',
     0
   );
-  const [showingForm, setShowingForm] = useState<boolean>(false);
+  const [showingForm, setShowingForm] = useStorageState<boolean>(
+    'showing-form',
+    false
+  );
 
   const FormTemplateMethod = forms[currentForm].templateMethod;
 
@@ -63,11 +67,11 @@ const Main: FC<Props> = ({ toggleTheme }) => {
         offHandleColor={colors.foreground[0]}
       />
       <FormContainer>
-        <FormTemplateMethod
+        <FormTemplateMethodContainer
           className={showingForm ? 'visible-form' : 'hidden-form'}
-          forms={forms}
-          setCurrentForm={setCurrentForm}
-        />
+        >
+          <FormTemplateMethod forms={forms} setCurrentForm={setCurrentForm} />
+        </FormTemplateMethodContainer>
         <Results
           className={showingForm ? 'hidden-results' : 'visible-results'}
         />

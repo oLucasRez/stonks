@@ -1,4 +1,4 @@
-import React, { FC, HTMLProps, useContext } from 'react';
+import React, { FC, useContext } from 'react';
 //----------------------------------------------------------< components >
 import { IconType } from 'react-icons';
 
@@ -8,7 +8,7 @@ import Input from '../../Data/Input';
 //--------------------------------------------------------------< styles >
 import { Container, Header, Form } from './styles';
 //---------------------------------------------------------------< types >
-interface TemplateMethodProps extends HTMLProps<HTMLDivElement> {
+interface TemplateMethodProps {
   forms: TemplateForm[];
   setCurrentForm: Function;
 }
@@ -19,7 +19,6 @@ abstract class TemplateForm {
   public icon = this.getIcon();
 
   public templateMethod: FC<TemplateMethodProps> = ({
-    className,
     forms,
     setCurrentForm,
   }) => {
@@ -41,7 +40,7 @@ abstract class TemplateForm {
 
     return (
       <ColorContext.Provider value={this.getColor()}>
-        <Container className={className}>
+        <Container>
           <Header color={this.getColor()}>{header.map((tab) => tab)}</Header>
           <Form color={this.getColor()}>
             <div className='inputs'>

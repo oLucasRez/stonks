@@ -9,9 +9,9 @@ interface ProgressCircleProps {
 //================================================================[ BODY ]
 const ProgressCircle: FC<ProgressCircleProps> = ({ progress, color }) => {
   const [endX, endY] = (() => {
-    const arc = 2 * Math.PI * progress;
-    let x = 45 * Math.sin(-arc) + 45;
-    let y = 45 * Math.cos(-arc) + 45;
+    const arc = -2 * Math.PI * progress;
+    let x = 45 * Math.sin(arc) + 45;
+    let y = 45 * Math.cos(arc) + 45;
     return [x, y];
   })();
 

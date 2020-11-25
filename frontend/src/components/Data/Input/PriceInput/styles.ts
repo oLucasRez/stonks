@@ -2,6 +2,7 @@ import styled from 'styled-components';
 //---------------------------------------------------------------< types >
 interface StyleProps {
   colorPrimary: string;
+  limitReached: boolean;
 }
 //================================================================[ BODY ]
 export const Container = styled.section<StyleProps>`
@@ -11,18 +12,19 @@ export const Container = styled.section<StyleProps>`
   color: ${({ theme }) => theme.colors.foreground[1]};
 
   input {
-    width: 12.4rem;
+    width: 12.8rem;
     height: 5.2rem;
     margin-left: 1.1rem;
     padding: 1.1rem;
 
-    cursor: default;
+    cursor: text;
     display: flex;
     align-items: center;
 
     font-size: 2.8rem;
     outline: none;
-    color: ${({ theme }) => theme.colors.foreground[1]};
+    color: ${({ theme, limitReached }) =>
+      limitReached ? theme.colors.red : theme.colors.foreground[1]};
     background: ${({ theme }) =>
       theme.title === 'dark' ? theme.colors.background[2] : 'none'};
     border: ${({ theme }) =>

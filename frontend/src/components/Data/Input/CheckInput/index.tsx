@@ -29,68 +29,45 @@ class CheckInput extends Input {
   Body: FC = () => {
     const color = useContext(ColorContext);
     const { background, foreground } = useContext(ThemeContext).colors;
-    const [checkeds, setCheckeds] = useStorageState<CheckResponse[]>(
+    const [checks, setChecks] = useStorageState<boolean[]>(
       this.name + '-checked',
+      []
+    );
+    const [checkResponse, setCheckResponse] = useStorageState<CheckResponse[]>(
+      this.name + '-check-response',
       []
     );
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
       (async () => {
-        const a: CheckResponse = {
-          id: 1,
-          name: 'a',
-          slug: 'a',
-          checked: false,
-        };
-        const newCheckeds: CheckResponse[] = [a, a, a];
-        // (await this.requestStrategy.request()).forEach((newChecked) => {
-        //   const index = checkeds.indexOf(newChecked);
-        //   if (index === -1) newCheckeds.push(newChecked);
-        //   else newCheckeds.push(checkeds[index]);
-        // });
-        setCheckeds(newCheckeds);
+        if (!checkResponse.length)
+          this.requestStrategy.request().then((response) => {
+            const newChecks = [];
+            for (var i = 0; i < response.length; i++) newChecks.push(false);
+            setCheckResponse(response);
+            setChecks(newChecks);
+          });
+
         setLoaded(true);
       })();
     }, []);
 
-    const checking = (index: number, value: boolean) => {
-      // console.log(checkeds);
-      checkeds[index].checked = value;
-      setCheckeds(checkeds);
-      console.log(checkeds[index]);
-    };
-
-    const allChecks = (checked: CheckResponse, index: number) => {
-      return checked.checked ? (
-        (() => {
-          console.log('c');
-          return (
-            <div
-              onClick={() => {
-                checkeds[index].checked = false;
-                setCheckeds(checkeds);
-              }}
-            >
-              <FaCheckSquare />
-            </div>
-          );
-        })()
-      ) : (
-        <div onClick={() => checking(index, true)}>
-          <FaRegSquare />
-        </div>
-      );
+    const checking = (index: number) => {
+      const newChecks = [...checks];
+      newChecks[index] = !newChecks[index];
+      setChecks(newChecks);
     };
 
     if (loaded)
       return (
         <Container>
-          {checkeds.map((checked, index) => (
+          {checkResponse.map((check, index) => (
             <Check key={index} colorPrimary={color}>
-              {console.log(checked.checked)}
-              {allChecks(checked, index)}
-              {checked.name}
+              <div onClick={() => checking(index)}>
+                {checks[index] ? <FaCheckSquare /> : <FaRegSquare />}
+              </div>
+              {check.name}
             </Check>
           ))}
         </Container>

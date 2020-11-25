@@ -3,12 +3,6 @@ import styled from 'styled-components';
 import { shade, lighten } from 'polished';
 
 export const Container = styled.div`
-  width: 100%;
-  height: 46rem;
-  max-width: 42rem;
-
-  display: grid;
-
   .side {
     display: flex;
 

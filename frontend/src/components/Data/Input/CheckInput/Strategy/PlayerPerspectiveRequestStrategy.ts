@@ -9,6 +9,7 @@ export default class PlayerPerspectiveRequestStrategy
   implements RequestStrategy<CheckResponse[]> {
   public async request() {
     const { data } = await backend.get<CheckResponse[]>('player-perspectives');
+
     return data;
   }
 }
