@@ -1,7 +1,7 @@
 import CSVReader from '../../../services/CSVReader';
 
-import { IGame } from '../../../typescript/database/Tables';
 import { ITimeToBeat } from '../../../typescript/services/CSVReader/ITimeToBeat';
+import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
 
 class GameTimeToBeatHelper {
 	private static instance: GameTimeToBeatHelper;
@@ -28,26 +28,26 @@ class GameTimeToBeatHelper {
 		);
 	}
 
-	public async fillTimeToBeats(data: IGame[]): Promise<IGame[]> {
-		const newData = data;
-
+	public async fillTimeToBeats(
+		data: IGameRaw
+	): Promise<IGameRaw> {
 		if (!this.time_to_beat) {
 			await this.createTimeToBeatMap();
 		}
 
-		for (let i = 0; i < newData.length; i += 1) {
-			const game_id = newData[i].id.toString();
+		const filledGame = data;
 
-			if (this.time_to_beat.has(game_id)) {
-				const time_to_beat = this.time_to_beat.get(
-					game_id
-				) as string;
+		const game_id = data.id.toString();
 
-				newData[i].time_to_beat = parseInt(time_to_beat, 10);
-			}
+		if (this.time_to_beat.has(game_id)) {
+			const time_to_beat = this.time_to_beat.get(
+				game_id
+			) as string;
+
+			filledGame.time_to_beat = parseInt(time_to_beat, 10);
 		}
 
-		return newData;
+		return filledGame;
 	}
 }
 

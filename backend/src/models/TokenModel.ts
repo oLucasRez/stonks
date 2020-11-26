@@ -12,7 +12,9 @@ type TokenCreationAttributes = Optional<IToken, 'id'>;
 class TokenModel extends Model<IToken, TokenCreationAttributes> {
 	public id!: number;
 
-	public token!: number;
+	public token!: string;
+
+	public type!: string;
 
 	static initialize(database: Sequelize): void {
 		this.init(
@@ -20,8 +22,10 @@ class TokenModel extends Model<IToken, TokenCreationAttributes> {
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
+					autoIncrement: true,
 				},
-				token: DataTypes.NUMBER,
+				token: DataTypes.STRING,
+				type: DataTypes.STRING,
 			},
 			{
 				sequelize: database,
@@ -35,10 +39,8 @@ class TokenModel extends Model<IToken, TokenCreationAttributes> {
 
 	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
-			through: database.models.GameSummaryModel,
-		});
-		this.belongsToMany(database.models.GameModel, {
-			through: database.models.GameStorylineModel,
+			through: database.models.GameTokenModel,
+			foreignKey: 'id_token',
 		});
 	}
 }

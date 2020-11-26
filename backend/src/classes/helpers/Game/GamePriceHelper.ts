@@ -1,80 +1,27 @@
-import SteamAPI from '../../../services/SteamApi';
-
-import CallHandler from '../../chain/CallHandler';
-import SteamPriceDelay from '../../chain/SteamPriceDelay';
-
-import { IGame } from '../../../typescript/database/Tables';
-import {
-	IExternalGames,
-	IGameRaw,
-} from '../../../typescript/services/IGDB/IGameRaw';
+import SteamAPI from '../../../services/micro/SteamApi';
+import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
 
 class GamePriceHelper {
-	private onGameFetched(callhandler: CallHandler<IGame>): void {
-		console.log('all game prices fetched, listing prices');
+	public static async FillGamePrice(
+		game: IGameRaw
+	): Promise<IGameRaw> {
+		if (!game.external_games) {
+			return game;
+		}
 
-		const games = callhandler.objs.map((game) => {
-			return console.log(`${game.name}: R$ ${game.price}`);
-		});
-
-		// Retorna ao observador.
-	}
-
-	private getExternalGameSteamUid(
-		external_games: IExternalGames[]
-	): string {
-		const { uid } = external_games.filter(
+		const steamExternalGame = game.external_games.filter(
 			(external_game) => external_game.category === 1
 		)[0];
 
-		return uid;
-	}
+		const steamId = Number.parseInt(steamExternalGame.uid, 10);
 
-	private async fillGamePrice(
-		game: IGameRaw,
-		steamAPI: SteamAPI
-	): Promise<IGame> {
-		let uid = '';
+		const [price] = await SteamAPI.getGamePrices([steamId]);
 
-		if (game.external_games) {
-			uid = this.getExternalGameSteamUid(game.external_games);
-		}
+		const pricedGame = game;
 
-		let finalGame = game;
+		pricedGame.price = price;
 
-		delete finalGame.external_games;
-
-		finalGame = finalGame as IGame;
-
-		if (uid) {
-			finalGame.price = await steamAPI.getGamePrice(uid);
-		}
-
-		return finalGame;
-	}
-
-	/**
-	 * Fill the provided IGameRaw with it's correponded prices.
-	 * @param data The data obtained on a IGDB Api call for games.
-	 */
-	public async fillGamePrices(data: IGameRaw[]): Promise<void> {
-		const steamAPIInstance = SteamAPI.getInstance();
-
-		const callHandler: CallHandler<IGame> = new CallHandler();
-
-		callHandler.onFinish = (obj) => this.onGameFetched(obj);
-
-		data.forEach((game): void => {
-			const steamCall = new SteamPriceDelay(
-				async () => this.fillGamePrice(game, steamAPIInstance),
-				game,
-				steamAPIInstance
-			);
-
-			callHandler.addCall(steamCall);
-		});
-
-		callHandler.nextCall();
+		return pricedGame;
 	}
 }
 

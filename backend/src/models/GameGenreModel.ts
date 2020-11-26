@@ -27,6 +27,7 @@ class GameGenreModel extends Model<
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
+					autoIncrement: true,
 				},
 				id_genre: DataTypes.NUMBER,
 				id_game: DataTypes.NUMBER,

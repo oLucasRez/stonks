@@ -1,23 +1,15 @@
+/* eslint-disable no-bitwise */
 import NLPApi from '../../../services/NLPApi';
+import { ITokenRaw } from '../../../typescript/services/GCP/ITokenRaw';
 
 import { IDocument } from '../../../typescript/services/GCP/Language';
 
 const NLP = NLPApi.getInstance().getAPI();
 
 class GameNLPHelper {
-	private static tokenToId(token: string): number {
-		let id = 0;
-
-		for (let i = 0; i < token.length; i += 1) {
-			id += token.charCodeAt(i);
-		}
-
-		return id;
-	}
-
 	public static async getTokensAndWeight(
 		text: string
-	): Promise<Map<number, number>> {
+	): Promise<ITokenRaw[]> {
 		const document: IDocument = {
 			content: text,
 			type: 'PLAIN_TEXT',
@@ -32,19 +24,21 @@ class GameNLPHelper {
 
 		const { entities } = result;
 
-		const dictionary = new Map<number, number>();
+		const rawTokens: ITokenRaw[] = [];
 
 		entities?.forEach((entity) => {
 			const { name, type, salience } = entity;
 
 			if (name && salience) {
-				const tokenId = GameNLPHelper.tokenToId(name + type);
-
-				dictionary.set(tokenId, salience);
+				rawTokens.push({
+					token: name,
+					weight: salience,
+					type: type as string,
+				});
 			}
 		});
 
-		return dictionary;
+		return rawTokens;
 	}
 }
 

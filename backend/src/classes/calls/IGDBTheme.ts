@@ -7,9 +7,9 @@ import IGDBCall from '../abstract/IGDBCall';
 import { ITheme } from '../../typescript/database/Tables';
 
 export default class IGDBTheme extends IGDBCall<ITheme[]> {
-	protected idLowerLimit: number;
+	public idLowerLimit: number;
 
-	protected idHigherLimit: number;
+	public idHigherLimit: number;
 
 	protected idStep: number;
 

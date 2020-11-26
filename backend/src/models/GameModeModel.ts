@@ -42,6 +42,7 @@ class GameModeModel extends Model<
 	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameGameModeModel,
+			foreignKey: 'id_game_mode',
 		});
 	}
 }

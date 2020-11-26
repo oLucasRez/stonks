@@ -23,6 +23,7 @@ class KeywordModel extends Model<
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
+					autoIncrement: true,
 				},
 				name: DataTypes.STRING,
 			},
@@ -39,6 +40,7 @@ class KeywordModel extends Model<
 	static associate(database: Sequelize): void {
 		this.belongsToMany(database.models.GameModel, {
 			through: database.models.GameKeywordModel,
+			foreignKey: 'id_keyword',
 		});
 	}
 }

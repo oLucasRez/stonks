@@ -9,9 +9,9 @@ import { IPlayerPerspective } from '../../typescript/database/Tables';
 export default class IGDBPlayerPerspective extends IGDBCall<
 	IPlayerPerspective[]
 > {
-	protected idLowerLimit: number;
+	public idLowerLimit: number;
 
-	protected idHigherLimit: number;
+	public idHigherLimit: number;
 
 	protected idStep: number;
 

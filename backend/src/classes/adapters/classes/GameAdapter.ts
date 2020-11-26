@@ -1,24 +1,58 @@
+/* eslint-disable no-await-in-loop */
+import GamePriceHelper from '../../helpers/Game/GamePriceHelper';
+import GameTimeToBeatHelper from '../../helpers/Game/GameTimeToBeatHelper';
+import GameAgeRatingHelper from '../../helpers/Game/GameAgeRatingHelper';
+import GameGameEngineHelper from '../../helpers/Game/GameGameEngineHelper';
+
 import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
-import GameNLPHelper from '../../helpers/game/GameNLPHelper';
-import GamePriceHelper from '../../helpers/game/GamePriceHelper';
-import GameTimeToBeatHelper from '../../helpers/game/GameTimeToBeatHelper';
+import GameNLPHelper from '../../helpers/Game/GameNLPHelper';
 
 class GameAdapter {
-	private gameTimeToBeatHelper: GameTimeToBeatHelper;
+	public static async process(
+		data: IGameRaw[]
+	): Promise<IGameRaw[]> {
+		const processedGames: IGameRaw[] = [];
 
-	private gamePriceHelper: GamePriceHelper;
+		for (let i = 0; i < data.length; i += 1) {
+			console.log(
+				`Filling game price for game: ${data[i].name}`
+			);
+			const pricedGame = await GamePriceHelper.FillGamePrice(
+				data[i]
+			);
 
-	private gameNLPHelper: GameNLPHelper;
+			const finalGame: IGameRaw = await GameTimeToBeatHelper.getInstance().fillTimeToBeats(
+				pricedGame
+			);
 
-	constructor() {
-		this.gameTimeToBeatHelper = new GameTimeToBeatHelper();
-		this.gamePriceHelper = new GamePriceHelper();
-		this.gameNLPHelper = GameNLPHelper;
-	}
+			finalGame.age_rating = await GameAgeRatingHelper.getPEGIAgeRating(
+				finalGame
+			);
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	public async process(data: IGameRaw[]): Promise<void> {
-		// TODO process
+			if (finalGame.follows || finalGame.hypes) {
+				if (finalGame.storyline) {
+					finalGame.storylineTokens = await GameNLPHelper.getTokensAndWeight(
+						finalGame.storyline
+					);
+				}
+
+				if (finalGame.summary) {
+					finalGame.summaryTokens = await GameNLPHelper.getTokensAndWeight(
+						finalGame.summary
+					);
+				}
+			}
+
+			finalGame.id_game_engine = GameGameEngineHelper.selectGameEngine(
+				finalGame
+			);
+
+			finalGame.hype = finalGame.hypes;
+
+			processedGames.push(finalGame);
+		}
+
+		return processedGames;
 	}
 }
 
