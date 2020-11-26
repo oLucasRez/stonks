@@ -42,7 +42,7 @@ class SpecificationsForm extends TemplateForm {
       'What game engine did you use to make your game?'
     );
 
-    return [gameModes, playerPerspectives, timeToBeat, gameEngine];
+    return [gameEngine, timeToBeat, playerPerspectives, gameModes];
   }
 }
 

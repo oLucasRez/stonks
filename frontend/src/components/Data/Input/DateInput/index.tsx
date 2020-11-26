@@ -2,7 +2,7 @@ import React, { FC, useContext, useState } from 'react';
 //-----------------------------------------------------------------< poo >
 import Input from '../index';
 //---------------------------------------------------------------< utils >
-import ColorContext from '../../../../utils/ColorContext';
+import ColorContext from '../../../../contexts/ColorContext';
 import useStorageState from '../../../../utils/useStorageState';
 //--------------------------------------------------------------< styles >
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa';

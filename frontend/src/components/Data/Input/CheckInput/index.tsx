@@ -3,7 +3,7 @@ import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
 import Input from '../index';
 import RequestStrategy from '../RequestStrategy';
 //---------------------------------------------------------------< utils >
-import ColorContext from '../../../../utils/ColorContext';
+import ColorContext from '../../../../contexts/ColorContext';
 import useStorageState from '../../../../utils/useStorageState';
 //--------------------------------------------------------------< styles >
 import { ThemeContext } from 'styled-components';

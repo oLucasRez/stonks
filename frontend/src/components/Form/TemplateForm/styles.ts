@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-
 import { shade, lighten } from 'polished';
-
+//================================================================[ BODY ]
 export const Container = styled.div`
   .side {
     display: flex;

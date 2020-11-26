@@ -1,3 +1,3 @@
 export default interface RequestStrategy<T> {
-  request: () => Promise<T>;
+  request: (args?: any) => Promise<T>;
 }

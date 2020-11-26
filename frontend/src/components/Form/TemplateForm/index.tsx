@@ -3,7 +3,7 @@ import React, { FC, useContext } from 'react';
 import { IconType } from 'react-icons';
 
 import { ThemeContext } from 'styled-components';
-import ColorContext from '../../../utils/ColorContext';
+import ColorContext from '../../../contexts/ColorContext';
 import Input from '../../Data/Input';
 //--------------------------------------------------------------< styles >
 import { Container, Header, Form } from './styles';

@@ -1,6 +1,6 @@
 import React, { FC, useContext } from 'react';
 //---------------------------------------------------------------< utils >
-import ColorContext from '../../../utils/ColorContext';
+import ColorContext from '../../../contexts/ColorContext';
 //--------------------------------------------------------------< styles >
 import { Container } from './styles';
 //================================================================[ BODY ]

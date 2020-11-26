@@ -9,7 +9,7 @@ export const Container = styled.div`
   width: 100%;
   height: auto;
 `;
-
+//------------------------------------------------------------------------
 export const Check = styled.div<StyleProps>`
   margin-left: 2.8rem;
   margin-top: 0.8rem;
@@ -24,6 +24,8 @@ export const Check = styled.div<StyleProps>`
     width: 2.1rem;
     height: 2.1rem;
     margin-right: 0.8rem;
+
+    cursor: pointer;
 
     color: ${({ colorPrimary }) => colorPrimary};
 

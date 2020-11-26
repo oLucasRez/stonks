@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-
+//---------------------------------------------------------------< types >
 interface StyleProps {
   colorPrimary: string;
 }
-
+//================================================================[ BODY ]
 export const Container = styled.div<StyleProps>`
   width: 100%;
 

@@ -9,9 +9,10 @@ export const Container = styled.div`
   width: 100%;
   height: auto;
 `;
-
+//------------------------------------------------------------------------
 export const SearchBox = styled.input<StyleProps>`
   width: 19.2rem;
+  height: 2.2rem;
 
   color: ${({ theme }) => theme.colors.foreground[1]};
   background: none;
@@ -26,17 +27,17 @@ export const SearchBox = styled.input<StyleProps>`
     color: ${({ theme }) => theme.colors.foreground[2]};
   }
 `;
-
+//------------------------------------------------------------------------
 export const SearchResults = styled.ul<StyleProps>`
   width: fit-content;
   height: auto;
-  max-width: 16.8rem;
+  max-width: 32.4rem;
   max-height: 64rem;
   margin-top: 0.4rem;
-  padding: 0.8rem 0.4rem 0.8rem 1.2rem;
+  padding: 0.8rem 0.4rem 2.8rem 1.2rem;
 
   list-style-type: none;
-  position: absolute;
+  position: fixed;
 
   border-radius: 1rem;
   background: ${({ theme }) =>
@@ -61,7 +62,28 @@ export const SearchResults = styled.ul<StyleProps>`
     }
   }
 `;
+//------------------------------------------------------------------------
+export const Arrows = styled.div<StyleProps>`
+  margin: 0 0 -2.6rem -0.8rem;
+  padding: 0 0.8rem;
 
+  display: flex;
+  justify-content: space-between;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+
+    cursor: pointer;
+
+    color: ${({ colorPrimary }) => colorPrimary};
+
+    :hover {
+      color: ${({ colorPrimary }) => lighten(0.2, colorPrimary)};
+    }
+  }
+`;
+//------------------------------------------------------------------------
 export const Chosen = styled.div<StyleProps>`
   width: fit-content;
   height: 4.2rem;

@@ -44,6 +44,12 @@ const Main: FC<Props> = ({ toggleTheme }) => {
     false
   );
 
+  const submit = () => {
+    if (showingForm) {
+      setShowingForm(false);
+    } else setShowingForm(true);
+  };
+
   const FormTemplateMethod = forms[currentForm].templateMethod;
 
   return (
@@ -78,9 +84,7 @@ const Main: FC<Props> = ({ toggleTheme }) => {
         <ButtonContainer>
           <button
             className={showingForm ? 'to-results' : 'to-form'}
-            onClick={() =>
-              showingForm ? setShowingForm(false) : setShowingForm(true)
-            }
+            onClick={() => submit()}
           >
             {showingForm ? (
               <>

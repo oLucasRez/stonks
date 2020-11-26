@@ -7,9 +7,9 @@ import TagResponse from './TagResponse';
 //================================================================[ BODY ]
 export default class KeywordRequestStrategy
   implements RequestStrategy<TagResponse[]> {
-  public async request() {
+  public async request(startString: string) {
     const { data } = await backend.get<TagResponse[]>('keywords', {
-      params: { page: 0 },
+      params: { startString },
     });
     return data;
   }

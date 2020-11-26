@@ -1,19 +1,24 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 //-----------------------------------------------------------------< poo >
 import Input from '../index';
+//------------------------------------------------------------< services >
+import backend from '../../../../services/backend';
 //---------------------------------------------------------------< utils >
-import ColorContext from '../../../../utils/ColorContext';
+import ColorContext from '../../../../contexts/ColorContext';
 //--------------------------------------------------------------< styles >
 import { ThemeContext } from 'styled-components';
-import { FaTimes } from 'react-icons/fa';
+import {
+  FaLongArrowAltRight,
+  FaLongArrowAltLeft,
+  FaTimes,
+} from 'react-icons/fa';
 import ContentLoader from 'styled-content-loader';
 
-import { Container, SearchBox, SearchResults, Chosen } from './styles';
+import { Container, SearchBox, SearchResults, Arrows, Chosen } from './styles';
 //---------------------------------------------------------------< types >
 interface SearchResponse {
   id: number;
   name: string;
-  // slug: string;
 }
 //================================================================[ BODY ]
 class SearchInput extends Input {
@@ -21,9 +26,12 @@ class SearchInput extends Input {
     const color = useContext(ColorContext);
     const { background, foreground } = useContext(ThemeContext).colors;
     const [options, setOptions] = useState<SearchResponse[]>([]);
+    const [page, setPage] = useState<number>(0);
     const [search, setSearch] = useState<string>('');
     const [chosen, setChosen] = useState<SearchResponse>();
     const [isChoosing, setIsChoosing] = useState<boolean>(false);
+
+    const maxOptionPerPage = 10;
     // const [options, setOptions] = useStorageState<SearchResponse[]>(
     //   this.name + '-select',
     //   []
@@ -32,15 +40,16 @@ class SearchInput extends Input {
 
     useEffect(() => {
       (async () => {
-        // const { data } = await backend.get<SearchResponse[]>('game-engines');
-        // console.log(data);
-        setOptions([
-          { id: 0, name: 'Ronin' },
-          { id: 1, name: 'Unity 5' },
-          { id: 2, name: 'Firebird Engine' },
-          { id: 3, name: 'Duplicate 669' },
-          { id: 4, name: 'Unity 2017' },
-        ]);
+        const { data } = await backend.get<SearchResponse[]>('game-engines');
+        console.log(data);
+        setOptions(data);
+        // setOptions([
+        //   { id: 0, name: 'Ronin' },
+        //   { id: 1, name: 'Unity 5' },
+        //   { id: 2, name: 'Firebird Engine' },
+        //   { id: 3, name: 'Duplicate 669' },
+        //   { id: 4, name: 'Unity 2017' },
+        // ]);
         setLoaded(true);
       })();
     }, []);
@@ -51,7 +60,6 @@ class SearchInput extends Input {
         : options.filter((option) =>
             option.name.toUpperCase().includes(search.toUpperCase())
           );
-
     if (loaded)
       return (
         <Container>
@@ -60,23 +68,44 @@ class SearchInput extends Input {
               <SearchBox
                 colorPrimary={color}
                 placeholder='Type something...'
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => {
+                  setPage(0);
+                  setSearch(e.target.value);
+                }}
               />
               {searchOptions().length ? (
-                <SearchResults colorPrimary={color}>
-                  {searchOptions().map((option) => (
-                    <li
-                      key={option.id}
-                      onClick={() => {
-                        setChosen(option);
-                        setSearch('');
-                        setIsChoosing(false);
-                      }}
-                    >
-                      {option.name}
-                    </li>
-                  ))}
-                </SearchResults>
+                <>
+                  <SearchResults colorPrimary={color}>
+                    {searchOptions()
+                      .slice(
+                        maxOptionPerPage * page,
+                        maxOptionPerPage * (page + 1)
+                      )
+                      .map((option) => (
+                        <li
+                          key={option.id}
+                          onClick={() => {
+                            setChosen(option);
+                            setSearch('');
+                            setIsChoosing(false);
+                          }}
+                        >
+                          {option.name}
+                        </li>
+                      ))}
+                    <Arrows colorPrimary={color}>
+                      {page > 0 ? (
+                        <FaLongArrowAltLeft onClick={() => setPage(page - 1)} />
+                      ) : null}
+                      {(page + 1) * maxOptionPerPage <
+                      searchOptions().length ? (
+                        <FaLongArrowAltRight
+                          onClick={() => setPage(page + 1)}
+                        />
+                      ) : null}
+                    </Arrows>
+                  </SearchResults>
+                </>
               ) : null}
             </>
           ) : (

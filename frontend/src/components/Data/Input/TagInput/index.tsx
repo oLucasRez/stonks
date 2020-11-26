@@ -2,7 +2,7 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 //-----------------------------------------------------------------< poo >
 import Input from '../index';
 //---------------------------------------------------------------< utils >
-import ColorContext from '../../../../utils/ColorContext';
+import ColorContext from '../../../../contexts/ColorContext';
 import useStorageState from '../../../../utils/useStorageState';
 import removeElement from '../../../../utils/removeElement';
 //--------------------------------------------------------------< styles >
@@ -44,7 +44,7 @@ class TagInput extends Input {
     }, []);
 
     const searchOptions = () =>
-      search.length < 3
+      search.length < 2
         ? []
         : allTags.filter(
             (tag) =>
