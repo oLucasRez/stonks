@@ -1,15 +1,14 @@
 import 'dotenv/config';
 import http from 'http';
 
+import DatabaseInitializer from './services/database/config/DatabaseInitializer';
 import App from './server';
 
-import DatabaseInitializer from './services/database/config/DatabaseInitializer';
-
 async function runServer() {
-	const server = await App.getInstance();
-
 	const databaseConfiguration = new DatabaseInitializer();
 	databaseConfiguration.InitDatabase();
+
+	const server = await App.getInstance();
 
 	const httpServer = http.createServer(server);
 

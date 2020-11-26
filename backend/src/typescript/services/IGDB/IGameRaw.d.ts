@@ -20,4 +20,5 @@ export declare interface IGameRaw extends IGame {
 	game_engines?: number[];
 	age_ratings?: number[];
 	hypes?: number;
+	first_release_date: number;
 }

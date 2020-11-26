@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Op } from 'sequelize';
 
 import Controller from '../../abstract/Controller';
 
@@ -11,21 +12,20 @@ class KeywordController extends Controller<KeywordModel> {
 		request: Request,
 		response: Response
 	): Promise<Response<KeywordModel[]>> {
-		const { page } = request.query;
+		const { startString } = request.query;
 
-		if (!page) {
+		if (!startString) {
 			return response.status(400).json({
-				error: 'Expected property "page" on query params',
+				error: 'Expected property "startString" on query params',
 			});
 		}
 
-		const pageNumber = Number.parseInt(page as string, 10);
-
-		const limit = 500;
-
 		const keywords = await KeywordModel.findAll({
-			limit,
-			offset: pageNumber * limit,
+			where: {
+				name: {
+					[Op.iLike]: `${startString}%`,
+				},
+			},
 		});
 
 		return response.json(keywords);
