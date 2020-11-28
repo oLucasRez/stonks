@@ -1,50 +1,62 @@
-// -------------------------------------------------------------< classes >
+//-------------------------------------------------------------< classes >
+import GenreRequestStrategy from '../../classes/GenreRequestStrategy';
+import GenreUseEffectStrategy from '../../classes/GenreUseEffectStrategy';
+import ThemeRequestStrategy from '../../classes/ThemeRequestStrategy';
+import ThemeUseEffectStrategy from '../../classes/ThemeUseEffectStrategy';
+import KeywordRequestStrategy from '../../classes/KeywordRequestStrategy';
+import KeywordUseEffectStrategy from '../../classes/KeywordUseEffectStrategy';
+import StorylineUseEffectStrategy from '../../classes/StorylineUseEffectStrategy';
+import SummaryUseEffectStrategy from '../../classes/SummaryUseEffectStrategy';
+//----------------------------------------------------------< components >
 import TemplateForm from './TemplateForm';
-import Input from '../Data/Input';
-import TagInput from '../Data/Input/TagInput';
-import GenreRequestStrategy from '../Data/Input/TagInput/Strategy/GenreRequestStrategy';
-import ThemeRequestStrategy from '../Data/Input/TagInput/Strategy/ThemeRequestStrategy';
-import KeywordRequestStrategy from '../Data/Input/TagInput/Strategy/KeywordRequestStrategy';
-import TextInput from '../Data/Input/TextInput';
-// --------------------------------------------------------------< styles >
+import Input from '../Input';
+import TagInput from '../Input/TagInput';
+import TextInput from '../Input/TextInput';
+//--------------------------------------------------------------< styles >
 import { FaFeatherAlt } from 'react-icons/fa';
-//= ===============================================================[ BODY ]
+//===============================================================[ CLASS ]
 class ProfileForm extends TemplateForm {
+  //-----------------------------------------------------------< methods >
   protected getIcon() {
     return FaFeatherAlt;
   }
-
+  //----------------------------------------------------------------------
   protected getColor() {
     return this.theme.colors.primary[0];
   }
-
+  //----------------------------------------------------------------------
   protected getName() {
     return 'Profile';
   }
-
+  //----------------------------------------------------------------------
   protected getInputs(): Input[] {
     const genres: Input = new TagInput(
       'Genres',
       'What are the genders of your game? RPG? Shooter? Platform?',
-      new GenreRequestStrategy()
+      new GenreRequestStrategy(),
+      new GenreUseEffectStrategy()
     );
     const themes: Input = new TagInput(
       'Themes',
       'What are the themes of your game? Action? Comedy? Fantasy?',
-      new ThemeRequestStrategy()
+      new ThemeRequestStrategy(),
+      new ThemeUseEffectStrategy()
     );
     const keywords: Input = new TagInput(
       'Keywords',
       'list some keywords regards to your game',
-      new KeywordRequestStrategy()
+      new KeywordRequestStrategy(),
+      new KeywordUseEffectStrategy()
     );
     const storyline: Input = new TextInput(
       'Storyline',
-      'Tell us a little of the your game story'
+      'Tell us a little of the your game story',
+      new StorylineUseEffectStrategy()
     );
     const summary: Input = new TextInput(
       'Summary',
-      'Write here a brief description of your game'
+      'Write here a brief description of your game',
+      new SummaryUseEffectStrategy()
     );
 
     return [genres, themes, keywords, storyline, summary];

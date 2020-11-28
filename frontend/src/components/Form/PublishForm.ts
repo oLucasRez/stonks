@@ -1,25 +1,26 @@
-//-------------------------------------------------------------< classes >
+//----------------------------------------------------------< components >
 import TemplateForm from './TemplateForm';
-import Input from '../Data/Input';
-import AgeInput from '../Data/Input/AgeInput';
-import PriceInput from '../Data/Input/PriceInput';
-import DateInput from '../Data/Input/DateInput';
+import Input from '../Input';
+import AgeInput from '../Input/AgeInput';
+import PriceInput from '../Input/PriceInput';
+import DateInput from '../Input/DateInput';
 //--------------------------------------------------------------< styles >
 import { FaGlobeAmericas } from 'react-icons/fa';
-//================================================================[ BODY ]
+//===============================================================[ CLASS ]
 class PublishForm extends TemplateForm {
+  //-----------------------------------------------------------< methods >
   protected getIcon() {
     return FaGlobeAmericas;
   }
-
+  //----------------------------------------------------------------------
   protected getColor() {
     return this.theme.colors.primary[2];
   }
-
+  //----------------------------------------------------------------------
   protected getName() {
     return 'Publish';
   }
-
+  //----------------------------------------------------------------------
   protected getInputs(): Input[] {
     const ageRating: Input = new AgeInput(
       'Age Rating',

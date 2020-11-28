@@ -1,20 +1,18 @@
 import React, { FC } from 'react';
+//----------------------------------------------------------< interfaces >
+import IProgressCircleProps from '../../../interfaces/IProgressCircleProps';
 //--------------------------------------------------------------< styles >
 import { Container } from './styles';
-//---------------------------------------------------------------< types >
-interface ProgressCircleProps {
-  progress: number;
-  color: string;
-}
-//================================================================[ BODY ]
-const ProgressCircle: FC<ProgressCircleProps> = ({ progress, color }) => {
+//===========================================================[ COMPONENT ]
+const ProgressCircle: FC<IProgressCircleProps> = ({ progress, color }) => {
+  //--------------------------------------------------------< properties >
   const [endX, endY] = (() => {
     const arc = -2 * Math.PI * progress;
     let x = 45 * Math.sin(arc) + 45;
     let y = 45 * Math.cos(arc) + 45;
     return [x, y];
   })();
-
+  //------------------------------------------------------------< return >
   return (
     <Container color={color}>
       <div>{(progress * 10).toFixed(1)}</div>

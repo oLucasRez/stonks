@@ -1,29 +1,30 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
+//----------------------------------------------------------< interfaces >
+import ITemplateMethodProps from '../../../interfaces/ITemplateMethodProps';
 //----------------------------------------------------------< components >
-import { IconType } from 'react-icons';
-
+import Input from '../../Input';
+//---------------------------------------------------------------< hooks >
+import { useContext } from 'react';
+//------------------------------------------------------------< contexts >
 import { ThemeContext } from 'styled-components';
 import ColorContext from '../../../contexts/ColorContext';
-import Input from '../../Data/Input';
 //--------------------------------------------------------------< styles >
 import { Container, Header, Form } from './styles';
 //---------------------------------------------------------------< types >
-interface TemplateMethodProps {
-  forms: TemplateForm[];
-  setCurrentForm: Function;
-}
-//================================================================[ BODY ]
+import { IconType } from 'react-icons';
+//===============================================================[ CLASS ]
 abstract class TemplateForm {
   protected theme = useContext(ThemeContext);
 
   public icon = this.getIcon();
-
-  public templateMethod: FC<TemplateMethodProps> = ({
+  //=========================================================[ COMPONENT ]
+  public templateMethod: FC<ITemplateMethodProps> = ({
     forms,
     setCurrentForm,
   }) => {
+    //------------------------------------------------------< properties >
     const header: JSX.Element[] = [];
-
+    //---------------------------------------------------------< methods >
     forms.forEach((form, i) => {
       const Icon = form.icon;
       header.push(
@@ -37,7 +38,7 @@ abstract class TemplateForm {
         </div>
       );
     });
-
+    //----------------------------------------------------------< return >
     return (
       <ColorContext.Provider value={this.getColor()}>
         <Container>

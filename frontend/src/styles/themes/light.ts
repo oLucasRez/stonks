@@ -1,5 +1,5 @@
 import { DefaultTheme } from 'styled-components';
-
+//===============================================================[ THEME ]
 const light: DefaultTheme = {
   title: 'light',
   colors: {

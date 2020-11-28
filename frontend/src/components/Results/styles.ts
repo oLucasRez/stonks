@@ -3,7 +3,7 @@ import styled from 'styled-components';
 interface StyleProps {
   color: string;
 }
-//================================================================[ BODY ]
+//===============================================================[ STYLE ]
 export const Container = styled.div<StyleProps>`
   width: 100%;
   height: 48rem;

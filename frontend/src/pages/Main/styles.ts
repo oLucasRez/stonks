@@ -2,7 +2,7 @@ import { lighten, shade } from 'polished';
 import styled from 'styled-components';
 //---------------------------------------------------------------< utils >
 import getRandomInt from '../../utils/getRandomInt';
-//================================================================[ BODY ]
+//===============================================================[ STYLE ]
 export const Container = styled.div`
   width: 75vw;
   height: 100%;

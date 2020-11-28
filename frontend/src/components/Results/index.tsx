@@ -4,8 +4,9 @@ import ProgressCircle from './ProgressCircle';
 //--------------------------------------------------------------< styles >
 import { mix } from 'polished';
 import { Container } from './styles';
-//================================================================[ BODY ]
+//===========================================================[ COMPONENT ]
 const Results: FC<HTMLProps<HTMLDivElement>> = ({ className }) => {
+  //--------------------------------------------------------< properties >
   const progress = 0.84;
   const color =
     progress < 1 / 4
@@ -15,7 +16,7 @@ const Results: FC<HTMLProps<HTMLDivElement>> = ({ className }) => {
       : progress < 3 / 4
       ? mix((progress - 2 / 4) * 4, '#25b858', '#ded228')
       : mix((progress - 3 / 4) * 4, '#26a69f', '#25b858');
-
+  //------------------------------------------------------------< return >
   return (
     <Container className={className} color={color}>
       <ProgressCircle progress={progress} color={color} />

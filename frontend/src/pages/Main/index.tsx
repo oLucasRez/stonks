@@ -1,20 +1,22 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC } from 'react';
 //-------------------------------------------------------------< classes >
+import FormSingleton from '../../classes/FormSingleton';
+//----------------------------------------------------------< interfaces >
+import IMainProps from '../../interfaces/IMainProps';
+//----------------------------------------------------------< components >
 import TemplateForm from '../../components/Form/TemplateForm/index';
 import ProfileForm from '../../components/Form/ProfileForm';
 import SpecificationsForm from '../../components/Form/SpecificationsForm';
 import PublishForm from '../../components/Form/PublishForm';
-//----------------------------------------------------------< components >
 import Switch from 'react-switch';
-
 import Results from '../../components/Results';
-//---------------------------------------------------------------< utils >
-import useStorageState from '../../utils/useStorageState';
+//---------------------------------------------------------------< hooks >
+import { useContext, useState } from 'react';
+import useStorageState from '../../hooks/useStorageState';
 //--------------------------------------------------------------< assets >
 import { ReactComponent as Logo } from '../../assets/logo_name.svg';
 //--------------------------------------------------------------< styles >
 import { ThemeContext } from 'styled-components';
-
 import {
   Container,
   PhraseContainer,
@@ -22,14 +24,14 @@ import {
   FormTemplateMethodContainer,
   ButtonContainer,
 } from './styles';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-//---------------------------------------------------------------< types >
-interface Props {
-  toggleTheme(): void;
-}
-//================================================================[ BODY ]
-const Main: FC<Props> = ({ toggleTheme }) => {
+import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+//===========================================================[ COMPONENT ]
+const Main: FC<IMainProps> = ({ toggleTheme }) => {
+  //--------------------------------------------------------< properties >
   const { title, colors } = useContext(ThemeContext);
+  //----------------------------------------------------------------------
+  const form = FormSingleton.getInstance();
+  //----------------------------------------------------------------------
   const [forms] = useState<TemplateForm[]>([
     new ProfileForm(),
     new SpecificationsForm(),
@@ -43,15 +45,16 @@ const Main: FC<Props> = ({ toggleTheme }) => {
     'showing-form',
     false
   );
-
+  //----------------------------------------------------------------------
+  const FormTemplateMethod = forms[currentForm].templateMethod;
+  //-----------------------------------------------------------< methods >
   const submit = () => {
     if (showingForm) {
       setShowingForm(false);
+      form.print();
     } else setShowingForm(true);
   };
-
-  const FormTemplateMethod = forms[currentForm].templateMethod;
-
+  //------------------------------------------------------------< return >
   return (
     <Container>
       <Logo className='logo' />
