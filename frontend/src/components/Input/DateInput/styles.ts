@@ -6,104 +6,85 @@ interface StyleProps {
 }
 //===============================================================[ STYLE ]
 export const Container = styled.section<StyleProps>`
+  width: 100%;
+`;
+//------------------------------------------------------------------------
+export const MonthContainer = styled.ul<StyleProps>`
+  width: 100%;
+
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  list-style-type: none;
 
-  .month-select,
-  .day-select {
-    width: 7.8rem;
-    height: 5.2rem;
-    margin-right: 1.8rem;
+  li {
+    margin: 0.1rem 0;
 
-    cursor: default;
-    display: flex;
-    align-items: center;
+    cursor: pointer;
 
-    font-size: 2.1rem;
-    outline: none;
+    font-size: 1.3rem;
     color: ${({ theme }) => theme.colors.foreground[1]};
-    background: ${({ theme }) =>
-      theme.title === 'dark' ? theme.colors.background[2] : 'none'};
-    border: ${({ theme }) =>
-      theme.title === 'dark'
-        ? 'none'
-        : '2px solid ' + theme.colors.background[1]};
-    border-radius: 5px;
   }
 
-  .month-select {
-    .current {
-      width: 7.8rem;
-      height: 5.2rem;
-      padding-left: 1.6rem;
+  .selected {
+    padding: 0.2rem 1rem;
 
-      display: flex;
-      align-items: center;
+    border-radius: 1.2rem;
+    font-size: 1.6rem;
+    background: ${({ colorPrimary }) => colorPrimary};
+    color: white;
+
+    :hover {
+      background: ${({ colorPrimary }) => lighten(0.1, colorPrimary)};
     }
+  }
 
-    ul {
-      width: 7.8rem;
-      height: auto;
-      padding: 1rem 1.6rem;
+  .day-not-selected {
+    margin: 0;
 
-      list-style-type: none;
-      position: absolute;
+    border-radius: 1.4rem;
+    border: 1px solid ${({ colorPrimary }) => colorPrimary};
+    background: none;
+    color: ${({ theme }) =>
+      theme.title === 'dark' ? 'white' : theme.colors.foreground[0]};
 
-      border-radius: 1rem;
+    :hover {
       background: ${({ theme }) =>
-        theme.title === 'dark' ? theme.colors.background[2] : 'none'};
-      border: ${({ theme }) =>
         theme.title === 'dark'
-          ? 'none'
-          : '2px solid ' + theme.colors.background[1]};
+          ? lighten(0.1, theme.colors.background[0])
+          : lighten(0.1, theme.colors.background[2])};
+    }
+  }
+`;
+//------------------------------------------------------------------------
+export const DaysContainer = styled.ul<StyleProps>`
+  width: 100%;
+  margin-top: 0.8rem;
 
-      li {
-        cursor: default;
-        font-size: 1.6rem;
+  li {
+    width: 4rem;
+    height: 4rem;
 
-        :hover {
-          color: ${({ colorPrimary }) => colorPrimary};
-          text-decoration: underline;
-        }
-      }
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    font-size: 1.6rem;
+    background: ${({ theme }) => theme.colors.background[2]};
+
+    :hover {
+      background: ${({ theme }) => lighten(0.1, theme.colors.background[2])};
     }
   }
 
-  .day-select {
-    padding-left: 1.6rem;
+  .selected {
+    background: ${({ colorPrimary }) => colorPrimary};
+    color: white;
 
-    .day {
-      width: 1.2rem;
+    :hover {
+      background: ${({ colorPrimary }) => lighten(0.1, colorPrimary)};
     }
-
-    .arrows {
-      margin-left: 1.8rem;
-
-      display: flex;
-      flex-direction: column;
-
-      svg {
-        width: 2.8rem;
-        height: 2.8rem;
-
-        color: ${({ colorPrimary }) => colorPrimary};
-
-        :hover {
-          color: ${({ colorPrimary }) => lighten(0.2, colorPrimary)};
-        }
-      }
-
-      .up {
-        transform: translateY(0.4rem);
-      }
-
-      .down {
-        transform: translateY(-0.4rem);
-      }
-    }
-  }
-
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
   }
 `;
