@@ -1,5 +1,5 @@
 export declare interface IGame {
-	id: number;
+	id?: number;
 	id_game_engine?: number;
 	age_rating?: number;
 	time_to_beat?: number;
