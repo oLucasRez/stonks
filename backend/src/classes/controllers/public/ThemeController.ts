@@ -19,10 +19,14 @@ class ThemeController extends Controller<ThemeModel> {
 	public readUrl = '/theme/:id';
 
 	public async read(
-		_: Request,
+		request: Request,
 		response: Response
 	): Promise<Response<ThemeModel>> {
-		return response.status(404);
+		const { id } = request.params;
+
+		const theme = await ThemeModel.findByPk(id);
+
+		return response.send(theme);
 	}
 
 	public storeUrl = '/theme';

@@ -117,7 +117,22 @@ class PlayerRequestController extends Controller<any> {
 
 		// await promises + send it to R
 
-		return response.send({ id: idAndPromises.id });
+		let ThemeSugestion: number[] = [];
+
+		if (userInput.themes) {
+			ThemeSugestion = [...userInput.themes];
+		}
+
+		return response.send({
+			hype: 30,
+			follows: 12,
+			total_rating: 77.2,
+			user_input: {
+				...userInput,
+				themes: [...ThemeSugestion, 42],
+			},
+			id: idAndPromises.id,
+		});
 	}
 
 	public updateUrl = '/player-input/:id';
