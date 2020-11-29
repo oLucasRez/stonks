@@ -11,6 +11,7 @@ export declare interface IGame {
 	name?: string;
 	slug?: string;
 	first_release_date?: Date;
+	is_user?: boolean;
 }
 
 export declare interface IGenre {
