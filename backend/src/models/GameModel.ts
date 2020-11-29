@@ -34,6 +34,8 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 
 	public first_release_date!: number;
 
+	public is_user!: boolean;
+
 	static initialize(database: Sequelize): void {
 		this.init(
 			{
@@ -55,6 +57,7 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 				name: DataTypes.STRING,
 				slug: DataTypes.STRING,
 				first_release_date: DataTypes.DATEONLY,
+				is_user: DataTypes.BOOLEAN,
 			},
 			{
 				sequelize: database,

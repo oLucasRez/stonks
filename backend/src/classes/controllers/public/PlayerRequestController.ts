@@ -54,6 +54,7 @@ class PlayerRequestController extends Controller<any> {
 			price,
 			time_to_beat,
 			id_game_engine: game_engine,
+			is_user: true,
 		});
 
 		const {
