@@ -29,7 +29,7 @@ class PlayerRequestController extends Controller<any> {
 		return response.status(404);
 	}
 
-	private async saveInformationOnDatabase(
+	private static async saveInformationOnDatabase(
 		playerInput: IUserInput
 	) {
 		const {
@@ -111,7 +111,9 @@ class PlayerRequestController extends Controller<any> {
 	): Promise<Response<any>> {
 		const userInput = request.body;
 
-		const idAndPromises = await this.saveInformationOnDatabase(
+		console.log(this);
+
+		const idAndPromises = await PlayerRequestController.saveInformationOnDatabase(
 			userInput
 		);
 

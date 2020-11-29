@@ -42,6 +42,7 @@ class GameModel extends Model<IGame, GameCreationAttributes> {
 				id: {
 					type: DataTypes.INTEGER,
 					primaryKey: true,
+					autoIncrement: true,
 				},
 				id_game_engine: DataTypes.NUMBER,
 				age_rating: DataTypes.NUMBER,
