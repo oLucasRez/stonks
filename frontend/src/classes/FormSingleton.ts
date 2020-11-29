@@ -1,5 +1,7 @@
 //----------------------------------------------------------< interfaces >
 import IInputs from '../interfaces/IInputs';
+//------------------------------------------------------------< services >
+import backend from '../services/backend';
 //===============================================================[ CLASS ]
 class FormSingleton {
   //--------------------------------------------------------< properties >
@@ -17,6 +19,11 @@ class FormSingleton {
   //----------------------------------------------------------------------
   public print() {
     console.log(this.inputs);
+  }
+  //----------------------------------------------------------------------
+  public async submit() {
+    const { data } = await backend.post('player-input', this.inputs);
+    console.log(data);
   }
 }
 

@@ -48,7 +48,11 @@ abstract class TemplateForm {
               {this.getInputs().map((input, index) => {
                 const { TemplateMethod } = input;
                 return (
-                  <div key={index} className='input-cell'>
+                  <div
+                    key={index}
+                    style={{ zIndex: 20 - index }}
+                    className='input-cell'
+                  >
                     <TemplateMethod />
                   </div>
                 );

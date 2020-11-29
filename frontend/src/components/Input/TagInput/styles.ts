@@ -113,7 +113,7 @@ export const Search = styled.ul<StyleProps>`
 `;
 //------------------------------------------------------------------------
 export const Arrows = styled.div<StyleProps>`
-  margin: 0 0 -2.6rem -0.8rem;
+  margin: 0 0 -2.6rem -0.8rem !important;
   padding: 0 0.8rem;
 
   display: flex;

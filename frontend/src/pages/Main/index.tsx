@@ -52,6 +52,7 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
     if (showingForm) {
       setShowingForm(false);
       form.print();
+      // (async () => await form.submit())();
     } else setShowingForm(true);
   };
   //------------------------------------------------------------< return >

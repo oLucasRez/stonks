@@ -22,7 +22,8 @@ class TimeInput extends Input {
     const [time, setTime] = useStorageState<string>(this.name + '-time', '');
     //---------------------------------------------------------< methods >
     useEffect(() => {
-      form.inputs.time_to_beat = time === '' ? undefined : parseFloat(time);
+      form.inputs.time_to_beat =
+        time === '' ? undefined : parseFloat(time) * 3600;
     }, [time]);
     //--------------------------------------------------------------------
     const handleTime = (input: string) => {
