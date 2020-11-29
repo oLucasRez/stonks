@@ -9,6 +9,7 @@ import GenreController from './classes/controllers/public/GenreController';
 import KeywordController from './classes/controllers/public/KeywordController';
 import PlayerPerspectiveController from './classes/controllers/public/PlayerPerspectiveController';
 import ThemeController from './classes/controllers/public/ThemeController';
+import PlayerRequestController from './classes/controllers/public/PlayerRequestController';
 
 const controllers: Controller<never>[] = [
 	GameEngineController,
@@ -17,6 +18,7 @@ const controllers: Controller<never>[] = [
 	KeywordController,
 	PlayerPerspectiveController,
 	ThemeController,
+	PlayerRequestController,
 ];
 
 class App {

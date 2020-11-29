@@ -3,14 +3,14 @@ export declare interface IGame {
 	id_game_engine?: number;
 	age_rating?: number;
 	time_to_beat?: number;
-	follows: number;
+	follows?: number;
 	hype?: number;
-	total_rating: number;
-	total_rating_count: number;
+	total_rating?: number;
+	total_rating_count?: number;
 	price?: number;
-	name: string;
-	slug: string;
-	first_release_date: Date;
+	name?: string;
+	slug?: string;
+	first_release_date?: Date;
 }
 
 export declare interface IGenre {
