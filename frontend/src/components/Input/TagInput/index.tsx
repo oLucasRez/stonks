@@ -14,9 +14,14 @@ import { ThemeContext } from 'styled-components';
 //---------------------------------------------------------------< utils >
 import removeElement from '../../../utils/removeElement';
 //--------------------------------------------------------------< styles >
-import { Container, Tag, Search, AddTag } from './styles';
-import { FaTimesCircle, FaPoop as Pog, FaPlus } from 'react-icons/fa';
-import ContentLoader from 'styled-content-loader';
+import { Container, Tag, Search, Arrows, AddTag } from './styles';
+import {
+  FaTimesCircle,
+  FaPoop as Pog,
+  FaLongArrowAltLeft,
+  FaLongArrowAltRight,
+  FaPlus,
+} from 'react-icons/fa';
 //===============================================================[ CLASS ]
 class TagInput extends Input {
   private requestStrategy: IRequestStrategy<ITagResponse[]>;
@@ -37,7 +42,6 @@ class TagInput extends Input {
   Body: FC = () => {
     //------------------------------------------------------< properties >
     const color = useContext(ColorContext);
-    const { background, foreground } = useContext(ThemeContext).colors;
     //--------------------------------------------------------------------
     const [myTags, setMyTags] = useStorageState<ITagResponse[]>(
       this.name + '-tags',
@@ -47,108 +51,113 @@ class TagInput extends Input {
     const [allTags, setAllTags] = useState<ITagResponse[]>([]);
     const [taggingOnFocus, setTaggingOnFocus] = useState(false);
     const [searchOnFocus, setSearchOnFocus] = useState(false);
+    const [page, setPage] = useState<number>(0);
+    //--------------------------------------------------------------------
+    const maxOptionPerPage = 10;
     //--------------------------------------------------------------------
     const [loaded, setLoaded] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     //---------------------------------------------------------< methods >
     useEffect(() => {
-      this.requestStrategy
-        .request()
-        .then((response) => setAllTags(response))
-        .catch(() => setError(true))
-        .finally(() => setLoaded(true));
-    }, []);
-    //--------------------------------------------------------------------
-    useEffect(() => {
       this.useEffectStrategy.setFormSingleton(myTags);
     }, [myTags]);
     //--------------------------------------------------------------------
-    const searchOptions = () => {
-      if (search.length < 2) return [];
-      else if (search.length === 2) {
-        const options: ITagResponse[] = [];
-
-        this.requestStrategy
-          .request(search)
-          .then((response) => {
-            options.push(...response);
+    useEffect(() => {
+      setLoaded(false);
+      (async () => {
+        if (search.length < 1) setAllTags([]);
+        else if (search.length === 1) {
+          this.requestStrategy
+            .request(search)
+            .then((response) =>
+              setAllTags(response.filter((tag) => !myTagsHas(tag)))
+            )
+            .catch(() => setError(true))
+            .finally(() => setLoaded(true));
+        }
+        setAllTags(
+          allTags.filter((tag) => {
+            return (
+              tag.name.toUpperCase().includes(search.toUpperCase()) &&
+              !myTagsHas(tag)
+            );
           })
-          .catch(() => setError(true));
-        return options;
-      } else
-        return allTags.filter(
-          (tag) =>
-            tag.name.toUpperCase().includes(search.toUpperCase()) &&
-            !myTags.includes(tag)
         );
-    };
+      })();
+    }, [search]);
+    //--------------------------------------------------------------------
+    const myTagsHas = (tag: ITagResponse) =>
+      myTags.some((myTag) => myTag.id === tag.id);
     //----------------------------------------------------------< return >
-    if (loaded)
-      if (error) return <> :( </>;
-      else
-        return (
-          <Container>
-            {myTags.map((tag) => (
-              <Tag key={tag.id} colorPrimary={color}>
-                <FaTimesCircle
-                  onClick={() =>
-                    setMyTags(removeElement<ITagResponse>(myTags, tag))
-                  }
-                />
-                <p>{tag.name}</p>
-              </Tag>
-            ))}
-            {taggingOnFocus || (searchOnFocus && search) ? (
-              <>
-                <Tag
-                  colorPrimary={color}
-                  onBlur={() => setTaggingOnFocus(false)}
-                >
-                  <Pog visibility='hidden' />
-                  <input
-                    placeholder='Type something...'
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                </Tag>
-                {searchOptions().length ? (
-                  <Search colorPrimary={color}>
-                    {searchOptions().map((tag) => (
-                      <li
-                        key={tag.id}
-                        onClick={() => {
-                          setMyTags([...myTags, tag]);
-                          setSearch('');
-                          setSearchOnFocus(false);
-                        }}
-                      >
-                        {tag.name}
-                      </li>
-                    ))}
-                  </Search>
-                ) : null}
-              </>
-            ) : (
-              <AddTag
-                colorPrimary={color}
-                onClick={() => {
-                  setTaggingOnFocus(true);
-                  setSearchOnFocus(true);
-                }}
-              >
-                <FaPlus />
-              </AddTag>
-            )}
-          </Container>
-        );
+    if (error) return <> :( </>;
     else
       return (
-        <ContentLoader
-          backgroundColor={background[0]}
-          foregroundColor={foreground[2]}
-          isLoading={true}
-        >
-          <p>... im loading ...</p>
-        </ContentLoader>
+        <Container>
+          {myTags.map((tag) => (
+            <Tag key={tag.id} colorPrimary={color}>
+              <FaTimesCircle
+                onClick={() =>
+                  setMyTags(removeElement<ITagResponse>(myTags, tag))
+                }
+              />
+              <p>{tag.name}</p>
+            </Tag>
+          ))}
+          {taggingOnFocus || (searchOnFocus && search) ? (
+            <>
+              <Tag colorPrimary={color} onBlur={() => setTaggingOnFocus(false)}>
+                <Pog visibility='hidden' />
+                <input
+                  placeholder='Type something...'
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </Tag>
+              {search.length ? (
+                <>
+                  <Search colorPrimary={color}>
+                    {allTags
+                      .slice(
+                        maxOptionPerPage * page,
+                        maxOptionPerPage * (page + 1)
+                      )
+                      .map((tag) => (
+                        <li
+                          key={tag.id}
+                          onClick={() => {
+                            if (!myTagsHas(tag)) setMyTags([...myTags, tag]);
+                            setSearch('');
+                            setSearchOnFocus(false);
+                          }}
+                        >
+                          {tag.name}
+                        </li>
+                      ))}
+                    <Arrows colorPrimary={color}>
+                      {page > 0 ? (
+                        <FaLongArrowAltLeft onClick={() => setPage(page - 1)} />
+                      ) : null}
+                      {(page + 1) * maxOptionPerPage < allTags.length ? (
+                        <FaLongArrowAltRight
+                          onClick={() => setPage(page + 1)}
+                        />
+                      ) : null}
+                    </Arrows>
+                  </Search>
+                </>
+              ) : null}
+            </>
+          ) : (
+            <AddTag
+              colorPrimary={color}
+              onClick={() => {
+                setTaggingOnFocus(true);
+                setSearchOnFocus(true);
+              }}
+            >
+              <FaPlus />
+            </AddTag>
+          )}
+        </Container>
       );
   };
 }

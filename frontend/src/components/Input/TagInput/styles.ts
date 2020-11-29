@@ -80,13 +80,13 @@ export const Tag = styled.div<StyleProps>`
 export const Search = styled.ul<StyleProps>`
   width: fit-content;
   height: auto;
-  max-width: 16.8rem;
+  max-width: 32.4rem;
   max-height: 64rem;
   margin-top: 0.4rem;
-  padding: 0.8rem 0.4rem 0.8rem 1.2rem;
+  padding: 0.8rem 0.4rem 2.8rem 1.2rem;
 
   list-style-type: none;
-  position: absolute;
+  position: fixed;
 
   border-radius: 1rem;
   background: ${({ theme }) =>
@@ -108,6 +108,27 @@ export const Search = styled.ul<StyleProps>`
     :hover {
       color: ${({ colorPrimary }) => colorPrimary};
       text-decoration: underline;
+    }
+  }
+`;
+//------------------------------------------------------------------------
+export const Arrows = styled.div<StyleProps>`
+  margin: 0 0 -2.6rem -0.8rem;
+  padding: 0 0.8rem;
+
+  display: flex;
+  justify-content: space-between;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+
+    cursor: pointer;
+
+    color: ${({ colorPrimary }) => colorPrimary};
+
+    :hover {
+      color: ${({ colorPrimary }) => lighten(0.2, colorPrimary)};
     }
   }
 `;

@@ -9,6 +9,7 @@ import Input from '../index';
 import backend from '../../../services/backend';
 //---------------------------------------------------------------< hooks >
 import { useContext, useState, useEffect } from 'react';
+import useStorageState from '../../../hooks/useStorageState';
 //------------------------------------------------------------< contexts >
 import ColorContext from '../../../contexts/ColorContext';
 import { ThemeContext } from 'styled-components';
@@ -30,7 +31,10 @@ class SearchInput extends Input {
     //--------------------------------------------------------------------
     const form = FormSingleton.getInstance();
     //--------------------------------------------------------------------
-    const [chosen, setChosen] = useState<ISearchResponse>();
+    const [chosen, setChosen] = useStorageState<ISearchResponse>(
+      this.name + '-search',
+      { id: -1, name: '' }
+    );
     const [search, setSearch] = useState<string>('');
     const [options, setOptions] = useState<ISearchResponse[]>([]);
     const [isChoosing, setIsChoosing] = useState<boolean>(false);
@@ -65,7 +69,7 @@ class SearchInput extends Input {
       else
         return (
           <Container>
-            {isChoosing || !chosen ? (
+            {isChoosing || chosen.id === -1 ? (
               <>
                 <SearchBox
                   colorPrimary={color}
@@ -116,11 +120,11 @@ class SearchInput extends Input {
               <Chosen colorPrimary={color}>
                 <FaTimes
                   onClick={() => {
-                    setChosen(undefined);
+                    setChosen({ id: -1, name: '' });
                     setIsChoosing(true);
                   }}
                 />
-                <p>{chosen?.name}</p>
+                <p>{chosen.name}</p>
               </Chosen>
             )}
           </Container>

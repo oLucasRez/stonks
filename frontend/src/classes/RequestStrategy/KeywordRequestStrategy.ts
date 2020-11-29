@@ -1,8 +1,8 @@
 //----------------------------------------------------------< interfaces >
-import IRequestStrategy from '../interfaces/IRequestStrategy';
-import ITagResponse from '../interfaces/ITagResponse';
+import IRequestStrategy from '../../interfaces/IRequestStrategy';
+import ITagResponse from '../../interfaces/ITagResponse';
 //------------------------------------------------------------< services >
-import backend from '../services/backend';
+import backend from '../../services/backend';
 //===============================================================[ CLASS ]
 class KeywordRequestStrategy implements IRequestStrategy<ITagResponse[]> {
   //-----------------------------------------------------------< methods >

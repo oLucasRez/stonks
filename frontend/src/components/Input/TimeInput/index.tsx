@@ -19,10 +19,10 @@ class TimeInput extends Input {
     //--------------------------------------------------------------------
     const form = FormSingleton.getInstance();
     //--------------------------------------------------------------------
-    const [time, setTime] = useStorageState<string>(this.name + '-time', '0');
+    const [time, setTime] = useStorageState<string>(this.name + '-time', '');
     //---------------------------------------------------------< methods >
     useEffect(() => {
-      form.inputs.time_to_beat = time === '0' ? undefined : parseFloat(time);
+      form.inputs.time_to_beat = time === '' ? undefined : parseFloat(time);
     }, [time]);
     //--------------------------------------------------------------------
     const handleTime = (input: string) => {
@@ -35,6 +35,8 @@ class TimeInput extends Input {
       <Container colorPrimary={color} limitReached={time === '9999'}>
         <input
           type='number'
+          min='0'
+          max='9999'
           value={time}
           onChange={(e) => handleTime(e.target.value)}
         />

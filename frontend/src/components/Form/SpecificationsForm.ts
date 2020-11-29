@@ -1,8 +1,8 @@
 //-------------------------------------------------------------< classes >
-import PlayerPerspectiveRequestStrategy from '../../classes/PlayerPerspectiveRequestStrategy';
-import PlayerPerspectiveUseEffectStrategy from '../../classes/PlayerPerspectiveUseEffectStrategy';
-import GameModeRequestStrategy from '../../classes/GameModeRequestStrategy';
-import GameModeUseEffectStrategy from '../../classes/GameModeUseEffectStrategy';
+import PlayerPerspectiveRequestStrategy from '../../classes/RequestStrategy/PlayerPerspectiveRequestStrategy';
+import PlayerPerspectiveUseEffectStrategy from '../../classes/UseEffectStrategy/PlayerPerspectiveUseEffectStrategy';
+import GameModeRequestStrategy from '../../classes/RequestStrategy/GameModeRequestStrategy';
+import GameModeUseEffectStrategy from '../../classes/UseEffectStrategy/GameModeUseEffectStrategy';
 //----------------------------------------------------------< components >
 import TemplateForm from './TemplateForm';
 import Input from '../Input';

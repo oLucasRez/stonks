@@ -1,12 +1,12 @@
 //-------------------------------------------------------------< classes >
-import GenreRequestStrategy from '../../classes/GenreRequestStrategy';
-import GenreUseEffectStrategy from '../../classes/GenreUseEffectStrategy';
-import ThemeRequestStrategy from '../../classes/ThemeRequestStrategy';
-import ThemeUseEffectStrategy from '../../classes/ThemeUseEffectStrategy';
-import KeywordRequestStrategy from '../../classes/KeywordRequestStrategy';
-import KeywordUseEffectStrategy from '../../classes/KeywordUseEffectStrategy';
-import StorylineUseEffectStrategy from '../../classes/StorylineUseEffectStrategy';
-import SummaryUseEffectStrategy from '../../classes/SummaryUseEffectStrategy';
+import GenreRequestStrategy from '../../classes/RequestStrategy/GenreRequestStrategy';
+import GenreUseEffectStrategy from '../../classes/UseEffectStrategy/GenreUseEffectStrategy';
+import ThemeRequestStrategy from '../../classes/RequestStrategy/ThemeRequestStrategy';
+import ThemeUseEffectStrategy from '../../classes/UseEffectStrategy/ThemeUseEffectStrategy';
+import KeywordRequestStrategy from '../../classes/RequestStrategy/KeywordRequestStrategy';
+import KeywordUseEffectStrategy from '../../classes/UseEffectStrategy/KeywordUseEffectStrategy';
+import StorylineUseEffectStrategy from '../../classes/UseEffectStrategy/StorylineUseEffectStrategy';
+import SummaryUseEffectStrategy from '../../classes/UseEffectStrategy/SummaryUseEffectStrategy';
 //----------------------------------------------------------< components >
 import TemplateForm from './TemplateForm';
 import Input from '../Input';

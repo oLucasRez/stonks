@@ -1,15 +1,15 @@
 //-------------------------------------------------------------< classes >
-import FormSingleton from './FormSingleton';
+import FormSingleton from '../FormSingleton';
 //----------------------------------------------------------< interfaces >
-import IUseEffectStrategy from '../interfaces/IUseEffectStrategy';
+import IUseEffectStrategy from '../../interfaces/IUseEffectStrategy';
 //===============================================================[ CLASS ]
-class SummaryUseEffectStrategy implements IUseEffectStrategy {
+class StorylineUseEffectStrategy implements IUseEffectStrategy {
   //-----------------------------------------------------------< methods >
   public setFormSingleton(text: string) {
     const form = FormSingleton.getInstance();
 
-    form.inputs.summary = text.length ? text : undefined;
+    form.inputs.storyline = text.length ? text : undefined;
   }
 }
 
-export default SummaryUseEffectStrategy;
+export default StorylineUseEffectStrategy;

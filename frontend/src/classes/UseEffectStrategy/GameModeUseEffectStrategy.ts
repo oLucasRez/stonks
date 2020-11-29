@@ -1,8 +1,8 @@
 //-------------------------------------------------------------< classes >
-import FormSingleton from './FormSingleton';
+import FormSingleton from '../FormSingleton';
 //----------------------------------------------------------< interfaces >
-import IUseEffectStrategy from '../interfaces/IUseEffectStrategy';
-import ICheckResponse from '../interfaces/ICheckResponse';
+import IUseEffectStrategy from '../../interfaces/IUseEffectStrategy';
+import ICheckResponse from '../../interfaces/ICheckResponse';
 //================================================================[ CLASS ]
 class GameModeUseEffectStrategy implements IUseEffectStrategy {
   //-----------------------------------------------------------< methods >
