@@ -203,6 +203,10 @@ export const FormContainer = styled.div`
   }
 
   .hidden-results {
+    width: 100%;
+    height: 46rem;
+    max-width: 42rem;
+
     @keyframes results-end {
       0% {
         opacity: 1;
@@ -263,7 +267,7 @@ export const FormContainer = styled.div`
   }
 `;
 //------------------------------------------------------------------------
-export const FormTemplateMethodContainer = styled.div`
+export const FormAndResultContainer = styled.div`
   width: 100%;
   height: 46rem;
   max-width: 42rem;

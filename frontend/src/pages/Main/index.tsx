@@ -21,7 +21,7 @@ import {
   Container,
   PhraseContainer,
   FormContainer,
-  FormTemplateMethodContainer,
+  FormAndResultContainer,
   ButtonContainer,
 } from './styles';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
@@ -77,14 +77,18 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
         offHandleColor={colors.foreground[0]}
       />
       <FormContainer>
-        <FormTemplateMethodContainer
+        <FormAndResultContainer
           className={showingForm ? 'visible-form' : 'hidden-form'}
+          style={{ zIndex: showingForm ? 10 : 0 }}
         >
           <FormTemplateMethod forms={forms} setCurrentForm={setCurrentForm} />
-        </FormTemplateMethodContainer>
-        <Results
+        </FormAndResultContainer>
+        <FormAndResultContainer
           className={showingForm ? 'hidden-results' : 'visible-results'}
-        />
+          style={{ zIndex: showingForm ? 0 : 10 }}
+        >
+          <Results />
+        </FormAndResultContainer>
         <ButtonContainer>
           <button
             className={showingForm ? 'to-results' : 'to-form'}

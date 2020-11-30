@@ -10,7 +10,6 @@ import { useContext, useState, useEffect } from 'react';
 import useStorageState from '../../../hooks/useStorageState';
 //------------------------------------------------------------< contexts >
 import ColorContext from '../../../contexts/ColorContext';
-import { ThemeContext } from 'styled-components';
 //---------------------------------------------------------------< utils >
 import removeElement from '../../../utils/removeElement';
 //--------------------------------------------------------------< styles >

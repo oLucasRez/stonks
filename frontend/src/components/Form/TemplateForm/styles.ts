@@ -90,7 +90,7 @@ export const Header = styled.header`
 `;
 //------------------------------------------------------------------------
 export const Form = styled.form`
-  height: 46vh;
+  height: 44vh;
   padding: 2.5rem;
   margin-top: -1rem;
 
