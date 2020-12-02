@@ -1,5 +1,3 @@
-import { exec } from 'child_process';
-import { resolve as path_resolve } from 'path';
 import { Request, Response } from 'express';
 
 import Controller from '../../abstract/Controller';
@@ -10,17 +8,9 @@ import GameKeywordModel from '../../../models/GameKeywordModel';
 import GamePlayerPerspectiveModel from '../../../models/GamePlayerPerspectiveModel';
 import GameThemeModel from '../../../models/GameThemeModel';
 
-import IUserInput from '../../../typescript/frontend/IUserInput';
+import MiningAdapter from '../../adapters/services/MiningRequestAdapter';
 
-const scriptPath = path_resolve(
-	__dirname,
-	'..',
-	'..',
-	'..',
-	'services',
-	'mining',
-	'mining.R'
-);
+import IUserInput from '../../../typescript/frontend/IUserInput';
 
 class PlayerRequestController extends Controller<any> {
 	public indexUrl = '/player-inputs';
@@ -139,50 +129,9 @@ class PlayerRequestController extends Controller<any> {
 
 		const { id } = idAndPromises;
 
-		const resultLocation = await new Promise<string>(
-			(resolve, reject) => {
-				exec(
-					`Rscript ${scriptPath} ${id}`,
-					(error, stdout, _) => {
-						if (error) {
-							reject(error);
-						}
+		const result = await MiningAdapter.runMining(id);
 
-						const path = stdout.split('[1] ');
-
-						const finalPath = path[path.length - 1].replace(
-							'"',
-							''
-						);
-
-						const resolvedPath = path_resolve(finalPath);
-
-						resolve(resolvedPath as string);
-					}
-				);
-			}
-		);
-
-		console.log(resultLocation);
-
-		// RUN ADAPTER TO CORRECTLY GET DATA FROM JSON
-
-		let ThemeSugestion: number[] = [];
-
-		if (userInput.themes) {
-			ThemeSugestion = [...userInput.themes];
-		}
-
-		return response.send({
-			hype: 30,
-			follows: 12,
-			total_rating: 77.2,
-			user_input: {
-				...userInput,
-				themes: [...ThemeSugestion, 42],
-			},
-			id: idAndPromises.id,
-		});
+		return response.send(result);
 	}
 
 	public updateUrl = '/player-input/:id';

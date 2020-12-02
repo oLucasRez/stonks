@@ -260,6 +260,11 @@
     "@types/node" "*"
     "@types/pg-types" "*"
 
+"@types/promisify-node@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@types/promisify-node/-/promisify-node-0.4.0.tgz#dcc71e63c0abf6861bae7d12f6cc3395c783936b"
+  integrity sha1-3MceY8Cr9oYbrn0S9swzlceDk2s=
+
 "@types/qs@*":
   version "6.9.5"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.5.tgz#434711bdd49eb5ee69d90c1d67c354a9a8ecb18b"
