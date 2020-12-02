@@ -1,4 +1,4 @@
-import { readFile } from 'fs';
+import { readFile, existsSync } from 'fs';
 import { exec } from 'child_process';
 import { resolve as path_resolve } from 'path';
 
@@ -20,7 +20,7 @@ const scriptPath = path_resolve(
 class MiningAdapter {
 	private static getReadFilePromise(path: string) {
 		return new Promise<any>((resolve, reject) => {
-			readFile(path, { encoding: 'utf-8' }, (error, data) => {
+			readFile(path, { encoding: 'utf8' }, (error, data) => {
 				if (error) {
 					reject(error);
 				}
@@ -41,11 +41,12 @@ class MiningAdapter {
 
 				const path = stdout.split('[1] ');
 
-				const finalPath = path[path.length - 1].replace('"', '');
+				const finalPath = path[path.length - 1].replace(
+					/(\"|\r?\n)/g,
+					''
+				);
 
-				const resolvedPath = path_resolve(finalPath);
-
-				resolve(resolvedPath as string);
+				resolve(finalPath as string);
 			});
 		});
 	}
@@ -70,12 +71,12 @@ class MiningAdapter {
 		);
 
 		const first_release_date = (
-			firstReleaseDate && obj[firstReleaseDate]
+			firstReleaseDate && obj[firstReleaseDate].replace(/ /g, '')
 		).split(',');
 
-		const engine_name = (engineName && obj[engineName]).split(
-			','
-		);
+		const engine_name = (
+			engineName && obj[engineName].replace(/ /g, '')
+		).split(',');
 
 		const price = foundPrice && obj[foundPrice];
 
