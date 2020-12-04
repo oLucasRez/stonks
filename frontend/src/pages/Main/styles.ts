@@ -323,6 +323,10 @@ export const ButtonContainer = styled.div`
         animation-timing-function: ease;
       }
     }
+
+    .alarm {
+      position: fixed;
+    }
   }
 
   @keyframes to-form-animation {

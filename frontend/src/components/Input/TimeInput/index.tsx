@@ -12,17 +12,24 @@ import ColorContext from '../../../contexts/ColorContext';
 import { Container } from './styles';
 //===============================================================[ CLASS ]
 class TimeInput extends Input {
+  form = FormSingleton.getInstance();
+
+  public getNonVisualizedChanges() {
+    return false; // todo...
+  }
+
+  public setVisualizedChanges() {
+    // todo
+  }
   //=========================================================[ COMPONENT ]
   Body: FC = () => {
     //------------------------------------------------------< properties >
     const color = useContext(ColorContext);
     //--------------------------------------------------------------------
-    const form = FormSingleton.getInstance();
-    //--------------------------------------------------------------------
     const [time, setTime] = useStorageState<string>(this.name + '-time', '');
     //---------------------------------------------------------< methods >
     useEffect(() => {
-      form.inputs.time_to_beat =
+      this.form.inputs.time_to_beat =
         time === '' ? undefined : parseFloat(time) * 3600;
     }, [time]);
     //--------------------------------------------------------------------
@@ -44,6 +51,10 @@ class TimeInput extends Input {
         hours
       </Container>
     );
+  };
+  //----------------------------------------------------------------------
+  ChangeLog: FC = () => {
+    return <p></p>;
   };
 }
 

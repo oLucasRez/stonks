@@ -22,6 +22,14 @@ class TextInput extends Input {
     super(name, description);
     this.useEffectStrategy = useEffectStrategy;
   }
+
+  public getNonVisualizedChanges() {
+    return false; // todo...
+  }
+
+  public setVisualizedChanges() {
+    // todo
+  }
   //=========================================================[ COMPONENT ]
   Body: FC = () => {
     //------------------------------------------------------< properties >
@@ -41,6 +49,10 @@ class TextInput extends Input {
         value={text}
       ></Container>
     );
+  };
+  //----------------------------------------------------------------------
+  ChangeLog: FC = () => {
+    return <p></p>;
   };
 }
 

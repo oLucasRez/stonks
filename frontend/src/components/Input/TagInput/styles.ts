@@ -3,6 +3,7 @@ import { lighten } from 'polished';
 //---------------------------------------------------------------< types >
 interface StyleProps {
   colorPrimary: string;
+  loaded?: boolean;
 }
 //===============================================================[ STYLE ]
 export const Container = styled.div`
@@ -83,12 +84,14 @@ export const Search = styled.ul<StyleProps>`
   max-width: 32.4rem;
   max-height: 64rem;
   margin-top: 0.4rem;
-  padding: 0.8rem 0.4rem 2.8rem 1.2rem;
+  padding: ${({ loaded }) => (loaded ? '0.8rem 0.4rem 2.8rem 1.2rem' : '1rem')};
 
   list-style-type: none;
   position: fixed;
 
   border-radius: 1rem;
+  color: ${({ theme, loaded, colorPrimary }) =>
+    loaded ? theme.colors.foreground[0] : colorPrimary};
   background: ${({ theme }) =>
     theme.title === 'dark' ? theme.colors.background[2] : 'none'};
   border: ${({ theme }) =>

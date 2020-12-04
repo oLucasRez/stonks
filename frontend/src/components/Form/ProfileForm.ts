@@ -48,18 +48,18 @@ class ProfileForm extends TemplateForm {
       new KeywordRequestStrategy(),
       new KeywordUseEffectStrategy()
     );
-    const storyline: Input = new TextInput(
-      'Storyline',
-      'Tell us a little of the your game story',
-      new StorylineUseEffectStrategy()
-    );
-    const summary: Input = new TextInput(
-      'Summary',
-      'Write here a brief description of your game',
-      new SummaryUseEffectStrategy()
-    );
+    // const storyline: Input = new TextInput(
+    //   'Storyline',
+    //   'Tell us a little of the your game story',
+    //   new StorylineUseEffectStrategy()
+    // );
+    // const summary: Input = new TextInput(
+    //   'Summary',
+    //   'Write here a brief description of your game',
+    //   new SummaryUseEffectStrategy()
+    // );
 
-    return [genres, themes, keywords, storyline, summary];
+    return [genres, themes, keywords /*storyline, summary*/];
   }
 }
 

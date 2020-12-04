@@ -13,6 +13,8 @@ import useStorageState from '../../../hooks/useStorageState';
 //------------------------------------------------------------< contexts >
 import ColorContext from '../../../contexts/ColorContext';
 import { ThemeContext } from 'styled-components';
+//---------------------------------------------------------------< utils >
+import getRandomInt from '../../../utils/getRandomInt';
 //--------------------------------------------------------------< styles >
 import { Container, SearchBox, SearchResults, Arrows, Chosen } from './styles';
 import {
@@ -21,15 +23,27 @@ import {
   FaTimes,
 } from 'react-icons/fa';
 import ContentLoader from 'styled-content-loader';
+//---------------------------------------------------------------< mocks >
+import game_engines from '../../../mock/game_engines.json';
 //===============================================================[ CLASS ]
 class SearchInput extends Input {
+  form = FormSingleton.getInstance();
+
+  public getNonVisualizedChanges() {
+    return (
+      this.form.result?.nonVisualizedChanges().subforms[1].gameEngine ?? false
+    );
+  }
+
+  public setVisualizedChanges() {
+    if (this.form.result)
+      this.form.result.visualizedChanges.subforms[1].gameEngine = false;
+  }
   //=========================================================[ COMPONENT ]
   Body: FC = () => {
     //------------------------------------------------------< properties >
     const color = useContext(ColorContext);
     const { background, foreground } = useContext(ThemeContext).colors;
-    //--------------------------------------------------------------------
-    const form = FormSingleton.getInstance();
     //--------------------------------------------------------------------
     const [chosen, setChosen] = useStorageState<ISearchResponse>(
       this.name + '-search',
@@ -45,19 +59,45 @@ class SearchInput extends Input {
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState(false);
     //---------------------------------------------------------< methods >
+    const backend = async () => {
+      return { data: game_engines };
+    };
     useEffect(() => {
-      backend
-        .get<ISearchResponse[]>('game-engines')
-        .then(({ data }) => setOptions(data))
+      // backend
+      //   .get<ISearchResponse[]>('game-engines')
+      backend()
+        .then(({ data }) => {
+          setOptions(data);
+
+          if (this.getNonVisualizedChanges()) {
+            const gameEngineSuggestions = this.form.result?.getGameEngines();
+
+            if (gameEngineSuggestions) {
+              const gameEngineSuggestion =
+                gameEngineSuggestions[
+                  getRandomInt(0, gameEngineSuggestions.length)
+                ];
+
+              const options = data.filter((option) =>
+                option.name
+                  .replace(' ', '')
+                  .toUpperCase()
+                  .includes(gameEngineSuggestion.toUpperCase())
+              );
+
+              setChosen(options[getRandomInt(0, options.length)]);
+            }
+          }
+        })
         .catch(() => setError(true))
         .finally(() => setLoaded(true));
     }, []);
     //--------------------------------------------------------------------
     useEffect(() => {
-      form.inputs.game_engine = chosen?.id;
+      this.form.inputs.game_engine = chosen?.id;
     }, [chosen]);
     //--------------------------------------------------------------------
-    const searchOptions = () =>
+    const searchOptions = (search: string) =>
       search.length < 1
         ? []
         : options.filter((option) =>
@@ -79,10 +119,10 @@ class SearchInput extends Input {
                     setSearch(e.target.value);
                   }}
                 />
-                {searchOptions().length ? (
+                {searchOptions(search).length ? (
                   <>
                     <SearchResults colorPrimary={color}>
-                      {searchOptions()
+                      {searchOptions(search)
                         .slice(
                           maxOptionPerPage * page,
                           maxOptionPerPage * (page + 1)
@@ -106,7 +146,7 @@ class SearchInput extends Input {
                           />
                         ) : null}
                         {(page + 1) * maxOptionPerPage <
-                        searchOptions().length ? (
+                        searchOptions(search).length ? (
                           <FaLongArrowAltRight
                             onClick={() => setPage(page + 1)}
                           />
@@ -139,6 +179,14 @@ class SearchInput extends Input {
           <p>... im loading ...</p>
         </ContentLoader>
       );
+  };
+  //----------------------------------------------------------------------
+  ChangeLog: FC = () => {
+    return (
+      <p>
+        We added this <b>game engine</b> to your game as a suggestion!
+      </p>
+    );
   };
 }
 

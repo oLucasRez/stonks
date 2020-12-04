@@ -1,4 +1,6 @@
 import React, { FC, HTMLProps } from 'react';
+//-------------------------------------------------------------< classes >
+import FormSingleton from '../../classes/FormSingleton';
 //----------------------------------------------------------< components >
 import ProgressCircle from './ProgressCircle';
 //--------------------------------------------------------------< assets >
@@ -14,11 +16,13 @@ import { Container } from './styles';
 //===========================================================[ COMPONENT ]
 const Results: FC<HTMLProps<HTMLDivElement>> = ({ className }) => {
   //--------------------------------------------------------< properties >
-  const ratingScore = 0.97;
-  const followsScore = 0.66;
-  const hypeScore = 0.84;
-  const progress = (ratingScore + followsScore + hypeScore) / 3;
-  const accuracy = 0.86;
+  const { result } = FormSingleton.getInstance();
+  if (!result) return <>loading</>;
+  const ratingScore = result?.getTotalRatingScore();
+  const followsScore = result?.getFollowsScore();
+  const hypeScore = result?.getHypeScore();
+  const progress = result?.getScore();
+  const accuracy = 0.92;
   const stonkness =
     accuracy < 0.25
       ? {
@@ -76,8 +80,8 @@ const Results: FC<HTMLProps<HTMLDivElement>> = ({ className }) => {
         <ProgressCircle progress={progress} color={color(progress)} />
         <h1>
           {stonkness.feedback}
-          <br />
-          <i>{ratingScore * 100 + '%'} accuracy</i>
+          {/* <br /> */}
+          {/* <i>{accuracy * 100 + '%'} accuracy</i> */}
         </h1>
       </div>
       <div className='details-container'>

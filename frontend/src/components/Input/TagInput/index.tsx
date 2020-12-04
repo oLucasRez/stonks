@@ -37,6 +37,13 @@ class TagInput extends Input {
     this.useEffectStrategy = useEffectStrategy;
   }
 
+  public getNonVisualizedChanges() {
+    return false; // todo...
+  }
+
+  public setVisualizedChanges() {
+    // todo
+  }
   //=========================================================[ COMPONENT ]
   Body: FC = () => {
     //------------------------------------------------------< properties >
@@ -112,37 +119,43 @@ class TagInput extends Input {
                 />
               </Tag>
               {search.length ? (
-                <>
-                  <Search colorPrimary={color}>
-                    {allTags
-                      .slice(
-                        maxOptionPerPage * page,
-                        maxOptionPerPage * (page + 1)
-                      )
-                      .map((tag) => (
-                        <li
-                          key={tag.id}
-                          onClick={() => {
-                            if (!myTagsHas(tag)) setMyTags([...myTags, tag]);
-                            setSearch('');
-                            setSearchOnFocus(false);
-                          }}
-                        >
-                          {tag.name}
-                        </li>
-                      ))}
-                    <Arrows colorPrimary={color}>
-                      {page > 0 ? (
-                        <FaLongArrowAltLeft onClick={() => setPage(page - 1)} />
-                      ) : null}
-                      {(page + 1) * maxOptionPerPage < allTags.length ? (
-                        <FaLongArrowAltRight
-                          onClick={() => setPage(page + 1)}
-                        />
-                      ) : null}
-                    </Arrows>
-                  </Search>
-                </>
+                <Search colorPrimary={color} loaded={loaded}>
+                  {loaded ? (
+                    <>
+                      {allTags
+                        .slice(
+                          maxOptionPerPage * page,
+                          maxOptionPerPage * (page + 1)
+                        )
+                        .map((tag) => (
+                          <li
+                            key={tag.id}
+                            onClick={() => {
+                              if (!myTagsHas(tag)) setMyTags([...myTags, tag]);
+                              setSearch('');
+                              setSearchOnFocus(false);
+                            }}
+                          >
+                            {tag.name}
+                          </li>
+                        ))}
+                      <Arrows colorPrimary={color}>
+                        {page > 0 ? (
+                          <FaLongArrowAltLeft
+                            onClick={() => setPage(page - 1)}
+                          />
+                        ) : null}
+                        {(page + 1) * maxOptionPerPage < allTags.length ? (
+                          <FaLongArrowAltRight
+                            onClick={() => setPage(page + 1)}
+                          />
+                        ) : null}
+                      </Arrows>
+                    </>
+                  ) : (
+                    <>...</>
+                  )}
+                </Search>
               ) : null}
             </>
           ) : (
@@ -158,6 +171,10 @@ class TagInput extends Input {
           )}
         </Container>
       );
+  };
+  //----------------------------------------------------------------------
+  ChangeLog: FC = () => {
+    return <p></p>;
   };
 }
 

@@ -10,11 +10,18 @@ import { useEffect } from 'react';
 import { Container, AgeBox } from './styles';
 //===============================================================[ CLASS ]
 class AgeInput extends Input {
+  form = FormSingleton.getInstance();
+
+  public getNonVisualizedChanges() {
+    return false; // todo...
+  }
+
+  public setVisualizedChanges() {
+    // todo...
+  }
   //=========================================================[ COMPONENT ]
   Body: FC = () => {
     //------------------------------------------------------< properties >
-    const form = FormSingleton.getInstance();
-    //--------------------------------------------------------------------
     const [age, setAge] = useStorageState<number>(this.name + '-age', -1);
     //--------------------------------------------------------------------
     const ageBoxes = [
@@ -41,7 +48,7 @@ class AgeInput extends Input {
     ];
     //---------------------------------------------------------< methods >
     useEffect(() => {
-      form.inputs.age_rating = age === -1 ? undefined : age;
+      this.form.inputs.age_rating = age === -1 ? undefined : age;
     }, [age]);
     //----------------------------------------------------------< return >
     return (
@@ -59,6 +66,10 @@ class AgeInput extends Input {
         ))}
       </Container>
     );
+  };
+  //----------------------------------------------------------------------
+  ChangeLog: FC = () => {
+    return <p></p>;
   };
 }
 

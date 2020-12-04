@@ -10,6 +10,7 @@ import SpecificationsForm from '../../components/Form/SpecificationsForm';
 import PublishForm from '../../components/Form/PublishForm';
 import Switch from 'react-switch';
 import Results from '../../components/Results';
+import Alarm from '../../components/Alarm';
 //---------------------------------------------------------------< hooks >
 import { useContext, useState } from 'react';
 import useStorageState from '../../hooks/useStorageState';
@@ -25,7 +26,7 @@ import {
   ButtonContainer,
 } from './styles';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
-//===========================================================[ COMPONENT ]
+//================================================================[ PAGE ]
 const Main: FC<IMainProps> = ({ toggleTheme }) => {
   //--------------------------------------------------------< properties >
   const { title, colors } = useContext(ThemeContext);
@@ -41,18 +42,20 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
     'current-form',
     0
   );
-  const [showingForm, setShowingForm] = useStorageState<boolean>(
-    'showing-form',
-    false
-  );
+  const [showingForm, setShowingForm] = useState(true);
   //----------------------------------------------------------------------
   const FormTemplateMethod = forms[currentForm].templateMethod;
+  //----------------------------------------------------------------------
+  const [nonVisualizedChanges, setNonVisualizedChanges] = useState(false);
   //-----------------------------------------------------------< methods >
   const submit = () => {
     if (showingForm) {
-      setShowingForm(false);
-      form.print();
-      // (async () => await form.submit())();
+      (async () => {
+        await form.submit();
+        if (!form.result) return <>error on results :(</>;
+        setNonVisualizedChanges(form.result.nonVisualizedChanges().value);
+        setShowingForm(false);
+      })();
     } else setShowingForm(true);
   };
   //------------------------------------------------------------< return >
@@ -103,6 +106,9 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
               <>
                 <FaArrowLeft />
                 <p>Back to form</p>
+                {nonVisualizedChanges ? (
+                  <Alarm className='alarm' pulse={true} />
+                ) : null}
               </>
             )}
           </button>

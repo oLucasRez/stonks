@@ -1,7 +1,10 @@
 import React, { FC } from 'react';
 //----------------------------------------------------------< interfaces >
 import ITemplateMethodProps from '../../../interfaces/ITemplateMethodProps';
+//-------------------------------------------------------------< classes >
+import FormSingleton from '../../../classes/FormSingleton';
 //----------------------------------------------------------< components >
+import Alert from '../../Alarm';
 import Input from '../../Input';
 //---------------------------------------------------------------< hooks >
 import { useContext } from 'react';
@@ -25,17 +28,27 @@ abstract class TemplateForm {
     //------------------------------------------------------< properties >
     const header: JSX.Element[] = [];
     //---------------------------------------------------------< methods >
+    const { result } = FormSingleton.getInstance();
+    const nonVisualizedChanges = result
+      ? result.nonVisualizedChanges().subforms
+      : [{ value: false }, { value: false }, { value: false }];
+    //--------------------------------------------------------------------
     forms.forEach((form, i) => {
       const Icon = form.icon;
       header.push(
-        <div
-          className={this.icon === Icon ? 'main' : 'side'}
-          key={i}
-          onClick={() => setCurrentForm(i)}
-        >
-          <Icon className='icon' />
-          <p className='title'>{this.getName()}</p>
-        </div>
+        <>
+          {/* {nonVisualizedChanges[i].value ? (
+            <Alert className='alert' pulse={true} />
+          ) : null} */}
+          <div
+            className={this.icon === Icon ? 'main' : 'side'}
+            key={i}
+            onClick={() => setCurrentForm(i)}
+          >
+            <Icon className='icon' />
+            <p className='title'>{this.getName()}</p>
+          </div>
+        </>
       );
     });
     //----------------------------------------------------------< return >

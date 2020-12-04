@@ -30,6 +30,14 @@ class CheckInput extends Input {
     this.requestStrategy = requestStrategy;
     this.useEffectStrategy = useEffectStrategy;
   }
+
+  public getNonVisualizedChanges() {
+    return false; // todo...
+  }
+
+  public setVisualizedChanges() {
+    // todo...
+  }
   //=========================================================[ COMPONENT ]
   Body: FC = () => {
     //------------------------------------------------------< properties >
@@ -98,6 +106,10 @@ class CheckInput extends Input {
           <p>... im loading ...</p>
         </ContentLoader>
       );
+  };
+  //----------------------------------------------------------------------
+  ChangeLog: FC = () => {
+    return <p></p>;
   };
 }
 

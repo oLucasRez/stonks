@@ -5,7 +5,7 @@ interface StyleProps {
   limitReached: boolean;
 }
 //===============================================================[ STYLE ]
-export const Container = styled.section<StyleProps>`
+export const Container = styled.div<StyleProps>`
   display: flex;
   align-items: center;
 

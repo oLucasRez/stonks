@@ -31,6 +31,12 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
 
+  .alert {
+    margin: 0 -1.4rem;
+    transform: translate(1.4rem, -3.6rem);
+    z-index: 20;
+  }
+
   .main,
   .side {
     height: 8.2rem;
@@ -42,7 +48,8 @@ export const Header = styled.header`
   }
 
   .main + .side,
-  .side + .main {
+  .side + .main,
+  .alert + div {
     margin-left: 0.8rem;
   }
 

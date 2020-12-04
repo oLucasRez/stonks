@@ -11,13 +11,21 @@ import ColorContext from '../../../contexts/ColorContext';
 //--------------------------------------------------------------< styles >
 import { Container } from './styles';
 //===============================================================[ CLASS ]
-class DateInput extends Input {
+class PriceInput extends Input {
+  form = FormSingleton.getInstance();
+
+  public getNonVisualizedChanges() {
+    return this.form.result?.nonVisualizedChanges().subforms[2].price ?? false;
+  }
+
+  public setVisualizedChanges() {
+    if (this.form.result)
+      this.form.result.visualizedChanges.subforms[2].price = false;
+  }
   //=========================================================[ COMPONENT ]
   Body: FC = () => {
     //------------------------------------------------------< properties >
     const color = useContext(ColorContext);
-    //--------------------------------------------------------------------
-    const form = FormSingleton.getInstance();
     //--------------------------------------------------------------------
     const [price, setPrice] = useStorageState<string>(
       this.name + '-price',
@@ -25,7 +33,7 @@ class DateInput extends Input {
     );
     //---------------------------------------------------------< methods >
     useEffect(() => {
-      form.inputs.price = parseFloat(price);
+      this.form.inputs.price = parseFloat(price);
     }, [price]);
     //--------------------------------------------------------------------
     const handlePrice = (input: string) => {
@@ -53,6 +61,14 @@ class DateInput extends Input {
       </Container>
     );
   };
+  //----------------------------------------------------------------------
+  ChangeLog: FC = () => {
+    return (
+      <p>
+        We added this <b>price</b> to your game as a suggestion!
+      </p>
+    );
+  };
 }
 
-export default DateInput;
+export default PriceInput;
