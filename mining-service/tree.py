@@ -1,15 +1,28 @@
-import database
-import convert
+import joblib
 
-query = database.loadQuery('sql/main.sql')
+from os import path, makedirs
+from sklearn.tree import DecisionTreeRegressor
 
-connection = database.createConnection()
+TREE_DIRECTORY='data'
+TREE_FILE=f'{TREE_DIRECTORY}/tree.pkl'
 
-columns, result = database.getQueryResult(connection, query)
+def createDecisionTree(X, y):
+    classifierTree = DecisionTreeRegressor()
 
-rawDataframe = convert.queryResultToDataframe(result, columns)
+    classifierTree.fit(X, y)
 
-dataframe = convert.encodeStringFields(
-    rawDataframe, 
-    ['player_perspective', 'game_mode', 'genre', 'game_engine']
-)
+    return classifierTree
+
+def saveDecisionTree(decisionTree):
+    if not path.exists(TREE_DIRECTORY):
+        makedirs(TREE_DIRECTORY)
+
+    joblib.dump(decisionTree, TREE_FILE)
+
+def loadDecisionTree():
+    try:
+        decisionTree = joblib.load(TREE_FILE)
+
+        return decisionTree
+    except:
+        return None

@@ -57,5 +57,4 @@ WHERE
         FROM
             GAME
     )
-LIMIT 50
 
