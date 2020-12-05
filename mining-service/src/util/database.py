@@ -38,4 +38,6 @@ def getQueryResult(connection, query: str):
 
     result = cursor.fetchall()
 
+    print(f'[DB]: Got {len(result)} rows')
+
     return columns, result
