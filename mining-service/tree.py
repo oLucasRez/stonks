@@ -5,13 +5,11 @@ query = database.loadQuery('sql/main.sql')
 
 connection = database.createConnection()
 
-result, columns = database.getQueryResult(connection, query)
+columns, result = database.getQueryResult(connection, query)
 
 rawDataframe = convert.queryResultToDataframe(result, columns)
 
 dataframe = convert.encodeStringFields(
     rawDataframe, 
-    ['PLAYER_PERSPECTIVE', 'GAME_MODE', 'GENRE', 'GAME_ENGINE']
+    ['player_perspective', 'game_mode', 'genre', 'game_engine']
 )
-
-print(dataframe.head(10))
