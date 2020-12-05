@@ -1,6 +1,6 @@
-import GameTokenModel from '../../models/GameTokenModel';
+import GameTokenModel from '../../../models/GameTokenModel';
 
-import { IGameToken } from '../../typescript/database/AssociativeTables';
+import { IGameToken } from '../../../typescript/database/AssociativeTables';
 
 class GameTokenController {
 	static async store(gameToken: IGameToken): Promise<boolean> {

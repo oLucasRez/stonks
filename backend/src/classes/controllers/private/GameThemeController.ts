@@ -1,6 +1,6 @@
-import GameThemeModel from '../../models/GameThemeModel';
+import GameThemeModel from '../../../models/GameThemeModel';
 
-import { IGameTheme } from '../../typescript/database/AssociativeTables';
+import { IGameTheme } from '../../../typescript/database/AssociativeTables';
 
 class GameThemeController {
 	static async store(gameTheme: IGameTheme): Promise<boolean> {

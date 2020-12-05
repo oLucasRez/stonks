@@ -1,6 +1,6 @@
-import GameGenreModel from '../../models/GameGenreModel';
+import GameGenreModel from '../../../models/GameGenreModel';
 
-import { IGameGenre } from '../../typescript/database/AssociativeTables';
+import { IGameGenre } from '../../../typescript/database/AssociativeTables';
 
 class GameGenreController {
 	static async store(gameGenre: IGameGenre): Promise<boolean> {

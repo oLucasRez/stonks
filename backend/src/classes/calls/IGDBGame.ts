@@ -52,6 +52,15 @@ export default class IGDBGame extends IGDBCall<IGameRaw[]> {
 				'external_games.category',
 				'external_games.uid',
 			],
+			where: {
+				assertions: [
+					{
+						property: 'themes',
+						boolOperator: '!=',
+						value: 'null',
+					},
+				],
+			},
 			limit: 500,
 		};
 	}

@@ -1,6 +1,6 @@
-import GameGameModeModel from '../../models/GameGameModeModel';
+import GameGameModeModel from '../../../models/GameGameModeModel';
 
-import { IGameGameMode } from '../../typescript/database/AssociativeTables';
+import { IGameGameMode } from '../../../typescript/database/AssociativeTables';
 
 class GameGameModeController {
 	static async store(

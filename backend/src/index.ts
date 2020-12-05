@@ -2,6 +2,7 @@ import 'dotenv/config';
 import http from 'http';
 
 import DatabaseInitializer from './services/database/config/DatabaseInitializer';
+
 import App from './server';
 
 async function runServer() {

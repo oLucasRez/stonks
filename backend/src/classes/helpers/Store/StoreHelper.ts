@@ -1,17 +1,9 @@
 /* eslint-disable no-await-in-loop */
 import GameAdapter from '../../adapters/classes/GameAdapter';
 
-import GameController from '../../controllers/private/GameController';
-import GameGameModeController from '../../controllers/GameGameModeController';
-import GameGenreController from '../../controllers/GameGenreController';
-import GameKeywordController from '../../controllers/GameKeywordController';
-import GamePlayerPerspectiveController from '../../controllers/GamePlayerPerspectiveController';
-import GameThemeController from '../../controllers/GameThemeController';
-import GameTokenController from '../../controllers/GameTokenController';
+import GameTokenController from '../../controllers/private/GameTokenController';
 
-import { IGame } from '../../../typescript/database/Tables';
 import { IGameRaw } from '../../../typescript/services/IGDB/IGameRaw';
-import { IGameToken } from '../../../typescript/database/AssociativeTables';
 
 import TokenModel from '../../../models/TokenModel';
 import { ITokenRaw } from '../../../typescript/services/GCP/ITokenRaw';
@@ -101,7 +93,7 @@ class StoreHelper {
 		// 	game as IGame
 		// );
 
-		if (game.summaryTokens) {
+		if (game.summaryTokens && game.id) {
 			await this.storeNLPProducts(
 				game.id,
 				game.summaryTokens,
@@ -110,7 +102,7 @@ class StoreHelper {
 			);
 		}
 
-		if (game.storylineTokens) {
+		if (game.storylineTokens && game.id) {
 			await this.storeNLPProducts(
 				game.id,
 				game.storylineTokens,

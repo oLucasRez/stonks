@@ -1,6 +1,6 @@
-import GameKeywordModel from '../../models/GameKeywordModel';
+import GameKeywordModel from '../../../models/GameKeywordModel';
 
-import { IGameKeyword } from '../../typescript/database/AssociativeTables';
+import { IGameKeyword } from '../../../typescript/database/AssociativeTables';
 
 class GameKeywordController {
 	static async store(

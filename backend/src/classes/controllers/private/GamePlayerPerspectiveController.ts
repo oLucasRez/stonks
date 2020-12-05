@@ -1,6 +1,6 @@
-import GamePlayerPerspectiveModel from '../../models/GamePlayerPerspectiveModel';
+import GamePlayerPerspectiveModel from '../../../models/GamePlayerPerspectiveModel';
 
-import { IGamePlayerPerspective } from '../../typescript/database/AssociativeTables';
+import { IGamePlayerPerspective } from '../../../typescript/database/AssociativeTables';
 
 class GamePlayerPerspectiveController {
 	static async store(

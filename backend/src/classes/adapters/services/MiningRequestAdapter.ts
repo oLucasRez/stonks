@@ -1,4 +1,4 @@
-import { readFile, existsSync } from 'fs';
+import { readFile } from 'fs';
 import { exec } from 'child_process';
 import { resolve as path_resolve } from 'path';
 
