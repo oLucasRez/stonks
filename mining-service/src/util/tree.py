@@ -1,8 +1,10 @@
 import joblib
 
 from os import path, makedirs
+from math import sqrt
 
 from sklearn.tree import DecisionTreeRegressor, export_text
+from sklearn.metrics import mean_squared_error
 
 TREE_DIRECTORY='data'
 TREE_FILE=f'{TREE_DIRECTORY}/tree.pkl'
@@ -28,10 +30,10 @@ def saveDecisionTree(decisionTree, features, decoderDict):
         file.write(f'Importances:\n')
 
         for x in range(len(importances)):
-            feature = features[x]
-            value = importances[x]
+            feature = features[x] 
+            value = importances[x] * 100
 
-            file.write(f'[{feature}]: {value}\n')
+            file.write(f'[{feature}]: {round(value, 2)}%\n')
 
         file.write('\n')
 
@@ -48,3 +50,8 @@ def loadDecisionTree():
         return decisionTree, transformDict
     except:
         return None
+
+def getAccuracy(decisionTree, X_test, y_test):
+    results = decisionTree.predict(X_test)
+
+    return mean_squared_error(y_test, results, multioutput='raw_values', squared=False)

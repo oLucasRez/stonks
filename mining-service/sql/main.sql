@@ -7,19 +7,19 @@ SELECT DISTINCT
     PRICE,
     STRING_AGG(
         DISTINCT GENRES.NAME,
-        '_'
+        '$'
     ) AS GENRE,
     STRING_AGG(
         DISTINCT GAME_MODE.NAME,
-        '_'
+        '$'
     ) AS GAME_MODE,
     STRING_AGG(
         DISTINCT PLAYER_PERSPECTIVES.NAME,
-        '_'
+        '$'
     ) AS PLAYER_PERSPECTIVE,
     STRING_AGG(
         DISTINCT THEMES.NAME,
-        '_'
+        '$'
     ) AS THEME
 FROM
     GAME
