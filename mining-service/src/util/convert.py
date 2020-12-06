@@ -1,5 +1,7 @@
 import pandas as pd
 
+from copy import deepcopy
+
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.impute import SimpleImputer
 
@@ -11,14 +13,24 @@ def queryResultToDataframe(queryResult, columns):
 def encodeStringFields(dataframe, stringFields):
     ordinalEncoder = OrdinalEncoder()
 
-    for stringField in stringFields:
-        dataframe[stringField] = ordinalEncoder.fit_transform(dataframe[[stringField]])
+    dataframe.replace(to_replace=[None], value=nan, inplace=True)
 
-    dataframe.replace('?', nan, inplace=True)
-
-    imputer = SimpleImputer(missing_values=nan, strategy='mean')
+    imputer = SimpleImputer(missing_values=nan, strategy='most_frequent')
     imputer.fit(dataframe)
 
     dataframe = pd.DataFrame(imputer.transform(dataframe), columns=dataframe.columns)
+   
+    decoderDict = {}
 
-    return dataframe
+    for stringField in stringFields:
+            ordinalEncoder = ordinalEncoder.fit(dataframe[[stringField]])
+            
+            tempKeys = dataframe[stringField].values
+
+            dataframe[stringField] = ordinalEncoder.transform(dataframe[[stringField]])
+
+            tempValues = dataframe[stringField]
+
+            decoderDict[stringField] = dict(zip(tempKeys, tempValues))
+            
+    return dataframe, decoderDict

@@ -7,6 +7,7 @@ from sklearn.tree import DecisionTreeRegressor, export_text
 TREE_DIRECTORY='data'
 TREE_FILE=f'{TREE_DIRECTORY}/tree.pkl'
 TREE_LOG=f'{TREE_DIRECTORY}/log.txt'
+DECODER_FILE=f'{TREE_DIRECTORY}/decoder_dict.obj'
 
 def createDecisionTree(X, y):
     classifierTree = DecisionTreeRegressor()
@@ -15,7 +16,7 @@ def createDecisionTree(X, y):
 
     return classifierTree
 
-def saveDecisionTree(decisionTree, features):
+def saveDecisionTree(decisionTree, features, decoderDict):
     if not path.exists(TREE_DIRECTORY):
         makedirs(TREE_DIRECTORY)
 
@@ -37,11 +38,13 @@ def saveDecisionTree(decisionTree, features):
         file.writelines(treeResult)
 
     joblib.dump(decisionTree, TREE_FILE)
+    joblib.dump(decoderDict, DECODER_FILE)
 
 def loadDecisionTree():
     try:
         decisionTree = joblib.load(TREE_FILE)
+        transformDict = joblib.load(DECODER_FILE)
 
-        return decisionTree
+        return decisionTree, transformDict
     except:
         return None
