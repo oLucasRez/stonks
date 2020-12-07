@@ -23,6 +23,7 @@ def encodeStringFields(dataframe, stringFields):
     dataframe = pd.DataFrame(imputer.transform(dataframe), columns=dataframe.columns)
    
     decoderDict = {}
+    encoderDict = {}
 
     for stringField in stringFields:
             ordinalEncoder = ordinalEncoder.fit(dataframe[[stringField]])
@@ -33,9 +34,10 @@ def encodeStringFields(dataframe, stringFields):
 
             tempValues = dataframe[stringField]
 
-            decoderDict[stringField] = dict(zip(tempKeys, tempValues))
+            encoderDict[stringField] = dict(zip(tempKeys, tempValues))
+            decoderDict[stringField] = dict(zip(tempValues, tempKeys))
             
-    return dataframe, decoderDict
+    return dataframe, decoderDict, encoderDict
 
 def createComposition(items):
     result = []
@@ -81,7 +83,7 @@ def isOptionSuitable(x, observations, userData):
         if len(x.items) != len(observations):
             return False
 
-        noneR = re.compile('^None.*')
+        noneR = re.compile('^(None|nan)@.*')
 
         if any(noneR.match(item) for item in x.items):
             return False
@@ -98,27 +100,35 @@ def isOptionSuitable(x, observations, userData):
 
         return True
 
-def betterAprioriOptions(dataframe, observations, userData):
-    aprioriResult = getAprioriMatrix(dataframe[observations])
+def betterAprioriOptions(dataframe, observations, target):
+    aprioriFactors = [observation for observation in observations]
+    aprioriFactors.append(target)
 
-    filteredAprioriResult = filter(lambda x: isOptionSuitable(x, observations, userData), aprioriResult)
+    aprioriResult = getAprioriMatrix(dataframe[aprioriFactors])
+
+    userData = {}
+
+    columns = dataframe[observations].columns
+
+    for column in columns:
+        userData[column] = dataframe[column].values[0]
+
+    filteredAprioriResult = filter(lambda x: isOptionSuitable(x, aprioriFactors, userData), aprioriResult)
 
     sortedAprioriResult = sorted(filteredAprioriResult, key=lambda x : x.ordered_statistics[0].confidence, reverse=True)
 
-    return [result.items for result in sortedAprioriResult[:10]]
+    uniqueResults = []
 
-def aprioriToDataframe(aprioriResult):
-    listOfDicts = []
+    for result in sortedAprioriResult:
+        item = list(filter(lambda item: target in item, result.items))[0]
 
-    for item in aprioriResult:
-        _dict = {}
+        if item not in uniqueResults:
+            uniqueResults.append(item)
 
-        for string in item:
-            string_arr = string.split('@')
+    topTen = [item.split('@')[0] for item in uniqueResults[:10]]
 
-            _dict[string_arr[1]] = string_arr[0]
+    return topTen
 
-        listOfDicts.append(_dict)
-
-    return pd.DataFrame(listOfDicts)
+def aprioriToDataframe(aprioriResult, target):
+    return pd.DataFrame(aprioriResult, columns=[target])
 
