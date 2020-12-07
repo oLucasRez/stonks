@@ -1,6 +1,6 @@
 import pandas as pd
 
-from copy import deepcopy
+from itertools import product
 
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.impute import SimpleImputer
@@ -34,3 +34,25 @@ def encodeStringFields(dataframe, stringFields):
             decoderDict[stringField] = dict(zip(tempKeys, tempValues))
             
     return dataframe, decoderDict
+
+def createComposition(items):
+    result = []
+    
+    for index, item in enumerate(items):
+        last = item[0]
+
+        result.append(last)
+
+        for nextItem in items[index + 1:]:
+            nextItem = nextItem[0]
+
+            last += f"${nextItem}"
+
+            result.append(last)
+
+    return result
+
+def createCombinations(columnNames, data):
+    combinations = list(product(*data))
+    
+    return pd.DataFrame(columns=columnNames, data=combinations)

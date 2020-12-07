@@ -1,4 +1,6 @@
 import psycopg2
+from util.convert import createCombinations, createComposition
+
 from os import getenv
 from dotenv import load_dotenv
 
@@ -41,3 +43,38 @@ def getQueryResult(connection, query: str):
     print(f'[DB]: Got {len(result)} rows')
 
     return columns, result
+
+def generateProductData(connection, keys):
+    queries = {
+        'game_mode': { 'path':'sql/game_modes.sql', 'composite': True }, 
+        'genre': { 'path':'sql/genres.sql', 'composite': True }, 
+        'player_perspective': { 'path':'sql/player_perspectives.sql', 'composite': True }, 
+        'theme': { 'path':'sql/themes.sql', 'composite': True },
+        'age_rating': { 'path':'sql/age_ratings.sql', 'composite': False },
+        'hours_to_beat': { 'path':'sql/hours_to_beat.sql', 'composite': False },
+        'price': { 'path':'sql/prices.sql', 'composite': False },
+        'release_date_month': { 'path':'sql/release_date_months.sql', 'composite': False },
+    }
+
+    chosenQueries = [queries[key] for key in keys]
+
+    composites = {}
+
+    for query in chosenQueries:
+        sql = loadQuery(query['path'])
+
+        columns, result = getQueryResult(connection, sql)
+
+        name = columns[0]
+
+        if query['composite']:
+            composites[name] = createComposition(result)
+        else:
+            composites[name] = [x[0] for x in result]
+
+    keys = composites.keys()
+    values = composites.values()
+
+    combinations = createCombinations(keys, values)
+
+    return combinations

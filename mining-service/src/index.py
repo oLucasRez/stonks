@@ -1,4 +1,7 @@
-from util import database, convert, tree, train
+from util import database, convert, tree, train, user
+
+import pandas as pd
+import numpy as np
 
 # DATA TREATMENT
 query = database.loadQuery('sql/main.sql')
@@ -8,9 +11,6 @@ connection = database.createConnection()
 columns, result = database.getQueryResult(connection, query)
 
 rawDataframe = convert.queryResultToDataframe(result, columns)
-
-print(f'Dataframe head:')
-print(rawDataframe.head(10))
 
 dataframe, decoderDict = convert.encodeStringFields(
     rawDataframe, 
@@ -36,4 +36,6 @@ print(f'Decision tree generated with RMSE of: {accuracy}')
 tree.saveDecisionTree(decisionTree, features, decoderDict)
 
 print(f'[INDEX]: Results saved!')
+
+print(f'[INDEX]: Caching database data...')
 
