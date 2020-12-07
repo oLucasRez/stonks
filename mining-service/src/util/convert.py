@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 
 from itertools import product
 
@@ -6,6 +7,7 @@ from sklearn.preprocessing import OrdinalEncoder
 from sklearn.impute import SimpleImputer
 
 from numpy import nan
+from apyori import apriori
 
 def queryResultToDataframe(queryResult, columns):
     return pd.DataFrame(queryResult, columns=columns)
@@ -56,3 +58,67 @@ def createCombinations(columnNames, data):
     combinations = list(product(*data))
     
     return pd.DataFrame(columns=columnNames, data=combinations)
+
+def getAprioriMatrix(dataframe):
+    rowMatrix = dataframe.values.tolist()
+    columns = dataframe.columns
+
+    finalMatrix = []
+
+    for row in rowMatrix:
+        rowValues = []
+        
+        for i in range(len(columns)):
+            rowValues.append(f'{str(row[i])}@{columns[i]}')
+
+        finalMatrix.append(rowValues)
+        
+    aprioriResult = apriori(finalMatrix, min_support=0.001, min_confidence=0.001)
+
+    return list(aprioriResult)
+
+def isOptionSuitable(x, observations, userData):
+        if len(x.items) != len(observations):
+            return False
+
+        noneR = re.compile('^None.*')
+
+        if any(noneR.match(item) for item in x.items):
+            return False
+
+        for dataKey in userData:
+            regex = f'^{userData[dataKey]}.*@{dataKey}'
+
+            regexTemp = re.compile(regex)
+
+            matches = [regexTemp.match(item) for item in x.items]
+
+            if not any(matches):
+                return False
+
+        return True
+
+def betterAprioriOptions(dataframe, observations, userData):
+    aprioriResult = getAprioriMatrix(dataframe[observations])
+
+    filteredAprioriResult = filter(lambda x: isOptionSuitable(x, observations, userData), aprioriResult)
+
+    sortedAprioriResult = sorted(filteredAprioriResult, key=lambda x : x.ordered_statistics[0].confidence, reverse=True)
+
+    return [result.items for result in sortedAprioriResult[:10]]
+
+def aprioriToDataframe(aprioriResult):
+    listOfDicts = []
+
+    for item in aprioriResult:
+        _dict = {}
+
+        for string in item:
+            string_arr = string.split('@')
+
+            _dict[string_arr[1]] = string_arr[0]
+
+        listOfDicts.append(_dict)
+
+    return pd.DataFrame(listOfDicts)
+
