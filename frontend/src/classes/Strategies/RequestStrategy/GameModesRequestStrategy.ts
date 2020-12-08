@@ -1,12 +1,12 @@
 //----------------------------------------------------------< interfaces >
-import IRequestStrategy from '../../interfaces/IRequestStrategy';
-import ICheckResponse from '../../interfaces/ICheckResponse';
+import IRequestStrategy from '../../../interfaces/IRequestStrategy';
+import ICheckResponse from '../../../interfaces/ICheckResponse';
 //------------------------------------------------------------< services >
-import backend from '../../services/backend';
+import backend from '../../../services/backend';
 //----------------------------------------------------------------< mock >
-import game_modes from '../../mock/game_modes.json';
+import game_modes from '../../../mock/game_modes.json';
 //===============================================================[ CLASS ]
-class GameModeRequestStrategy implements IRequestStrategy<ICheckResponse[]> {
+class GameModesRequestStrategy implements IRequestStrategy<ICheckResponse[]> {
   //-----------------------------------------------------------< methods >
   public async request() {
     const mock: ICheckResponse[] = game_modes;
@@ -18,4 +18,4 @@ class GameModeRequestStrategy implements IRequestStrategy<ICheckResponse[]> {
   }
 }
 
-export default GameModeRequestStrategy;
+export default GameModesRequestStrategy;

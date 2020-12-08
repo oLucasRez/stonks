@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 //----------------------------------------------------------< interfaces >
 import ITemplateMethodProps from '../../../interfaces/ITemplateMethodProps';
-//-------------------------------------------------------------< classes >
-import FormSingleton from '../../../classes/FormSingleton';
 //----------------------------------------------------------< components >
 import Alert from '../../Alarm';
 import Input from '../../Input';
@@ -10,6 +8,7 @@ import Input from '../../Input';
 import { useContext } from 'react';
 //------------------------------------------------------------< contexts >
 import { ThemeContext } from 'styled-components';
+import NotificationContext from '../../../contexts/NotificationContext';
 import ColorContext from '../../../contexts/ColorContext';
 //--------------------------------------------------------------< styles >
 import { Container, Header, Form } from './styles';
@@ -28,18 +27,20 @@ abstract class TemplateForm {
     //------------------------------------------------------< properties >
     const header: JSX.Element[] = [];
     //---------------------------------------------------------< methods >
-    const { result } = FormSingleton.getInstance();
-    const nonVisualizedChanges = result
-      ? result.nonVisualizedChanges().subforms
-      : [{ value: false }, { value: false }, { value: false }];
+    const notification = useContext(NotificationContext);
+    const notifications = notification
+      ? [
+          notification.profileNotification(),
+          notification.specificationsNotification(),
+          notification.publishNotification(),
+        ]
+      : [false, false, false];
     //--------------------------------------------------------------------
     forms.forEach((form, i) => {
       const Icon = form.icon;
       header.push(
-        <>
-          {/* {nonVisualizedChanges[i].value ? (
-            <Alert className='alert' pulse={true} />
-          ) : null} */}
+        <div key={i}>
+          {notifications[i] ? <Alert className='alert' pulse={true} /> : null}
           <div
             className={this.icon === Icon ? 'main' : 'side'}
             key={i}
@@ -48,7 +49,7 @@ abstract class TemplateForm {
             <Icon className='icon' />
             <p className='title'>{this.getName()}</p>
           </div>
-        </>
+        </div>
       );
     });
     //----------------------------------------------------------< return >

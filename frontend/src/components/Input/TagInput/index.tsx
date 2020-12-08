@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 //----------------------------------------------------------< interfaces >
-import IRequestStrategy from '../../../interfaces/IRequestStrategy';
 import ITagResponse from '../../../interfaces/ITagResponse';
-import IUseEffectStrategy from '../../../interfaces/IUseEffectStrategy';
+import IStrategies from '../../../interfaces/IStrategies';
+//-------------------------------------------------------------< classes >
+import NotificationManager from '../../../classes/NotificationManager';
 //----------------------------------------------------------< components >
 import Input from '../index';
 //---------------------------------------------------------------< hooks >
@@ -10,49 +11,57 @@ import { useContext, useState, useEffect } from 'react';
 import useStorageState from '../../../hooks/useStorageState';
 //------------------------------------------------------------< contexts >
 import ColorContext from '../../../contexts/ColorContext';
+import NotificationContext from '../../../contexts/NotificationContext';
 //---------------------------------------------------------------< utils >
 import removeElement from '../../../utils/removeElement';
 //--------------------------------------------------------------< styles >
-import { Container, Tag, Search, Arrows, AddTag } from './styles';
+import {
+  Container,
+  Tag,
+  Search,
+  Arrows,
+  AddTag,
+  SuggestionContainer,
+} from './styles';
 import {
   FaTimesCircle,
   FaPoop as Pog,
   FaLongArrowAltLeft,
   FaLongArrowAltRight,
   FaPlus,
+  FaPlusCircle,
 } from 'react-icons/fa';
+import IInputProps from '../../../interfaces/IInputProps';
 //===============================================================[ CLASS ]
 class TagInput extends Input {
-  private requestStrategy: IRequestStrategy<ITagResponse[]>;
-  private useEffectStrategy: IUseEffectStrategy;
+  private strategies: IStrategies<ITagResponse[]>;
 
   constructor(
     name: string,
     description: string,
-    requestStrategy: IRequestStrategy<ITagResponse[]>,
-    useEffectStrategy: IUseEffectStrategy
+    strategies: IStrategies<ITagResponse[]>
   ) {
     super(name, description);
-    this.requestStrategy = requestStrategy;
-    this.useEffectStrategy = useEffectStrategy;
+    this.strategies = strategies;
   }
 
-  public getNonVisualizedChanges() {
-    return false; // todo...
+  public getNotification(notification: NotificationManager) {
+    return this.strategies.notificationStrategy.getNotification(notification);
   }
 
-  public setVisualizedChanges() {
-    // todo
+  public setNotification(notification: NotificationManager, value: boolean) {
+    this.strategies.notificationStrategy.setNotification(notification, value);
+  }
+
+  public state() {
+    return useStorageState<ITagResponse[]>(this.name + '-tags', []);
   }
   //=========================================================[ COMPONENT ]
-  Body: FC = () => {
+  Body: FC<IInputProps<ITagResponse[]>> = ({ state }) => {
     //------------------------------------------------------< properties >
     const color = useContext(ColorContext);
     //--------------------------------------------------------------------
-    const [myTags, setMyTags] = useStorageState<ITagResponse[]>(
-      this.name + '-tags',
-      []
-    );
+    const [myTags, setMyTags] = state;
     const [search, setSearch] = useState<string>('');
     const [allTags, setAllTags] = useState<ITagResponse[]>([]);
     const [taggingOnFocus, setTaggingOnFocus] = useState(false);
@@ -65,7 +74,7 @@ class TagInput extends Input {
     const [error, setError] = useState<boolean>(false);
     //---------------------------------------------------------< methods >
     useEffect(() => {
-      this.useEffectStrategy.setFormSingleton(myTags);
+      this.strategies.useEffectStrategy.setFormSingleton(myTags);
     }, [myTags]);
     //--------------------------------------------------------------------
     useEffect(() => {
@@ -73,7 +82,7 @@ class TagInput extends Input {
       (async () => {
         if (search.length < 1) setAllTags([]);
         else if (search.length === 1) {
-          this.requestStrategy
+          this.strategies.requestStrategy
             .request(search)
             .then((response) =>
               setAllTags(response.filter((tag) => !myTagsHas(tag)))
@@ -173,8 +182,32 @@ class TagInput extends Input {
       );
   };
   //----------------------------------------------------------------------
-  ChangeLog: FC = () => {
-    return <p></p>;
+  Suggestion: FC<IInputProps<ITagResponse[]>> = ({ state }) => {
+    const color = useContext(ColorContext);
+    const [tags, setTags] = state;
+    const tagsSuggested: string[] = this.strategies.result();
+
+    const handleClick = async (tagSuggested: string) => {
+      this.strategies.requestStrategy.request().then((response) => {
+        if (tags.filter((tag) => tag.name === tagSuggested).length > 0) return;
+        setTags([
+          ...tags,
+          response.filter((tag) => tag.name === tagSuggested)[0],
+        ]);
+      });
+    };
+
+    return (
+      <SuggestionContainer colorPrimary={color}>
+        <h3>{this.name} suggestion</h3>
+        {tagsSuggested.map((tag, index) => (
+          <div className='tag' key={index}>
+            <FaPlusCircle onClick={() => handleClick(tag)} />
+            <p>{tag}</p>
+          </div>
+        ))}
+      </SuggestionContainer>
+    );
   };
 }
 

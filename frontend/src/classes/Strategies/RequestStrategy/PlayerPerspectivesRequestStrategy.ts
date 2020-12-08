@@ -1,12 +1,12 @@
 //----------------------------------------------------------< interfaces >
-import IRequestStrategy from '../../interfaces/IRequestStrategy';
-import ICheckResponse from '../../interfaces/ICheckResponse';
+import IRequestStrategy from '../../../interfaces/IRequestStrategy';
+import ICheckResponse from '../../../interfaces/ICheckResponse';
 //------------------------------------------------------------< services >
-import backend from '../../services/backend';
+import backend from '../../../services/backend';
 //----------------------------------------------------------------< mock >
-import player_perspectives from '../../mock/player_perspectives.json';
+import player_perspectives from '../../../mock/player_perspectives.json';
 //===============================================================[ CLASS ]
-class PlayerPerspectiveRequestStrategy
+class PlayerPerspectivesRequestStrategy
   implements IRequestStrategy<ICheckResponse[]> {
   //-----------------------------------------------------------< methods >
   public async request() {
@@ -19,4 +19,4 @@ class PlayerPerspectiveRequestStrategy
   }
 }
 
-export default PlayerPerspectiveRequestStrategy;
+export default PlayerPerspectivesRequestStrategy;

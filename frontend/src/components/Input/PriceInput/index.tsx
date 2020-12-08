@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 //-------------------------------------------------------------< classes >
 import FormSingleton from '../../../classes/FormSingleton';
+import NotificationManager from '../../../classes/NotificationManager';
 //----------------------------------------------------------< components >
 import Input from '../index';
 //---------------------------------------------------------------< hooks >
@@ -9,49 +10,55 @@ import useStorageState from '../../../hooks/useStorageState';
 //------------------------------------------------------------< contexts >
 import ColorContext from '../../../contexts/ColorContext';
 //--------------------------------------------------------------< styles >
-import { Container } from './styles';
+import { Container, SuggestionContainer } from './styles';
+import IInputProps from '../../../interfaces/IInputProps';
 //===============================================================[ CLASS ]
 class PriceInput extends Input {
   form = FormSingleton.getInstance();
 
-  public getNonVisualizedChanges() {
-    return this.form.result?.nonVisualizedChanges().subforms[2].price ?? false;
+  public getNotification(notification: NotificationManager) {
+    return notification?.priceNotification ?? false;
   }
 
-  public setVisualizedChanges() {
-    if (this.form.result)
-      this.form.result.visualizedChanges.subforms[2].price = false;
+  public setNotification(notification: NotificationManager, value: boolean) {
+    if (notification) notification.priceNotification = value;
+  }
+
+  public state() {
+    return useStorageState<string>(this.name + '-price', '0.00');
   }
   //=========================================================[ COMPONENT ]
-  Body: FC = () => {
+  Body: FC<IInputProps<string>> = ({ state }) => {
     //------------------------------------------------------< properties >
     const color = useContext(ColorContext);
     //--------------------------------------------------------------------
-    const [price, setPrice] = useStorageState<string>(
-      this.name + '-price',
-      '0.00'
-    );
+    const [price, setPrice] = state;
     //---------------------------------------------------------< methods >
     useEffect(() => {
-      this.form.inputs.price = parseFloat(price);
+      this.form.inputs.price = price === '' ? null : price;
     }, [price]);
     //--------------------------------------------------------------------
     const handlePrice = (input: string) => {
       var numberPattern = /\d+/g;
 
-      let newPrice = input.match(numberPattern)?.join('') ?? '0';
-      while (newPrice[0] === '0') {
-        newPrice = newPrice.substring(1, newPrice.length);
+      if (price === '0.00' && input.length < 4) {
+        setPrice('');
+      } else {
+        let newPrice = input.match(numberPattern)?.join('') ?? '0';
+
+        while (newPrice[0] === '0')
+          newPrice = newPrice.substring(1, newPrice.length);
+
+        while (newPrice.length < 3) newPrice = '0' + newPrice;
+        newPrice =
+          newPrice.substring(0, newPrice.length - 2) +
+          '.' +
+          newPrice.substring(newPrice.length - 2, newPrice.length);
+
+        if (newPrice.length > 7) newPrice = '9999.99';
+
+        setPrice(newPrice);
       }
-      while (newPrice.length < 3) newPrice = '0' + newPrice;
-      newPrice =
-        newPrice.substring(0, newPrice.length - 2) +
-        '.' +
-        newPrice.substring(newPrice.length - 2, newPrice.length);
-
-      if (newPrice.length > 7) newPrice = '9999.99';
-
-      setPrice(newPrice);
     };
     //----------------------------------------------------------< return >
     return (
@@ -62,11 +69,19 @@ class PriceInput extends Input {
     );
   };
   //----------------------------------------------------------------------
-  ChangeLog: FC = () => {
+  Suggestion: FC<IInputProps<string>> = ({ state }) => {
+    const color = useContext(ColorContext);
+    const [, setPrice] = state;
+    const priceSuggested = this.form.result?.price ?? '';
+
     return (
-      <p>
-        We added this <b>price</b> to your game as a suggestion!
-      </p>
+      <SuggestionContainer colorPrimary={color}>
+        <h3>{this.name} suggestion</h3>
+        <div className='price'>
+          U$
+          <div onClick={() => setPrice(priceSuggested)}>{priceSuggested}</div>
+        </div>
+      </SuggestionContainer>
     );
   };
 }

@@ -1,21 +1,21 @@
 //-------------------------------------------------------------< classes >
-import FormSingleton from '../FormSingleton';
+import FormSingleton from '../../FormSingleton';
 //----------------------------------------------------------< interfaces >
-import IUseEffectStrategy from '../../interfaces/IUseEffectStrategy';
-import ITagResponse from '../../interfaces/ITagResponse';
+import IUseEffectStrategy from '../../../interfaces/IUseEffectStrategy';
+import ITagResponse from '../../../interfaces/ITagResponse';
 //===============================================================[ CLASS ]
-class GenreRequestStrategy implements IUseEffectStrategy {
+class ThemeRequestStrategy implements IUseEffectStrategy {
   //-----------------------------------------------------------< methods >
   public setFormSingleton(tags: ITagResponse[]) {
     const form = FormSingleton.getInstance();
-    const genres: number[] = [];
+    const themes: string[] = [];
 
     tags.forEach((tag) => {
-      genres.push(tag.id);
+      themes.push(tag.name);
     });
 
-    form.inputs.genres = genres.length ? genres : undefined;
+    form.inputs.themes = themes.length ? themes : null;
   }
 }
 
-export default GenreRequestStrategy;
+export default ThemeRequestStrategy;

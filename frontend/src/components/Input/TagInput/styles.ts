@@ -160,3 +160,63 @@ export const AddTag = styled.div<StyleProps>`
     }
   }
 `;
+//------------------------------------------------------------------------
+export const SuggestionContainer = styled.div<StyleProps>`
+  font-size: 1.6rem;
+
+  h3 {
+    margin-bottom: 1.1rem;
+
+    color: ${({ theme }) => theme.colors.foreground[1]};
+    font-size: 1.4rem;
+    font-style: italic;
+    font-weight: 600;
+    border-bottom: 1px solid ${({ colorPrimary }) => colorPrimary};
+  }
+
+  .tag {
+    width: fit-content;
+    height: 4.2rem;
+    margin: 0 1.1rem 1.1rem 0;
+    padding: 0.8rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+
+    transition: translate(1.1rem, -1.1rem);
+    color: ${({ theme }) => theme.colors.foreground[1]};
+    background: ${({ theme }) =>
+      theme.title === 'dark' ? theme.colors.background[2] : 'none'};
+    border: ${({ theme }) =>
+      theme.title === 'dark'
+        ? 'none'
+        : '1px solid ' + theme.colors.background[1]};
+    border-radius: 2.1rem;
+
+    :hover {
+      background: ${({ theme }) =>
+        theme.title === 'dark'
+          ? lighten(0.02, theme.colors.background[2])
+          : lighten(0.08, theme.colors.background[1])};
+    }
+
+    p {
+      margin: 0 0.8rem;
+    }
+
+    svg {
+      width: 2.6rem;
+      height: 2.6rem;
+
+      cursor: pointer;
+
+      color: ${({ colorPrimary }) => colorPrimary};
+
+      :hover {
+        color: ${({ colorPrimary }) => lighten(0.2, colorPrimary)};
+      }
+    }
+  }
+`;

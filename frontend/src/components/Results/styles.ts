@@ -33,11 +33,10 @@ export const Container = styled.div<StyleProps>`
   .details-container {
     display: grid;
     grid-template-columns: 1fr 5fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     grid-template-areas:
       'rating-label rating-bar'
-      'follows-label follows-bar'
-      'hype-label hype-bar';
+      'follows-label follows-bar';
 
     label {
       margin-right: 1rem;
@@ -48,14 +47,12 @@ export const Container = styled.div<StyleProps>`
     }
 
     .top {
+      margin-bottom: 0.8rem;
       align-self: flex-end;
     }
 
-    .mid {
-      align-self: center;
-    }
-
     .bot {
+      margin-top: 0.8rem;
       align-self: flex-start;
     }
 
@@ -68,6 +65,10 @@ export const Container = styled.div<StyleProps>`
 
     .total {
       width: 100%;
+    }
+
+    .score {
+      min-width: 1.9rem;
     }
   }
 

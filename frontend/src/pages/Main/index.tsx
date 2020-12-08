@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 //-------------------------------------------------------------< classes >
 import FormSingleton from '../../classes/FormSingleton';
+import NotificationManageer from '../../classes/NotificationManager';
 //----------------------------------------------------------< interfaces >
 import IMainProps from '../../interfaces/IMainProps';
 //----------------------------------------------------------< components >
@@ -14,6 +15,8 @@ import Alarm from '../../components/Alarm';
 //---------------------------------------------------------------< hooks >
 import { useContext, useState } from 'react';
 import useStorageState from '../../hooks/useStorageState';
+//-------------------------------------------------------------< context >
+import NotificationContext from '../../contexts/NotificationContext';
 //--------------------------------------------------------------< assets >
 import { ReactComponent as Logo } from '../../assets/logo_name.svg';
 //--------------------------------------------------------------< styles >
@@ -26,6 +29,9 @@ import {
   ButtonContainer,
 } from './styles';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+import IResults from '../../interfaces/IResults';
+import InputContext from '../../contexts/InputContext';
+import IInputs from '../../interfaces/IInputs';
 //================================================================[ PAGE ]
 const Main: FC<IMainProps> = ({ toggleTheme }) => {
   //--------------------------------------------------------< properties >
@@ -43,18 +49,25 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
     0
   );
   const [showingForm, setShowingForm] = useState(true);
+  const [notification, setNotification] = useState<NotificationManageer | null>(
+    null
+  );
+  // const [inputs, setInputs] = useState<IInputs>(form.inputs);
   //----------------------------------------------------------------------
   const FormTemplateMethod = forms[currentForm].templateMethod;
   //----------------------------------------------------------------------
-  const [nonVisualizedChanges, setNonVisualizedChanges] = useState(false);
+  // const [nonVisualizedChanges, setNonVisualizedChanges] = useState(false);
   //-----------------------------------------------------------< methods >
   const submit = () => {
     if (showingForm) {
       (async () => {
         await form.submit();
-        if (!form.result) return <>error on results :(</>;
-        setNonVisualizedChanges(form.result.nonVisualizedChanges().value);
+        // if (!form.result) return <>error on results :(</>;
+        // setNonVisualizedChanges(form.result.nonVisualizedChanges().value);
         setShowingForm(false);
+        const not = new NotificationManageer();
+        // not.ageRatingNotification = true;
+        setNotification(not);
       })();
     } else setShowingForm(true);
   };
@@ -80,18 +93,22 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
         offHandleColor={colors.foreground[0]}
       />
       <FormContainer>
-        <FormAndResultContainer
-          className={showingForm ? 'visible-form' : 'hidden-form'}
-          style={{ zIndex: showingForm ? 10 : 0 }}
-        >
-          <FormTemplateMethod forms={forms} setCurrentForm={setCurrentForm} />
-        </FormAndResultContainer>
-        <FormAndResultContainer
-          className={showingForm ? 'hidden-results' : 'visible-results'}
-          style={{ zIndex: showingForm ? 0 : 10 }}
-        >
-          <Results />
-        </FormAndResultContainer>
+        {/* <InputContext.Provider value={[inputs, setInputs]}> */}
+        <NotificationContext.Provider value={notification}>
+          <FormAndResultContainer
+            className={showingForm ? 'visible-form' : 'hidden-form'}
+            style={{ zIndex: showingForm ? 10 : 0 }}
+          >
+            <FormTemplateMethod forms={forms} setCurrentForm={setCurrentForm} />
+          </FormAndResultContainer>
+          <FormAndResultContainer
+            className={showingForm ? 'hidden-results' : 'visible-results'}
+            style={{ zIndex: showingForm ? 0 : 10 }}
+          >
+            <Results />
+          </FormAndResultContainer>
+        </NotificationContext.Provider>
+        {/* </InputContext.Provider> */}
         <ButtonContainer>
           <button
             className={showingForm ? 'to-results' : 'to-form'}
@@ -106,7 +123,7 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
               <>
                 <FaArrowLeft />
                 <p>Back to form</p>
-                {nonVisualizedChanges ? (
+                {notification?.notification() ? (
                   <Alarm className='alarm' pulse={true} />
                 ) : null}
               </>

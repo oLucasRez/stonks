@@ -34,3 +34,17 @@ export const Check = styled.div<StyleProps>`
     }
   }
 `;
+//------------------------------------------------------------------------
+export const SuggestionContainer = styled.div<StyleProps>`
+  font-size: 1.6rem;
+
+  h3 {
+    margin-bottom: 1.1rem;
+
+    color: ${({ theme }) => theme.colors.foreground[1]};
+    font-size: 1.4rem;
+    font-style: italic;
+    font-weight: 600;
+    border-bottom: 1px solid ${({ colorPrimary }) => colorPrimary};
+  }
+`;

@@ -18,11 +18,17 @@ const Results: FC<HTMLProps<HTMLDivElement>> = ({ className }) => {
   //--------------------------------------------------------< properties >
   const { result } = FormSingleton.getInstance();
   if (!result) return <>loading</>;
-  const ratingScore = result?.getTotalRatingScore();
-  const followsScore = result?.getFollowsScore();
-  const hypeScore = result?.getHypeScore();
-  const progress = result?.getScore();
-  const accuracy = 0.92;
+  const ratingScore = result.predict.rating / 100;
+  const followsScore = Math.sin(
+    ((Math.PI / 2) * result.predict.follows) / 1697
+  );
+  const progress = (ratingScore + followsScore) / 2;
+  const accuracy =
+    1 -
+    (result.predict.accuracy.follows /
+      (result.predict.accuracy.follows + result.predict.follows) +
+      result.predict.accuracy.rating / 100) /
+      2;
   const stonkness =
     accuracy < 0.25
       ? {
@@ -80,8 +86,8 @@ const Results: FC<HTMLProps<HTMLDivElement>> = ({ className }) => {
         <ProgressCircle progress={progress} color={color(progress)} />
         <h1>
           {stonkness.feedback}
-          {/* <br /> */}
-          {/* <i>{accuracy * 100 + '%'} accuracy</i> */}
+          <br />
+          <i>{(accuracy * 100).toFixed(2) + '%'} accuracy</i>
         </h1>
       </div>
       <div className='details-container'>
@@ -95,23 +101,13 @@ const Results: FC<HTMLProps<HTMLDivElement>> = ({ className }) => {
             }}
           />
         </div>
-        <label className='mid'>Follows</label>
-        <div className='total bar mid'>
+        <label className='bot'>Follows</label>
+        <div className='total bar bot'>
           <div
             className='score bar'
             style={{
               width: followsScore * 100 + '%',
               background: color(followsScore),
-            }}
-          />
-        </div>
-        <label className='bot'>Hype</label>
-        <div className='total bar bot'>
-          <div
-            className='score bar'
-            style={{
-              width: hypeScore * 100 + '%',
-              background: color(hypeScore),
             }}
           />
         </div>

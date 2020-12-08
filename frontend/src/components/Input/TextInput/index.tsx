@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-//----------------------------------------------------------< interfaces >
-import IUseEffectStrategy from '../../../interfaces/IUseEffectStrategy';
+//-------------------------------------------------------------< classes >
+import NotificationManager from '../../../classes/NotificationManager';
 //----------------------------------------------------------< components >
 import Input from '../index';
 //---------------------------------------------------------------< hooks >
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import useStorageState from '../../../hooks/useStorageState';
 //------------------------------------------------------------< contexts >
 import ColorContext from '../../../contexts/ColorContext';
@@ -12,23 +12,20 @@ import ColorContext from '../../../contexts/ColorContext';
 import { Container } from './styles';
 //===============================================================[ CLASS ]
 class TextInput extends Input {
-  private useEffectStrategy: IUseEffectStrategy;
-
-  constructor(
-    name: string,
-    description: string,
-    useEffectStrategy: IUseEffectStrategy
-  ) {
-    super(name, description);
-    this.useEffectStrategy = useEffectStrategy;
-  }
-
-  public getNonVisualizedChanges() {
+  public getNotification(notification: NotificationManager) {
     return false; // todo...
   }
 
-  public setVisualizedChanges() {
-    // todo
+  public setNotification(notification: NotificationManager, value: boolean) {
+    // todo...
+  }
+
+  public isEmpty() {
+    return false;
+  }
+
+  public state() {
+    return useStorageState<string>(this.name + 'text', '');
   }
   //=========================================================[ COMPONENT ]
   Body: FC = () => {
@@ -36,10 +33,6 @@ class TextInput extends Input {
     const color = useContext(ColorContext);
     //--------------------------------------------------------------------
     const [text, setText] = useStorageState<string>(this.name + 'text', '');
-    //---------------------------------------------------------< methods >
-    useEffect(() => {
-      this.useEffectStrategy.setFormSingleton(text);
-    }, [text]);
     //----------------------------------------------------------< return >
     return (
       <Container
@@ -51,7 +44,7 @@ class TextInput extends Input {
     );
   };
   //----------------------------------------------------------------------
-  ChangeLog: FC = () => {
+  Suggestion: FC = () => {
     return <p></p>;
   };
 }

@@ -1,20 +1,13 @@
 //===========================================================[ INTERFACE ]
 interface IInputs {
-  genres?: number[];
-  themes?: number[];
-  keywords?: number[];
-  storyline?: string;
-  summary?: string;
-  game_modes?: number[];
-  player_perspectives?: number[];
-  time_to_beat?: number;
-  game_engine?: number;
-  age_rating?: number;
-  price?: number;
-  release_date?: {
-    month: number;
-    day: number;
-  };
+  genres: string[] | null;
+  themes: string[] | null;
+  game_modes: string[] | null;
+  player_perspectives: string[] | null;
+  time_to_beat: string | null;
+  age_rating: number | null;
+  price: string | null;
+  release_date: number | null;
 }
 
 export default IInputs;

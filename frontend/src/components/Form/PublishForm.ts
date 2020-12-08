@@ -27,6 +27,7 @@ class PublishForm extends TemplateForm {
       'Is your game for all ages? Is it for adults ' +
         'only? (PEGI classification system)'
     );
+
     const price: Input = new PriceInput(
       'Price',
       'How much will your game cost?'

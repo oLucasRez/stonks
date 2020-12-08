@@ -1,21 +1,21 @@
 //-------------------------------------------------------------< classes >
-import FormSingleton from '../FormSingleton';
+import FormSingleton from '../../FormSingleton';
 //----------------------------------------------------------< interfaces >
-import IUseEffectStrategy from '../../interfaces/IUseEffectStrategy';
-import ITagResponse from '../../interfaces/ITagResponse';
+import IUseEffectStrategy from '../../../interfaces/IUseEffectStrategy';
+import ITagResponse from '../../../interfaces/ITagResponse';
 //===============================================================[ CLASS ]
-class KeywordRequestStrategy implements IUseEffectStrategy {
+class GenresRequestStrategy implements IUseEffectStrategy {
   //-----------------------------------------------------------< methods >
   public setFormSingleton(tags: ITagResponse[]) {
     const form = FormSingleton.getInstance();
-    const keywords: number[] = [];
+    const genres: string[] = [];
 
     tags.forEach((tag) => {
-      keywords.push(tag.id);
+      genres.push(tag.name);
     });
 
-    form.inputs.keywords = keywords.length ? keywords : undefined;
+    form.inputs.genres = genres.length ? genres : null;
   }
 }
 
-export default KeywordRequestStrategy;
+export default GenresRequestStrategy;

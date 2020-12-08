@@ -1,12 +1,6 @@
 //-------------------------------------------------------------< classes >
-import GenreRequestStrategy from '../../classes/RequestStrategy/GenreRequestStrategy';
-import GenreUseEffectStrategy from '../../classes/UseEffectStrategy/GenreUseEffectStrategy';
-import ThemeRequestStrategy from '../../classes/RequestStrategy/ThemeRequestStrategy';
-import ThemeUseEffectStrategy from '../../classes/UseEffectStrategy/ThemeUseEffectStrategy';
-import KeywordRequestStrategy from '../../classes/RequestStrategy/KeywordRequestStrategy';
-import KeywordUseEffectStrategy from '../../classes/UseEffectStrategy/KeywordUseEffectStrategy';
-import StorylineUseEffectStrategy from '../../classes/UseEffectStrategy/StorylineUseEffectStrategy';
-import SummaryUseEffectStrategy from '../../classes/UseEffectStrategy/SummaryUseEffectStrategy';
+import GenresStrategies from '../../classes/Strategies/GenresStrategies';
+import ThemesStrategies from '../../classes/Strategies/ThemesStrategies';
 //----------------------------------------------------------< components >
 import TemplateForm from './TemplateForm';
 import Input from '../Input';
@@ -33,33 +27,19 @@ class ProfileForm extends TemplateForm {
     const genres: Input = new TagInput(
       'Genres',
       'What are the genders of your game? RPG? Shooter? Platform?',
-      new GenreRequestStrategy(),
-      new GenreUseEffectStrategy()
+      new GenresStrategies()
     );
     const themes: Input = new TagInput(
       'Themes',
       'What are the themes of your game? Action? Comedy? Fantasy?',
-      new ThemeRequestStrategy(),
-      new ThemeUseEffectStrategy()
+      new ThemesStrategies()
     );
-    const keywords: Input = new TagInput(
-      'Keywords',
-      'list some keywords regards to your game',
-      new KeywordRequestStrategy(),
-      new KeywordUseEffectStrategy()
+    const storyline: Input = new TextInput(
+      'Storyline',
+      'Tell us a little of the your game story'
     );
-    // const storyline: Input = new TextInput(
-    //   'Storyline',
-    //   'Tell us a little of the your game story',
-    //   new StorylineUseEffectStrategy()
-    // );
-    // const summary: Input = new TextInput(
-    //   'Summary',
-    //   'Write here a brief description of your game',
-    //   new SummaryUseEffectStrategy()
-    // );
 
-    return [genres, themes, keywords /*storyline, summary*/];
+    return [genres, themes, storyline];
   }
 }
 

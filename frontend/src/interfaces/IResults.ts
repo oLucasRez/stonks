@@ -1,22 +1,21 @@
 //===========================================================[ INTERFACE ]
-interface ISubResult {
+interface IResults {
   genres?: string[];
   themes?: string[];
-  keywords?: string[];
-  engine_names?: string[];
-  time_to_beat?: string;
-  player_perspectives?: string[];
-  game_modes?: string[];
-  age_ratings?: string[];
+  timeToBeat?: number;
+  playerPerspectives?: string[];
+  gameModes?: string[];
+  ageRating?: number;
   price?: string;
-  release_dates?: string[];
-  predict: string;
-}
-
-interface IResults {
-  hype: ISubResult;
-  follows: ISubResult;
-  total_rating: ISubResult;
+  releaseDate?: number;
+  predict: {
+    accuracy: {
+      follows: number;
+      rating: number;
+    };
+    follows: number;
+    rating: number;
+  };
 }
 
 export default IResults;

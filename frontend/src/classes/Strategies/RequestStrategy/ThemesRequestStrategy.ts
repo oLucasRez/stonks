@@ -1,12 +1,12 @@
 //----------------------------------------------------------< interfaces >
-import IRequestStrategy from '../../interfaces/IRequestStrategy';
-import ITagResponse from '../../interfaces/ITagResponse';
+import IRequestStrategy from '../../../interfaces/IRequestStrategy';
+import ITagResponse from '../../../interfaces/ITagResponse';
 //------------------------------------------------------------< services >
-import backend from '../../services/backend';
+import backend from '../../../services/backend';
 //----------------------------------------------------------------< mock >
-import themes from '../../mock/themes.json';
+import themes from '../../../mock/themes.json';
 //===============================================================[ CLASS ]
-class ThemeRequestStrategy implements IRequestStrategy<ITagResponse[]> {
+class ThemesRequestStrategy implements IRequestStrategy<ITagResponse[]> {
   //-----------------------------------------------------------< methods >
   public async request() {
     const mock: ITagResponse[] = themes;
@@ -18,4 +18,4 @@ class ThemeRequestStrategy implements IRequestStrategy<ITagResponse[]> {
   }
 }
 
-export default ThemeRequestStrategy;
+export default ThemesRequestStrategy;

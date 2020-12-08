@@ -1,12 +1,19 @@
 import React, { FC } from 'react';
+//-------------------------------------------------------------< classes >
+import IInputProps from '../../interfaces/IInputProps';
+//-------------------------------------------------------------< classes >
+import NotificationManager from '../../classes/NotificationManager';
 //----------------------------------------------------------< components >
 import Alarm from '../Alarm';
 //---------------------------------------------------------------< hooks >
 import { useContext, useState } from 'react';
 //------------------------------------------------------------< contexts >
 import ColorContext from '../../contexts/ColorContext';
+import NotificationContext from '../../contexts/NotificationContext';
 //--------------------------------------------------------------< styles >
-import { Container } from './styles';
+import { Container, Aside } from './styles';
+//---------------------------------------------------------------< types >
+import State from '../../types/State';
 //===============================================================[ CLASS ]
 abstract class Input {
   public name: string;
@@ -19,43 +26,51 @@ abstract class Input {
   //=========================================================[ COMPONENT ]
   public TemplateMethod: FC = () => {
     //------------------------------------------------------< properties >
-    const { Body, ChangeLog } = this;
+    const { Body, Suggestion } = this;
     const color = useContext(ColorContext);
+    const notification = useContext(NotificationContext);
     const [showSuggestion, setShowSuggestion] = useState(false);
+    const state = this.state();
     //----------------------------------------------------------< return >
     return (
       <Container colorPrimary={color}>
         <header>
           <label title={this.description}>{this.name}</label>
-          {this.getNonVisualizedChanges() && !showSuggestion ? (
-            <Alarm
-              className='alarm'
-              onClick={() => {
-                setShowSuggestion(!showSuggestion);
-                this.setVisualizedChanges();
-              }}
-            />
+          {notification &&
+          this.getNotification(notification) &&
+          !showSuggestion ? (
+            <Alarm className='alarm' onClick={() => setShowSuggestion(true)} />
           ) : null}
         </header>
         <section>
-          <Body />
+          <Body state={state} />
         </section>
         {showSuggestion ? (
-          <aside>
-            <ChangeLog />
-          </aside>
+          <Aside
+            colorPrimary={color}
+            onMouseLeave={() => setShowSuggestion(false)}
+          >
+            <Suggestion state={state} />
+          </Aside>
         ) : null}
       </Container>
     );
   };
   //----------------------------------------------------------------------
-  protected abstract Body: FC;
+  protected abstract Body: FC<IInputProps<any>>;
 
-  protected abstract getNonVisualizedChanges(): boolean;
+  protected abstract getNotification(
+    notification: NotificationManager
+  ): boolean;
 
-  protected abstract setVisualizedChanges(): void;
+  protected abstract setNotification(
+    notification: NotificationManager,
+    value: boolean
+  ): void;
 
-  protected abstract ChangeLog: FC;
+  protected abstract Suggestion: FC<IInputProps<any>>;
+
+  protected abstract state(): State<any>;
 }
 
 export default Input;

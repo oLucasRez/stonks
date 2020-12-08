@@ -1,12 +1,9 @@
 //-------------------------------------------------------------< classes >
-import PlayerPerspectiveRequestStrategy from '../../classes/RequestStrategy/PlayerPerspectiveRequestStrategy';
-import PlayerPerspectiveUseEffectStrategy from '../../classes/UseEffectStrategy/PlayerPerspectiveUseEffectStrategy';
-import GameModeRequestStrategy from '../../classes/RequestStrategy/GameModeRequestStrategy';
-import GameModeUseEffectStrategy from '../../classes/UseEffectStrategy/GameModeUseEffectStrategy';
+import PlayerPerspectivesStrategies from '../../classes/Strategies/PlayerPerspectivesStrategies';
+import GameModesStrategies from '../../classes/Strategies/GameModesStrategies';
 //----------------------------------------------------------< components >
 import TemplateForm from './TemplateForm';
 import Input from '../Input';
-import SearchInput from '../Input/SearchInput';
 import TimeInput from '../Input/TimeInput';
 import CheckInput from '../Input/CheckInput';
 //--------------------------------------------------------------< styles >
@@ -27,10 +24,6 @@ class SpecificationsForm extends TemplateForm {
   }
   //----------------------------------------------------------------------
   protected getInputs(): Input[] {
-    const gameEngine: Input = new SearchInput(
-      'Game Engine',
-      'What game engine did you use to make your game?'
-    );
     const timeToBeat: Input = new TimeInput(
       'Time to Beat',
       'How long does it take you to beat the game?'
@@ -38,17 +31,15 @@ class SpecificationsForm extends TemplateForm {
     const playerPerspectives: Input = new CheckInput(
       'Player Perspectives',
       "Is the player's perspective first person? Third person? Bird view?",
-      new PlayerPerspectiveRequestStrategy(),
-      new PlayerPerspectiveUseEffectStrategy()
+      new PlayerPerspectivesStrategies()
     );
     const gameModes: Input = new CheckInput(
       'Game Modes',
       'Is your game just single player? Or has multiplayer? Is battle royale?',
-      new GameModeRequestStrategy(),
-      new GameModeUseEffectStrategy()
+      new GameModesStrategies()
     );
 
-    return [gameEngine, timeToBeat, playerPerspectives, gameModes];
+    return [timeToBeat, playerPerspectives, gameModes];
   }
 }
 

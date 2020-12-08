@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 //----------------------------------------------------------< interfaces >
-import IRequestStrategy from '../../../interfaces/IRequestStrategy';
+import IStrategies from '../../../interfaces/IStrategies';
 import ICheckResponse from '../../../interfaces/ICheckResponse';
-import IUseEffectStrategy from '../../../interfaces/IUseEffectStrategy';
+//-------------------------------------------------------------< classes >
+import NotificationManager from '../../../classes/NotificationManager';
 //----------------------------------------------------------< components >
 import Input from '../index';
 //---------------------------------------------------------------< hooks >
@@ -12,34 +13,36 @@ import useStorageState from '../../../hooks/useStorageState';
 import ColorContext from '../../../contexts/ColorContext';
 import { ThemeContext } from 'styled-components';
 //--------------------------------------------------------------< styles >
-import { Container, Check } from './styles';
+import { Container, Check, SuggestionContainer } from './styles';
 import { FaCheckSquare, FaRegSquare } from 'react-icons/fa';
 import ContentLoader from 'styled-content-loader';
+import IInputProps from '../../../interfaces/IInputProps';
 //===============================================================[ CLASS ]
 class CheckInput extends Input {
-  private requestStrategy: IRequestStrategy<ICheckResponse[]>;
-  private useEffectStrategy: IUseEffectStrategy;
+  private strategies: IStrategies<ICheckResponse[]>;
 
   constructor(
     name: string,
     description: string,
-    requestStrategy: IRequestStrategy<ICheckResponse[]>,
-    useEffectStrategy: IUseEffectStrategy
+    strategies: IStrategies<ICheckResponse[]>
   ) {
     super(name, description);
-    this.requestStrategy = requestStrategy;
-    this.useEffectStrategy = useEffectStrategy;
+    this.strategies = strategies;
   }
 
-  public getNonVisualizedChanges() {
-    return false; // todo...
+  public getNotification(notification: NotificationManager) {
+    return this.strategies.notificationStrategy.getNotification(notification);
   }
 
-  public setVisualizedChanges() {
-    // todo...
+  public setNotification(notification: NotificationManager, value: boolean) {
+    this.strategies.notificationStrategy.setNotification(notification, value);
+  }
+
+  public state() {
+    return useStorageState<boolean[]>(this.name + '-checked', []);
   }
   //=========================================================[ COMPONENT ]
-  Body: FC = () => {
+  Body: FC<IInputProps<boolean[]>> = ({ state }) => {
     //------------------------------------------------------< properties >
     const color = useContext(ColorContext);
     const { background, foreground } = useContext(ThemeContext).colors;
@@ -48,16 +51,13 @@ class CheckInput extends Input {
       this.name + '-check-response',
       []
     );
-    const [checks, setChecks] = useStorageState<boolean[]>(
-      this.name + '-checked',
-      []
-    );
+    const [checks, setChecks] = state;
     //--------------------------------------------------------------------
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState(false);
     //---------------------------------------------------------< methods >
     useEffect(() => {
-      this.requestStrategy
+      this.strategies.requestStrategy
         .request()
         .then((response) => {
           if (!checkResponse.length) {
@@ -72,7 +72,10 @@ class CheckInput extends Input {
     }, []);
     //--------------------------------------------------------------------
     useEffect(() => {
-      this.useEffectStrategy.setFormSingleton({ checks, checkResponse });
+      this.strategies.useEffectStrategy.setFormSingleton({
+        checks,
+        checkResponse,
+      });
     }, [checks]);
     //--------------------------------------------------------------------
     const checking = (index: number) => {
@@ -108,8 +111,58 @@ class CheckInput extends Input {
       );
   };
   //----------------------------------------------------------------------
-  ChangeLog: FC = () => {
-    return <p></p>;
+  Suggestion: FC<IInputProps<boolean[]>> = ({ state }) => {
+    const color = useContext(ColorContext);
+    const result: string[] = this.strategies.result();
+    const [checks, setChecks] = state;
+    const [checkResponse, setCheckResponse] = useStorageState<ICheckResponse[]>(
+      this.name + '-check-response',
+      []
+    );
+
+    useEffect(() => {
+      this.strategies.requestStrategy.request().then((response) => {
+        if (!checkResponse.length) {
+          const newChecks = [];
+          for (var i = 0; i < response.length; i++) newChecks.push(false);
+          setCheckResponse(response);
+          setChecks(newChecks);
+        }
+      });
+    }, []);
+
+    const checking = (index: number) => {
+      const newChecks = [...checks];
+      const newCheckIndex = checkResponse.findIndex(
+        (check) => check.name === result[index]
+      );
+      newChecks[newCheckIndex] = !newChecks[newCheckIndex];
+      setChecks(newChecks);
+    };
+
+    return (
+      <SuggestionContainer colorPrimary={color}>
+        <h3>{this.name} suggestion</h3>
+        {result
+          ? checkResponse.map((check, index) =>
+              result.includes(check.name) ? (
+                <Check key={index} colorPrimary={color}>
+                  <div
+                    onClick={() =>
+                      checking(
+                        result.findIndex((value) => value === check.name)
+                      )
+                    }
+                  >
+                    {checks[index] ? <FaCheckSquare /> : <FaRegSquare />}
+                  </div>
+                  {check.name}
+                </Check>
+              ) : null
+            )
+          : null}
+      </SuggestionContainer>
+    );
   };
 }
 

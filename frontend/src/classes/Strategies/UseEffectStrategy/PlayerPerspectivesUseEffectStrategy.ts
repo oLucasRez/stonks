@@ -1,10 +1,10 @@
 //-------------------------------------------------------------< classes >
-import FormSingleton from '../FormSingleton';
+import FormSingleton from '../../FormSingleton';
 //----------------------------------------------------------< interfaces >
-import IUseEffectStrategy from '../../interfaces/IUseEffectStrategy';
-import ICheckResponse from '../../interfaces/ICheckResponse';
+import IUseEffectStrategy from '../../../interfaces/IUseEffectStrategy';
+import ICheckResponse from '../../../interfaces/ICheckResponse';
 //===============================================================[ CLASS ]
-class PlayerPerspectiveUseEffectStrategy implements IUseEffectStrategy {
+class PlayerPerspectivesUseEffectStrategy implements IUseEffectStrategy {
   //-----------------------------------------------------------< methods >
   public setFormSingleton({
     checks,
@@ -14,16 +14,16 @@ class PlayerPerspectiveUseEffectStrategy implements IUseEffectStrategy {
     checkResponse: ICheckResponse[];
   }) {
     const form = FormSingleton.getInstance();
-    const player_perspectives: number[] = [];
+    const player_perspectives: string[] = [];
 
     checks.forEach((check, index) => {
-      if (check) player_perspectives.push(checkResponse[index].id);
+      if (check) player_perspectives.push(checkResponse[index].name);
     });
 
     form.inputs.player_perspectives = player_perspectives.length
       ? player_perspectives
-      : undefined;
+      : null;
   }
 }
 
-export default PlayerPerspectiveUseEffectStrategy;
+export default PlayerPerspectivesUseEffectStrategy;

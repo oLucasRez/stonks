@@ -1,10 +1,10 @@
 //-------------------------------------------------------------< classes >
-import FormSingleton from '../FormSingleton';
+import FormSingleton from '../../FormSingleton';
 //----------------------------------------------------------< interfaces >
-import IUseEffectStrategy from '../../interfaces/IUseEffectStrategy';
-import ICheckResponse from '../../interfaces/ICheckResponse';
+import IUseEffectStrategy from '../../../interfaces/IUseEffectStrategy';
+import ICheckResponse from '../../../interfaces/ICheckResponse';
 //================================================================[ CLASS ]
-class GameModeUseEffectStrategy implements IUseEffectStrategy {
+class GameModesUseEffectStrategy implements IUseEffectStrategy {
   //-----------------------------------------------------------< methods >
   public setFormSingleton({
     checks,
@@ -14,14 +14,14 @@ class GameModeUseEffectStrategy implements IUseEffectStrategy {
     checkResponse: ICheckResponse[];
   }) {
     const form = FormSingleton.getInstance();
-    const game_modes: number[] = [];
+    const game_modes: string[] = [];
 
     checks.forEach((check, index) => {
-      if (check) game_modes.push(checkResponse[index].id);
+      if (check) game_modes.push(checkResponse[index].name);
     });
 
-    form.inputs.game_modes = game_modes.length ? game_modes : undefined;
+    form.inputs.game_modes = game_modes.length ? game_modes : null;
   }
 }
 
-export default GameModeUseEffectStrategy;
+export default GameModesUseEffectStrategy;

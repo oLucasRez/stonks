@@ -2,10 +2,10 @@ import styled from 'styled-components';
 //---------------------------------------------------------------< types >
 interface StyleProps {
   colorPrimary: string;
-  selected: boolean;
+  selected?: boolean;
 }
 //===============================================================[ STYLE ]
-export const Container = styled.section`
+export const Container = styled.div`
   display: flex;
 
   font-size: 2.2rem;
@@ -40,5 +40,19 @@ export const AgeBox = styled.div<StyleProps>`
     height: 3.8rem;
     transform: translate(0, -0.1rem);
     margin: 0;
+  }
+`;
+//------------------------------------------------------------------------
+export const SuggestionContainer = styled.div<StyleProps>`
+  font-size: 2.2rem;
+
+  h3 {
+    margin-bottom: 1.1rem;
+
+    color: ${({ theme }) => theme.colors.foreground[1]};
+    font-size: 1.4rem;
+    font-style: italic;
+    font-weight: 600;
+    border-bottom: 1px solid ${({ colorPrimary }) => colorPrimary};
   }
 `;
