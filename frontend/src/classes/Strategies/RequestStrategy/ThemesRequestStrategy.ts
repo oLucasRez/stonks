@@ -2,7 +2,7 @@
 import IRequestStrategy from '../../../interfaces/IRequestStrategy';
 import ITagResponse from '../../../interfaces/ITagResponse';
 //------------------------------------------------------------< services >
-import backend from '../../../services/backend';
+import main_server from '../../../services/main_server';
 //----------------------------------------------------------------< mock >
 import themes from '../../../mock/themes.json';
 //===============================================================[ CLASS ]
@@ -12,7 +12,7 @@ class ThemesRequestStrategy implements IRequestStrategy<ITagResponse[]> {
     const mock: ITagResponse[] = themes;
     return mock;
 
-    const { data } = await backend.get<ITagResponse[]>('themes');
+    const { data } = await main_server.get<ITagResponse[]>('themes');
 
     return data;
   }

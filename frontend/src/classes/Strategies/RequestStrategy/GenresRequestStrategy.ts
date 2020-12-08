@@ -2,17 +2,14 @@
 import IRequestStrategy from '../../../interfaces/IRequestStrategy';
 import ITagResponse from '../../../interfaces/ITagResponse';
 //------------------------------------------------------------< services >
-import backend from '../../../services/backend';
+import main_server from '../../../services/main_server';
 //----------------------------------------------------------------< mock >
 import genres from '../../../mock/genres.json';
 //===============================================================[ CLASS ]
 class GenresRequestStrategy implements IRequestStrategy<ITagResponse[]> {
   //-----------------------------------------------------------< methods >
   public async request() {
-    const mock: ITagResponse[] = genres;
-    return mock;
-
-    const { data } = await backend.get<ITagResponse[]>('genres');
+    const { data } = await main_server.get<ITagResponse[]>('genres');
 
     return data;
   }

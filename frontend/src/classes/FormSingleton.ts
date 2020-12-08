@@ -2,7 +2,7 @@
 import IInputs from '../interfaces/IInputs';
 import IResults from '../interfaces/IResults';
 //------------------------------------------------------------< services >
-import backend from '../services/backend';
+import mining from '../services/mining';
 import result_example from '../mock/result.json';
 import IResultResponse from '../interfaces/IResultResponse';
 //===============================================================[ CLASS ]
@@ -35,8 +35,7 @@ class FormSingleton {
   }
   //----------------------------------------------------------------------
   public async submit() {
-    // const { data } = await backend.post('player-input', this.inputs);
-    const data: IResultResponse = result_example;
+    const { data } = await mining.post('/', this.inputs);
     const result: IResults = {
       genres: this.inputs.genres ? undefined : data.suggestions.genres,
       themes: this.inputs.themes ? undefined : data.suggestions.themes,

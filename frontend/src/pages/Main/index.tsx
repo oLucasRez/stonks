@@ -55,18 +55,28 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
   // const [inputs, setInputs] = useState<IInputs>(form.inputs);
   //----------------------------------------------------------------------
   const FormTemplateMethod = forms[currentForm].templateMethod;
+  //----------------------------------------------------------------------
+  const [loaded, setLoaded] = useState(true);
+  const [error, setError] = useState(false);
   //-----------------------------------------------------------< methods >
   const submit = () => {
     if (showingForm) {
-      (async () => {
-        await form.submit();
-        // if (!form.result) return <>error on results :(</>;
-        // setNonVisualizedChanges(form.result.nonVisualizedChanges().value);
-        setShowingForm(false);
-        const not = new NotificationManageer();
-        // not.ageRatingNotification = true;
-        setNotification(not);
-      })();
+      setLoaded(false);
+      setError(false);
+      // (async () => {
+      form
+        .submit()
+        .then(() => {
+          setShowingForm(false);
+          const not = new NotificationManageer();
+          setNotification(not);
+        })
+        .catch(() => setError(true))
+        .finally(() => setLoaded(true));
+      // if (!form.result) return <>error on results :(</>;
+      // setNonVisualizedChanges(form.result.nonVisualizedChanges().value);
+      // not.ageRatingNotification = true;
+      // })();
     } else setShowingForm(true);
   };
   //------------------------------------------------------------< return >
@@ -114,7 +124,7 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
           >
             {showingForm ? (
               <>
-                <p>See results</p>
+                <p>{error ? ':(' : loaded ? 'See results' : 'loading...'}</p>
                 <FaArrowRight />
               </>
             ) : (
