@@ -7,11 +7,11 @@ import copy
 
 import json
 import requests
-from quart_cors import cors
+from quart_cors import cors, route_cors
 from quart import Quart, request, jsonify
 
 app = Quart(__name__) 
-app = cors(app, allow_origin='*')
+app = cors(app, allow_origin="*")
 
 compoundFields = ['player_perspectives', 'game_modes', 'genres', 'themes']
 targets = ['follows', 'rating']
@@ -142,6 +142,7 @@ def runMiningProcess(body: dict):
     }
 
 @app.route('/', methods=['POST'])
+@route_cors(allow_origin="*")
 async def makeMining():
     request_body = await request.get_data()
 
