@@ -59,7 +59,7 @@ def createGeneralTree(dataframe):
 
     accuracy = tree.getAccuracy(decisionTree, X_test, y_test)
 
-    return decisionTree, accuracy
+    return decisionTree, accuracy, features
 
 def convertBodyToDataframe(body: dict):
     noneColumns = [key for key in body.keys() if body[key] == None]
@@ -76,18 +76,39 @@ def convertBodyToDataframe(body: dict):
 
     return requestDataframe, existingColumns
 
+def chooseOptionsChampion(dataframe, tree, decoderDict):
+    predictions = tree.predict(dataframe)
+
+    maxAverage = 0
+    chosenIndex = -1
+
+    for index, prediction in enumerate(predictions):
+        predictionList = prediction.tolist()
+
+        average = predictionList[0]/1697 + predictionList[1]/100
+
+        if average > maxAverage:
+            maxAverage = average
+            chosenIndex = index
+
+    suggestions = pd.DataFrame(dataframe.iloc[[chosenIndex]]).to_dict()[0]
+
+    for column in suggestions.columns:
+        if column in compoundFields:
+            suggestions[column] = decoderDict[suggestions[column]]
+    
+    return suggestions
+
 def runMiningProcess(body: dict):
     requestDataframe, existingColumns = convertBodyToDataframe(body)
     existingColumns = list(existingColumns)
 
     dataframe, requestDataframe, decoderDict, encoderDict, encoders = getGeneralDataframe(requestDataframe)
 
-    decisionTree, decisionAccuracy = createGeneralTree(dataframe)
-
     existingColumnsAndTargets = copy.deepcopy(existingColumns)
     existingColumnsAndTargets.extend(targets)
 
-    userTree, userAccuracy = createGeneralTree(dataframe[existingColumnsAndTargets])
+    userTree, userAccuracy, features = createGeneralTree(dataframe[existingColumnsAndTargets])
     userPrediction = userTree.predict(requestDataframe[existingColumns])
 
     dataframe[existingColumns] = pd.DataFrame(requestDataframe[existingColumns].values.tolist() * len(dataframe.index))
@@ -95,15 +116,20 @@ def runMiningProcess(body: dict):
     userPrediction = userPrediction.tolist()[0]
     userAccuracy = userAccuracy.tolist()
 
+    decisionTree, decisionAccuracy, features = createGeneralTree(dataframe)
+
+    suggestions = chooseOptionsChampion(dataframe[features], decisionTree, decoderDict)
+
     return {
         'user_prediction': {
             'follows': userPrediction[0],
-             'rating': userPrediction[1]
-        }, 
-        'accuracy': {
-            'follows': userAccuracy[0],
-            'rating': userAccuracy[1]
-        }
+            'rating': userPrediction[1],
+            'accuracy': {
+                'follows': userAccuracy[0],
+                'rating': userAccuracy[1]
+            }
+        },
+        'suggestions': suggestions
     }
 
 @app.route('/', methods=['POST'])
