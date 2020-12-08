@@ -11,7 +11,7 @@ services:
   mining:
     build: ./mining-service
     ports:
-      - 6000:80
+      - 5500:80
     deploy:
       restart_policy:
         condition: on-failure
