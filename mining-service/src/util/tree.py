@@ -11,6 +11,7 @@ TREE_FILE=f'{TREE_DIRECTORY}/tree.pkl'
 TREE_LOG=f'{TREE_DIRECTORY}/log.txt'
 DECODER_FILE=f'{TREE_DIRECTORY}/decoder_dict.obj'
 ENCODER_FILE=f'{TREE_DIRECTORY}/encoder_dict.obj'
+RELATIONS_FILE=f'{TREE_DIRECTORY}/relations.obj'
 
 def createDecisionTree(X, y):
     classifierTree = DecisionTreeRegressor()
@@ -19,7 +20,7 @@ def createDecisionTree(X, y):
 
     return classifierTree
 
-def saveDecisionTree(decisionTree, features, decoderDict, encoderDict):
+def saveDecisionTree(decisionTree, features, decoderDict, encoderDict, relations):
     if not path.exists(TREE_DIRECTORY):
         makedirs(TREE_DIRECTORY)
 
@@ -43,16 +44,18 @@ def saveDecisionTree(decisionTree, features, decoderDict, encoderDict):
     joblib.dump(decisionTree, TREE_FILE)
     joblib.dump(decoderDict, DECODER_FILE)
     joblib.dump(encoderDict, ENCODER_FILE)
+    joblib.dump(relations, RELATIONS_FILE)
 
 def loadDecisionTree():
     try:
         decisionTree = joblib.load(TREE_FILE)
         decoderDict = joblib.load(DECODER_FILE)
         encoderDict = joblib.load(ENCODER_FILE)
+        relations = joblib.load(RELATIONS_FILE)
 
-        return decisionTree, decoderDict, encoderDict
+        return decisionTree, decoderDict, encoderDict, relations
     except:
-        return None, None, None
+        return None, None, None, None
 
 def getAccuracy(decisionTree, X_test, y_test):
     results = decisionTree.predict(X_test)

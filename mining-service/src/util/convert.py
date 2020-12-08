@@ -75,7 +75,7 @@ def getAprioriMatrix(dataframe):
 
         finalMatrix.append(rowValues)
         
-    aprioriResult = apriori(finalMatrix, min_support=0.001, min_confidence=0.001)
+    aprioriResult = apriori(finalMatrix, min_support=0.01, min_confidence=0.01)
 
     return list(aprioriResult)
 
@@ -100,7 +100,7 @@ def isOptionSuitable(x, observations, userData):
 
         return True
 
-def betterAprioriOptions(dataframe, observations, target):
+def filterAndSortedApriori(dataframe, observations, target):
     aprioriFactors = [observation for observation in observations]
     aprioriFactors.append(target)
 
@@ -117,9 +117,12 @@ def betterAprioriOptions(dataframe, observations, target):
 
     sortedAprioriResult = sorted(filteredAprioriResult, key=lambda x : x.ordered_statistics[0].confidence, reverse=True)
 
+    return sortedAprioriResult
+
+def betterAprioriOptions(filteredAprioriResult, target):
     uniqueResults = []
 
-    for result in sortedAprioriResult:
+    for result in filteredAprioriResult:
         item = list(filter(lambda item: target in item, result.items))[0]
 
         if item not in uniqueResults:
