@@ -11,7 +11,7 @@ STEAM_API = 'https://store.steampowered.com/api/appdetails?appids='
 TIME_INTERVAL = 0.67
 
 app = Quart(__name__) 
-app = cors(app, allow_origin='*')
+app = cors(app, allow_origin='http://localhost:3000')
 
 neededFields = ['price_overview', 'is_free', 'package_groups']
 
