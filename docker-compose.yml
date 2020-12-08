@@ -4,7 +4,7 @@ services:
   steam:
     build: ./steam-service
     ports:
-      - 5000:8080
+      - 5000:5000
     deploy:
       restart_policy:
         condition: on-failure
@@ -12,17 +12,21 @@ services:
   mining:
     build: ./mining-service
     ports:
-      - 5500:8080
+      - 5500:5500
     deploy:
       restart_policy:
         condition: on-failure
+    expose:
+      - 5000
 
   main-server:
     build: ./backend
     ports:
-      - 4000:8080
+      - 4000:4000
     deploy:
       restart_policy:
         condition: on-failure
     depends_on:
       - steam
+    links:
+      - mining
