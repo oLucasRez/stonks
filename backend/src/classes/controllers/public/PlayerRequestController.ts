@@ -8,6 +8,8 @@ import GameKeywordModel from '../../../models/GameKeywordModel';
 import GamePlayerPerspectiveModel from '../../../models/GamePlayerPerspectiveModel';
 import GameThemeModel from '../../../models/GameThemeModel';
 
+import MiningAdapter from '../../adapters/services/MiningRequestAdapter';
+
 import IUserInput from '../../../typescript/frontend/IUserInput';
 
 class PlayerRequestController extends Controller<any> {
@@ -111,30 +113,25 @@ class PlayerRequestController extends Controller<any> {
 	): Promise<Response<any>> {
 		const userInput = request.body;
 
-		console.log(this);
-
 		const idAndPromises = await PlayerRequestController.saveInformationOnDatabase(
 			userInput
 		);
 
-		// await promises + send it to R
+		// Await promises
+		const promises = [
+			idAndPromises.genre,
+			idAndPromises.playerPerspective,
+			idAndPromises.theme,
+			idAndPromises.keyword,
+		];
 
-		let ThemeSugestion: number[] = [];
+		await Promise.all(promises);
 
-		if (userInput.themes) {
-			ThemeSugestion = [...userInput.themes];
-		}
+		const { id } = idAndPromises;
 
-		return response.send({
-			hype: 30,
-			follows: 12,
-			total_rating: 77.2,
-			user_input: {
-				...userInput,
-				themes: [...ThemeSugestion, 42],
-			},
-			id: idAndPromises.id,
-		});
+		const result = await MiningAdapter.runMining(id);
+
+		return response.send(result);
 	}
 
 	public updateUrl = '/player-input/:id';

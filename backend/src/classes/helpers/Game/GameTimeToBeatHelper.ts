@@ -37,9 +37,9 @@ class GameTimeToBeatHelper {
 
 		const filledGame = data;
 
-		const game_id = data.id.toString();
+		const game_id = data.id?.toString();
 
-		if (this.time_to_beat.has(game_id)) {
+		if (game_id && this.time_to_beat.has(game_id)) {
 			const time_to_beat = this.time_to_beat.get(
 				game_id
 			) as string;
