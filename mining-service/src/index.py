@@ -127,8 +127,6 @@ def runMiningProcess(body: dict):
 
     decisionTree, decisionAccuracy, features = createGeneralTree(dataframe)
 
-    print(decisionAccuracy)
-
     suggestions = chooseOptionsChampion(dataframe[features], decisionTree, encoders)
 
     return {
