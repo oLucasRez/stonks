@@ -9,4 +9,3 @@ RUN pip install -r requirements.txt
 ENTRYPOINT [ "python" ]
 
 CMD ["src/index.py"]
-
