@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, Fragment } from 'react';
 //----------------------------------------------------------< interfaces >
 import ITemplateMethodProps from '../../../interfaces/ITemplateMethodProps';
 //----------------------------------------------------------< components >
@@ -39,7 +39,7 @@ abstract class TemplateForm {
     forms.forEach((form, i) => {
       const Icon = form.icon;
       header.push(
-        <div key={i}>
+        <Fragment key={i}>
           {notifications[i] ? <Alert className='alert' pulse={true} /> : null}
           <div
             className={this.icon === Icon ? 'main' : 'side'}
@@ -49,7 +49,7 @@ abstract class TemplateForm {
             <Icon className='icon' />
             <p className='title'>{this.getName()}</p>
           </div>
-        </div>
+        </Fragment>
       );
     });
     //----------------------------------------------------------< return >

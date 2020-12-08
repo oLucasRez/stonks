@@ -33,13 +33,11 @@ class TimeInput extends Input {
   Body: FC<IInputProps<string>> = ({ state }) => {
     //------------------------------------------------------< properties >
     const color = useContext(ColorContext);
-    // const inputs = useContext(InputContext);
     //--------------------------------------------------------------------
     const [time, setTime] = state;
     //---------------------------------------------------------< methods >
     useEffect(() => {
       this.form.inputs.time_to_beat = time === '' ? null : time;
-      // inputs.time_to_beat = time === '' ? null : time;
     }, [time]);
     //--------------------------------------------------------------------
     const handleTime = (input: string) => {

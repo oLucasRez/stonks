@@ -55,8 +55,6 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
   // const [inputs, setInputs] = useState<IInputs>(form.inputs);
   //----------------------------------------------------------------------
   const FormTemplateMethod = forms[currentForm].templateMethod;
-  //----------------------------------------------------------------------
-  // const [nonVisualizedChanges, setNonVisualizedChanges] = useState(false);
   //-----------------------------------------------------------< methods >
   const submit = () => {
     if (showingForm) {
