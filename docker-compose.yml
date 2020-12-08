@@ -5,3 +5,13 @@ services:
     build: ./steam-service
     ports:
       - 5000:80
+    deploy:
+      restart_policy:
+        condition: on-failure
+  mining:
+    build: ./mining-service
+    ports:
+      - 6000:80
+    deploy:
+      restart_policy:
+        condition: on-failure

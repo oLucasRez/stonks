@@ -52,7 +52,7 @@ def createComposition(items):
         if result == '':
             result += item
         else:
-            result += f'${item}'
+            result += f'!{item}'
 
     return result
 

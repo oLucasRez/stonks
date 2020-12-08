@@ -26,7 +26,7 @@ def getGeneralDataframe(userDataframe):
 
     rawDataframe = convert.queryResultToDataframe(result, columns)
 
-    rawDataframe.append(userDataframe, ignore_index=True)
+    rawDataframe = pd.concat([rawDataframe, userDataframe])
 
     dataframe, decoderDict, encoderDict, encoders = convert.encodeStringFields(
         rawDataframe, 
@@ -76,7 +76,7 @@ def convertBodyToDataframe(body: dict):
 
     return requestDataframe, existingColumns
 
-def chooseOptionsChampion(dataframe, tree, decoderDict):
+def chooseOptionsChampion(dataframe, tree, encoders):
     predictions = tree.predict(dataframe)
 
     maxAverage = 0
@@ -87,17 +87,26 @@ def chooseOptionsChampion(dataframe, tree, decoderDict):
 
         average = predictionList[0]/1697 + predictionList[1]/100
 
-        if average > maxAverage:
+        if average >= maxAverage:
             maxAverage = average
             chosenIndex = index
 
-    suggestions = pd.DataFrame(dataframe.iloc[[chosenIndex]]).to_dict()[0]
+    suggestedDf = pd.DataFrame(dataframe.iloc[[chosenIndex]])
 
-    for column in suggestions.columns:
-        if column in compoundFields:
-            suggestions[column] = decoderDict[suggestions[column]]
+    for column in compoundFields:
+        suggestedDf[column] = encoders[column].inverse_transform(suggestedDf[[column]])
     
-    return suggestions
+    suggestedDict = suggestedDf.to_dict()
+
+    for key in suggestedDict.keys():
+        value = list(suggestedDict[key].values())[0]
+        
+        if key in compoundFields:
+            value = value.split('!')
+
+        suggestedDict[key] = value
+
+    return suggestedDict
 
 def runMiningProcess(body: dict):
     requestDataframe, existingColumns = convertBodyToDataframe(body)
@@ -118,7 +127,9 @@ def runMiningProcess(body: dict):
 
     decisionTree, decisionAccuracy, features = createGeneralTree(dataframe)
 
-    suggestions = chooseOptionsChampion(dataframe[features], decisionTree, decoderDict)
+    print(decisionAccuracy)
+
+    suggestions = chooseOptionsChampion(dataframe[features], decisionTree, encoders)
 
     return {
         'user_prediction': {
