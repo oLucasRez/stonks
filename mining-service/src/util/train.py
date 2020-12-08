@@ -52,7 +52,7 @@ def getRelationsChampions(dataframe):
 
         combinations = set()
 
-        for i in range(2, 5):
+        for i in range(2, 6):
             comb = list(icombinations(notThisColumn, i))
 
             for value in comb:
@@ -76,14 +76,16 @@ def getRelationsChampions(dataframe):
 
             relation = {'combination': combination, 'confidence': score}
 
-            if column not in betterRelations.keys():
-                betterRelations[column] = relation
-                print(f'Find first confidence for {column} = {relation}')
-            else:
-                previousConfidence = betterRelations[column]['confidence']
+            print(f'Relation found for {column}: {relation}')
 
-                if previousConfidence <= score:
-                    print(f'New confidence for {column} = {relation}')
-                    betterRelations[column] = relation
+            if column not in betterRelations.keys():
+                betterRelations[column] = [relation]
+            else:
+                betterRelations[column].append(relation)
     
+    for key in betterRelations:
+        relationList = betterRelations[key]
+
+        betterRelations[key] = sorted(relationList, key=lambda x: x['confidence'], reverse=True)
+
     return betterRelations

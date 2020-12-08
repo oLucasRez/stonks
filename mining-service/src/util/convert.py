@@ -3,6 +3,8 @@ import re
 
 from itertools import product
 
+import copy
+
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.impute import SimpleImputer
 
@@ -25,9 +27,13 @@ def encodeStringFields(dataframe, stringFields):
     decoderDict = {}
     encoderDict = {}
 
+    encoders = {}
+
     for stringField in stringFields:
             ordinalEncoder = ordinalEncoder.fit(dataframe[[stringField]])
             
+            encoders[stringField] = copy.deepcopy(ordinalEncoder)
+
             tempKeys = dataframe[stringField].values
 
             dataframe[stringField] = ordinalEncoder.transform(dataframe[[stringField]])
@@ -37,22 +43,16 @@ def encodeStringFields(dataframe, stringFields):
             encoderDict[stringField] = dict(zip(tempKeys, tempValues))
             decoderDict[stringField] = dict(zip(tempValues, tempKeys))
             
-    return dataframe, decoderDict, encoderDict
+    return dataframe, decoderDict, encoderDict, encoders
 
 def createComposition(items):
-    result = []
-    
-    for index, item in enumerate(items):
-        last = item[0]
+    result = ''
 
-        result.append(last)
-
-        for nextItem in items[index + 1:]:
-            nextItem = nextItem[0]
-
-            last += f"${nextItem}"
-
-            result.append(last)
+    for item in items:
+        if result == '':
+            result += item
+        else:
+            result += f'${item}'
 
     return result
 
