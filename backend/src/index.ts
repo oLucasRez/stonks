@@ -13,7 +13,7 @@ async function runServer() {
 
 	const httpServer = http.createServer(server);
 
-	httpServer.listen(4000, () => {
+	httpServer.listen(80, '0.0.0.0', () => {
 		console.log('[SERVER]: HTTP:4000 ON');
 	});
 }
