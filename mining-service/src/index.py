@@ -120,14 +120,32 @@ def runMiningProcess(body: dict):
     userTree, userAccuracy, features = createGeneralTree(dataframe[existingColumnsAndTargets])
     userPrediction = userTree.predict(requestDataframe[existingColumns])
 
-    dataframe[existingColumns] = pd.DataFrame(requestDataframe[existingColumns].values.tolist() * len(dataframe.index))
+    decisionTree, decisionAccuracy, features = createGeneralTree(dataframe)
+
+    selectedRows = pd.DataFrame(dataframe)
+
+    for column in existingColumns:
+        userValue = requestDataframe[column].values.tolist()[0]
+
+        tempDf = pd.DataFrame(selectedRows[selectedRows[column] == userValue])
+
+        if len(tempDf.index) == 0:
+            continue
+
+        selectedRows = pd.DataFrame(tempDf)
+
+    if len(selectedRows.index) == 0:
+        selectedRows = pd.DataFrame(dataframe)
+
+        selectedRows[existingColumns] = pd.DataFrame(requestDataframe[existingColumns].values.tolist() * len(dataframe.index))
+    else:
+        selectedRows = copy.deepcopy(selectedRows)
+        selectedRows[existingColumns]= pd.DataFrame(requestDataframe[existingColumns].values.tolist() * len(dataframe[features].index))
 
     userPrediction = userPrediction.tolist()[0]
     userAccuracy = userAccuracy.tolist()
 
-    decisionTree, decisionAccuracy, features = createGeneralTree(dataframe)
-
-    suggestions = chooseOptionsChampion(dataframe[features], decisionTree, encoders)
+    suggestions = chooseOptionsChampion(selectedRows[features], decisionTree, encoders)
 
     return {
         'user_prediction': {
