@@ -35,7 +35,7 @@ class PriceInput extends Input {
     const [price, setPrice] = state;
     //---------------------------------------------------------< methods >
     useEffect(() => {
-      this.form.inputs.price = price === '' ? null : price;
+      this.form.inputs.price = price === '' ? null : parseFloat(price);
     }, [price]);
     //--------------------------------------------------------------------
     const handlePrice = (input: string) => {

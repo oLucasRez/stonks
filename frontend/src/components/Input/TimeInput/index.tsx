@@ -37,7 +37,7 @@ class TimeInput extends Input {
     const [time, setTime] = state;
     //---------------------------------------------------------< methods >
     useEffect(() => {
-      this.form.inputs.time_to_beat = time === '' ? null : time;
+      this.form.inputs.time_to_beat = time === '' ? null : parseInt(time);
     }, [time]);
     //--------------------------------------------------------------------
     const handleTime = (input: string) => {

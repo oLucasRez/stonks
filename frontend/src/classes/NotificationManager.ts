@@ -26,7 +26,6 @@ class NotificationManager {
 
     this.ageRatingNotification = !!form.result?.ageRating;
     this.priceNotification = !!form.result?.price;
-    console.log(form.result?.price);
     this.releaseDateNotification = !!form.result?.releaseDate;
   }
   //----------------------------------------------------------------------

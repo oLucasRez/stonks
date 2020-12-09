@@ -2,9 +2,9 @@
 import IInputs from '../interfaces/IInputs';
 import IResults from '../interfaces/IResults';
 //------------------------------------------------------------< services >
-import mining from '../services/mining';
 import result_example from '../mock/result.json';
 import IResultResponse from '../interfaces/IResultResponse';
+import main_server from '../services/main_server';
 //===============================================================[ CLASS ]
 class FormSingleton {
   //--------------------------------------------------------< properties >
@@ -35,7 +35,8 @@ class FormSingleton {
   }
   //----------------------------------------------------------------------
   public async submit() {
-    const { data } = await mining.post('/', this.inputs);
+    const { data } = await main_server.post('mining', this.inputs);
+    // const data: IResultResponse = result_example;
     const result: IResults = {
       genres: this.inputs.genres ? undefined : data.suggestions.genres,
       themes: this.inputs.themes ? undefined : data.suggestions.themes,
@@ -51,9 +52,10 @@ class FormSingleton {
       ageRating: this.inputs.age_rating
         ? undefined
         : data.suggestions.age_rating,
-      price: this.inputs.price
-        ? undefined
-        : data.suggestions.price.toFixed(2) + '',
+      price:
+        this.inputs.price !== null
+          ? undefined
+          : data.suggestions.price.toFixed(2),
       releaseDate: this.inputs.release_date
         ? undefined
         : data.suggestions.release_date,
