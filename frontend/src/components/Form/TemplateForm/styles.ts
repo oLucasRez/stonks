@@ -112,6 +112,7 @@ export const Form = styled.form`
 
   .inputs {
     overflow-x: hidden;
+    overflow-y: scroll;
     margin-right: -2.5rem;
     padding-right: 2.5rem;
     display: grid;

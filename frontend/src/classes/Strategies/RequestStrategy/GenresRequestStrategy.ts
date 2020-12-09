@@ -3,8 +3,6 @@ import IRequestStrategy from '../../../interfaces/IRequestStrategy';
 import ITagResponse from '../../../interfaces/ITagResponse';
 //------------------------------------------------------------< services >
 import main_server from '../../../services/main_server';
-//----------------------------------------------------------------< mock >
-import genres from '../../../mock/genres.json';
 //===============================================================[ CLASS ]
 class GenresRequestStrategy implements IRequestStrategy<ITagResponse[]> {
   //-----------------------------------------------------------< methods >

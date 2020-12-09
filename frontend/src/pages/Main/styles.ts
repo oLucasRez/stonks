@@ -304,7 +304,8 @@ export const ButtonContainer = styled.div`
       align-self: center;
     }
 
-    svg {
+    svg,
+    .loading {
       align-self: center;
     }
 

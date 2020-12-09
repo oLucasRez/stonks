@@ -6,6 +6,7 @@ import IStrategies from '../../../interfaces/IStrategies';
 import NotificationManager from '../../../classes/NotificationManager';
 //----------------------------------------------------------< components >
 import Input from '../index';
+import Loading from 'react-loading';
 //---------------------------------------------------------------< hooks >
 import { useContext, useState, useEffect } from 'react';
 import useStorageState from '../../../hooks/useStorageState';
@@ -81,23 +82,22 @@ class TagInput extends Input {
       setLoaded(false);
       (async () => {
         if (search.length < 1) setAllTags([]);
-        else if (search.length === 1) {
+        else {
           this.strategies.requestStrategy
-            .request(search)
-            .then((response) =>
-              setAllTags(response.filter((tag) => !myTagsHas(tag)))
-            )
+            .request()
+            .then((response) => {
+              setAllTags(
+                response.filter((tag) => {
+                  return (
+                    tag.name.toUpperCase().includes(search.toUpperCase()) &&
+                    !myTagsHas(tag)
+                  );
+                })
+              );
+            })
             .catch(() => setError(true))
             .finally(() => setLoaded(true));
         }
-        setAllTags(
-          allTags.filter((tag) => {
-            return (
-              tag.name.toUpperCase().includes(search.toUpperCase()) &&
-              !myTagsHas(tag)
-            );
-          })
-        );
       })();
     }, [search]);
     //--------------------------------------------------------------------
@@ -130,39 +130,50 @@ class TagInput extends Input {
               {search.length ? (
                 <Search colorPrimary={color} loaded={loaded}>
                   {loaded ? (
-                    <>
-                      {allTags
-                        .slice(
-                          maxOptionPerPage * page,
-                          maxOptionPerPage * (page + 1)
-                        )
-                        .map((tag) => (
-                          <li
-                            key={tag.id}
-                            onClick={() => {
-                              if (!myTagsHas(tag)) setMyTags([...myTags, tag]);
-                              setSearch('');
-                              setSearchOnFocus(false);
-                            }}
-                          >
-                            {tag.name}
-                          </li>
-                        ))}
-                      <Arrows colorPrimary={color}>
-                        {page > 0 ? (
-                          <FaLongArrowAltLeft
-                            onClick={() => setPage(page - 1)}
-                          />
-                        ) : null}
-                        {(page + 1) * maxOptionPerPage < allTags.length ? (
-                          <FaLongArrowAltRight
-                            onClick={() => setPage(page + 1)}
-                          />
-                        ) : null}
-                      </Arrows>
-                    </>
+                    allTags.length ? (
+                      <>
+                        {allTags
+                          .slice(
+                            maxOptionPerPage * page,
+                            maxOptionPerPage * (page + 1)
+                          )
+                          .map((tag) => (
+                            <li
+                              key={tag.id}
+                              onClick={() => {
+                                if (!myTagsHas(tag))
+                                  setMyTags([...myTags, tag]);
+                                setSearch('');
+                                setSearchOnFocus(false);
+                              }}
+                            >
+                              {tag.name}
+                            </li>
+                          ))}
+                        <Arrows colorPrimary={color}>
+                          {page > 0 ? (
+                            <FaLongArrowAltLeft
+                              onClick={() => setPage(page - 1)}
+                            />
+                          ) : null}
+                          {(page + 1) * maxOptionPerPage < allTags.length ? (
+                            <FaLongArrowAltRight
+                              onClick={() => setPage(page + 1)}
+                            />
+                          ) : null}
+                        </Arrows>
+                      </>
+                    ) : (
+                      <i>no results</i>
+                    )
                   ) : (
-                    <>...</>
+                    <Loading
+                      className='loading'
+                      type={'spin'}
+                      color={color}
+                      height={'1.5em'}
+                      width={'1.5em'}
+                    />
                   )}
                 </Search>
               ) : null}

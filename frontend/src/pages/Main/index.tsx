@@ -9,8 +9,10 @@ import TemplateForm from '../../components/Form/TemplateForm/index';
 import ProfileForm from '../../components/Form/ProfileForm';
 import SpecificationsForm from '../../components/Form/SpecificationsForm';
 import PublishForm from '../../components/Form/PublishForm';
+import { toast } from 'react-toastify';
 import Switch from 'react-switch';
 import Results from '../../components/Results';
+import Loading from 'react-loading';
 import Alarm from '../../components/Alarm';
 //---------------------------------------------------------------< hooks >
 import { useContext, useState } from 'react';
@@ -63,20 +65,31 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
     if (showingForm) {
       setLoaded(false);
       setError(false);
-      // (async () => {
       form
         .submit()
         .then(() => {
           setShowingForm(false);
           const not = new NotificationManageer();
           setNotification(not);
+          if (not.notification())
+            toast.info(
+              <>
+                <b>We have suggestions for your game!</b>
+                <br />
+                <i>Go back to form to see then</i>
+              </>,
+              {
+                bodyStyle: { fontSize: '1.4rem', fontWeight: 500 },
+              }
+            );
         })
-        .catch(() => setError(true))
+        .catch(() => {
+          setError(true);
+          toast.error(<b>error in connection with our analyst robots :(</b>, {
+            bodyStyle: { fontSize: '1.4rem', fontWeight: 500 },
+          });
+        })
         .finally(() => setLoaded(true));
-      // if (!form.result) return <>error on results :(</>;
-      // setNonVisualizedChanges(form.result.nonVisualizedChanges().value);
-      // not.ageRatingNotification = true;
-      // })();
     } else setShowingForm(true);
   };
   //------------------------------------------------------------< return >
@@ -124,8 +137,18 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
           >
             {showingForm ? (
               <>
-                <p>{error ? ':(' : loaded ? 'See results' : 'loading...'}</p>
-                <FaArrowRight />
+                {error ? <p>failed to analyze :(</p> : <p>See results</p>}
+                {loaded ? (
+                  <FaArrowRight />
+                ) : (
+                  <Loading
+                    className='loading'
+                    type={'spin'}
+                    color={'white'}
+                    height={'1.5em'}
+                    width={'1.5em'}
+                  />
+                )}
               </>
             ) : (
               <>

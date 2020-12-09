@@ -113,6 +113,12 @@ export const Search = styled.ul<StyleProps>`
       text-decoration: underline;
     }
   }
+
+  i {
+    margin-right: 0.8rem;
+
+    color: ${({ theme }) => theme.colors.foreground[2]};
+  }
 `;
 //------------------------------------------------------------------------
 export const Arrows = styled.div<StyleProps>`

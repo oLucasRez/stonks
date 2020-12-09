@@ -1,6 +1,6 @@
 //===========================================================[ INTERFACE ]
 interface IRequestStrategy<T> {
-  request: (args?: any) => Promise<T>;
+  request: () => Promise<T>;
 }
 
 export default IRequestStrategy;

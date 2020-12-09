@@ -82,4 +82,19 @@ export const Aside = styled.aside<StyleProps>`
       transform: translateX(37rem) translate(0, 0) scale(1, 1);
     }
   }
+
+  @media (max-width: 1028px) {
+    transform: translateX(37rem) translate(-100%, 2.4rem);
+
+    @keyframes suggestion {
+      0% {
+        transform: translateX(37rem) translate(-100%, 2.4rem)
+          translate(50%, -50%) scale(0, 0);
+      }
+      10% {
+        transform: translateX(37rem) translate(-100%, 2.4rem) translate(0, 0)
+          scale(1, 1);
+      }
+    }
+  }
 `;

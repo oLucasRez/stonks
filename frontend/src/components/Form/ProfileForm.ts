@@ -5,7 +5,6 @@ import ThemesStrategies from '../../classes/Strategies/ThemesStrategies';
 import TemplateForm from './TemplateForm';
 import Input from '../Input';
 import TagInput from '../Input/TagInput';
-import TextInput from '../Input/TextInput';
 //--------------------------------------------------------------< styles >
 import { FaFeatherAlt } from 'react-icons/fa';
 //===============================================================[ CLASS ]
@@ -34,12 +33,8 @@ class ProfileForm extends TemplateForm {
       'What are the themes of your game? Action? Comedy? Fantasy?',
       new ThemesStrategies()
     );
-    const storyline: Input = new TextInput(
-      'Storyline',
-      'Tell us a little of the your game story'
-    );
 
-    return [genres, themes, storyline];
+    return [genres, themes];
   }
 }
 

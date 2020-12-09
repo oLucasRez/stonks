@@ -3,7 +3,6 @@ import IInputs from '../interfaces/IInputs';
 import IResults from '../interfaces/IResults';
 //------------------------------------------------------------< services >
 import result_example from '../mock/result.json';
-import IResultResponse from '../interfaces/IResultResponse';
 import main_server from '../services/main_server';
 //===============================================================[ CLASS ]
 class FormSingleton {
