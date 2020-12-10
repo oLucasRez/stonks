@@ -18,11 +18,12 @@ const Results: FC<HTMLProps<HTMLDivElement>> = ({ className }) => {
   //--------------------------------------------------------< properties >
   const { result } = FormSingleton.getInstance();
   if (!result) return <>loading</>;
-  const ratingScore = result.predict.rating / 100; //69.08
-  const followsScore =
-    result.predict.follows < 17.59
-      ? result.predict.follows / 2 / 17.59
-      : (result.predict.follows / 2 + 848.5) / 1697;
+
+  const getProportion = (value: number, avg: number, max: number) =>
+    value < avg ? value / 2 / avg : (value + max) / 2 / max;
+
+  const ratingScore = getProportion(result.predict.rating, 69.08, 100);
+  const followsScore = getProportion(result.predict.follows, 17.59, 1697);
   const progress = (ratingScore + followsScore) / 2;
   const accuracy =
     1 -
@@ -72,9 +73,6 @@ const Results: FC<HTMLProps<HTMLDivElement>> = ({ className }) => {
           ),
         };
   //-----------------------------------------------------------< methods >
-  // const bezier2 = (t: number, avg: number, max: number) =>
-  //   Math.pow(1 - t, 2) * 0 + 2 * t * (1 - t) * B[1] + t * t * B[2];
-
   const color = (score: number) =>
     score < 1 / 4
       ? mix(score * 4, '#d66e2d', '#d62d2d')

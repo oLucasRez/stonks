@@ -15,6 +15,7 @@ export const Container = styled.div<StyleProps>`
     margin-bottom: 1.1rem;
 
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
 
     border-bottom: 1px solid ${({ colorPrimary }) => colorPrimary};
@@ -25,9 +26,11 @@ export const Container = styled.div<StyleProps>`
       cursor: default;
 
       svg {
-        margin-right: 5px;
+        width: 1.4rem;
+        height: 1.4rem;
+        margin-left: 0.8rem;
 
-        color: ${({ theme }) => theme.colors.primary[0]};
+        color: ${({ colorPrimary }) => colorPrimary};
       }
     }
 

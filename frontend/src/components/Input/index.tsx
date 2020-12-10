@@ -12,6 +12,7 @@ import ColorContext from '../../contexts/ColorContext';
 import NotificationContext from '../../contexts/NotificationContext';
 //--------------------------------------------------------------< styles >
 import { Container, Aside } from './styles';
+import { BsQuestionCircle } from 'react-icons/bs';
 //---------------------------------------------------------------< types >
 import State from '../../types/State';
 //===============================================================[ CLASS ]
@@ -35,7 +36,10 @@ abstract class Input {
     return (
       <Container colorPrimary={color}>
         <header>
-          <label title={this.description}>{this.name}</label>
+          <label>
+            {this.name}
+            <BsQuestionCircle title={this.description} />
+          </label>
           {notification &&
           this.getNotification(notification) &&
           !showSuggestion ? (
