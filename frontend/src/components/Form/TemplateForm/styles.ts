@@ -111,14 +111,20 @@ export const Form = styled.form`
       : theme.colors.background[0]};
 
   .inputs {
-    overflow-x: hidden;
-    overflow-y: scroll;
+    height: 100%;
     margin-right: -2.5rem;
     padding-right: 2.5rem;
+
     display: grid;
+    overflow-x: hidden;
+    overflow-y: scroll;
 
     .input-cell {
       margin-right: -1.6rem;
+    }
+
+    span {
+      height: 7rem;
     }
 
     ::-webkit-scrollbar {

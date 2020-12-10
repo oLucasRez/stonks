@@ -69,6 +69,15 @@ export const Container = styled.div<StyleProps>`
 
     .score {
       min-width: 1.9rem;
+      padding-right: 0.8rem;
+      font-size: 1rem;
+      display: grid;
+      justify-content: right;
+      align-content: center;
+
+      p {
+        transform: translateY(-1.6rem);
+      }
     }
   }
 

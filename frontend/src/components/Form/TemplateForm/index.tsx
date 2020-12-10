@@ -71,6 +71,7 @@ abstract class TemplateForm {
                   </div>
                 );
               })}
+              <span />
             </div>
             <footer />
           </Form>

@@ -61,7 +61,11 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
   const [loaded, setLoaded] = useState(true);
   const [error, setError] = useState(false);
   //-----------------------------------------------------------< methods >
+  const bezier = (t: number, B: number[]) =>
+    Math.pow(1 - t, 2) * B[0] + 2 * t * (1 - t) * B[1] + t * t * B[2];
+
   const submit = () => {
+    // console.log(bezier(0.2, [0, 69.7, 1060]));
     if (showingForm) {
       setLoaded(false);
       setError(false);
@@ -85,7 +89,7 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
         })
         .catch(() => {
           setError(true);
-          toast.error(<b>error in connection with our analyst robots :(</b>, {
+          toast.error(<b>error at connection with our analyst robots :(</b>, {
             bodyStyle: { fontSize: '1.4rem', fontWeight: 500 },
           });
         })
@@ -137,7 +141,7 @@ const Main: FC<IMainProps> = ({ toggleTheme }) => {
           >
             {showingForm ? (
               <>
-                {error ? <p>failed to analyze :(</p> : <p>See results</p>}
+                {error ? <p>:(</p> : <p>See results</p>}
                 {loaded ? (
                   <FaArrowRight />
                 ) : (
