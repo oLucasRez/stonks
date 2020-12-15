@@ -11,7 +11,7 @@ import stonks from '../../assets/stonks.jpg';
 import ultra_mega_stonks from '../../assets/ultra-mega-stonks.png';
 import super_iper_mega_master_supremo_stonks from '../../assets/super-iper-mega-master-supremo-stonks.jpg';
 //--------------------------------------------------------------< styles >
-import { math, mix } from 'polished';
+import { mix } from 'polished';
 import { Container } from './styles';
 //===========================================================[ COMPONENT ]
 const Results: FC<HTMLProps<HTMLDivElement>> = ({ className }) => {
